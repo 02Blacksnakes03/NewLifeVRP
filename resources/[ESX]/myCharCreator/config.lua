@@ -1,7 +1,7 @@
 Cfg = {}
 Translation = {}
 
-Cfg.Locale = 'en'
+Cfg.Locale = 'de'
 
 
 Translation = {

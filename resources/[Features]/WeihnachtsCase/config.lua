@@ -13,7 +13,7 @@ Config.WeaponWin2 = "weapon_switchblade" --WEAPON NAME [weapon_pistol, weapon_co
 Config.WeaponWin3 = "weapon_knuckle" --WEAPON NAME [weapon_pistol, weapon_combatmg...] STRING
 
 Config.ExtraItem1 = "medikit" --ITEM      STRING
-Config.ExtraItem2 = "bulletproof2" --ITEM      STRING
+Config.ExtraItem2 = "bulletproof" --ITEM      STRING
 Config.ExtraItem3 = "phone" --ITEM      STRING
 
 Config.ExtraItem1Amount = 20 --INT

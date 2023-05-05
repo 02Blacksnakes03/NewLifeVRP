@@ -1,22 +1,17 @@
 ESX.Math = {}
 
-function ESX.Math.Round(value, numDecimalPlaces)
-	if numDecimalPlaces then
-		local power = 10^numDecimalPlaces
-		return math.floor((value * power) + 0.5) / (power)
-	else
-		return math.floor(value + 0.5)
-	end
+ESX.Math.Round = function(value, numDecimalPlaces)
+	return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", value))
 end
 
 -- credit http://richard.warburton.it
-function ESX.Math.GroupDigits(value)
+ESX.Math.GroupDigits = function(value)
 	local left,num,right = string.match(value,'^([^%d]*%d)(%d*)(.-)$')
 
-	return left..(num:reverse():gsub('(%d%d%d)','%1' .. TranslateCap('locale_digit_grouping_symbol')):reverse())..right
+	return left..(num:reverse():gsub('(%d%d%d)','%1' .. _U('locale_digit_grouping_symbol')):reverse())..right
 end
 
-function ESX.Math.Trim(value)
+ESX.Math.Trim = function(value)
 	if value then
 		return (string.gsub(value, "^%s*(.-)%s*$", "%1"))
 	else

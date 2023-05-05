@@ -1,86 +1,91 @@
-ESX = {}
-ESX.Players = {}
-ESX.Jobs = {}
-ESX.Items = {}
-Core = {}
-Core.UsableItemsCallbacks = {}
-Core.RegisteredCommands = {}
-Core.Pickups = {}
-Core.PickupId = 0
-Core.PlayerFunctionOverrides = {}
-Core.DatabaseConnected = false
-Core.playersByIdentifier = {}
+ESX                      = {}
+ESX.Players              = {}
+ESX.UsableItemsCallbacks = {}
+ESX.Items                = {}
+ESX.ServerCallbacks      = {}
+ESX.TimeoutCount         = -1
+ESX.CancelledTimeouts    = {}
+ESX.LastPlayerData       = {}
+ESX.Pickups              = {}
+ESX.PickupId             = 0
+ESX.Jobs                 = {}
 
-Core.vehicleTypesByModel = {}
-
-AddEventHandler("esx:getSharedObject", function()
-	local Invoke = GetInvokingResource()
-	print(("[^1ERROR^7] Resource ^5%s^7 Used the ^5getSharedObject^7 Event, this event ^1no longer exists!^7 Visit https://documentation.esx-framework.org/tutorials/tutorials-esx/sharedevent for how to fix!"):format(Invoke))
+AddEventHandler('esx:getSharedObject', function(cb)
+	cb(ESX)
 end)
 
-exports('getSharedObject', function()
-  return ESX
-end)
-
-if GetResourceState('ox_inventory') ~= 'missing' then
-  Config.OxInventory = true
-  Config.PlayerFunctionOverride = 'OxInventory'
-  SetConvarReplicated('inventory:framework', 'esx')
-  SetConvarReplicated('inventory:weight', Config.MaxWeight * 1000)
-end
-
-local function StartDBSync()
-  CreateThread(function()
-    while true do
-      Wait(10 * 60 * 1000)
-      Core.SavePlayers()
-    end
-  end)
+function getSharedObject()
+	return ESX
 end
 
 MySQL.ready(function()
-  Core.DatabaseConnected = true
-  if not Config.OxInventory then
-    local items = MySQL.query.await('SELECT * FROM items')
-    for k, v in ipairs(items) do
-      ESX.Items[v.name] = {label = v.label, weight = v.weight, rare = v.rare, canRemove = v.can_remove}
-    end
-  else
-    TriggerEvent('__cfx_export_ox_inventory_Items', function(ref)
-      if ref then
-        ESX.Items = ref()
-      end
-    end)
+	MySQL.Async.fetchAll('SELECT * FROM items', {}, function(result)
+		for i=1, #result, 1 do
+			ESX.Items[result[i].name] = {
+				label     = result[i].label,
+				limit     = result[i].limit,
+				rare      = (result[i].rare       == 1 and true or false),
+				canRemove = (result[i].can_remove == 1 and true or false),
+			}
+		end
+	end)
 
-    AddEventHandler('ox_inventory:itemList', function(items)
-      ESX.Items = items
-    end)
+	local result = MySQL.Sync.fetchAll('SELECT * FROM jobs', {})
 
-    while not next(ESX.Items) do
-      Wait(0)
-    end
-  end
-
-  ESX.RefreshJobs()
-
-  print(('[^2INFO^7] ESX ^5Legacy %s^0 initialized!'):format(GetResourceMetadata(GetCurrentResourceName(), "version", 0)))
-    
-  StartDBSync()
-  if Config.EnablePaycheck then
-		StartPayCheck()
+	for i=1, #result do
+		ESX.Jobs[result[i].name] = result[i]
+		ESX.Jobs[result[i].name].grades = {}
 	end
+
+	local result2 = MySQL.Sync.fetchAll('SELECT * FROM job_grades', {})
+
+	for i=1, #result2 do
+		if ESX.Jobs[result2[i].job_name] then
+			ESX.Jobs[result2[i].job_name].grades[tostring(result2[i].grade)] = result2[i]
+		else
+			print(('es_extended: invalid job "%s" from table job_grades ignored!'):format(result2[i].job_name))
+		end
+	end
+
+	for k,v in pairs(ESX.Jobs) do
+		if next(v.grades) == nil then
+			ESX.Jobs[v.name] = nil
+			print(('es_extended: ignoring job "%s" due to missing job grades!'):format(v.name))
+		end
+	end
+end)
+
+AddEventHandler('esx:playerLoaded', function(source)
+	local xPlayer         = ESX.GetPlayerFromId(source)
+	local accounts        = {}
+	local items           = {}
+	local xPlayerAccounts = xPlayer.getAccounts()
+	local xPlayerItems    = xPlayer.getInventory()
+
+	for i=1, #xPlayerAccounts, 1 do
+		accounts[xPlayerAccounts[i].name] = xPlayerAccounts[i].money
+	end
+
+	for i=1, #xPlayerItems, 1 do
+		items[xPlayerItems[i].name] = xPlayerItems[i].count
+	end
+
+	ESX.LastPlayerData[source] = {
+		accounts = accounts,
+		items    = items
+	}
 end)
 
 RegisterServerEvent('esx:clientLog')
 AddEventHandler('esx:clientLog', function(msg)
-  if Config.EnableDebug then
-    print(('[^2TRACE^7] %s^7'):format(msg))
-  end
+	RconPrint(msg .. "\n")
 end)
 
-RegisterNetEvent("esx:ReturnVehicleType", function(Type, Request)
-  if Core.ClientCallbacks[Request] then
-    Core.ClientCallbacks[Request](Type)
-    Core.ClientCallbacks[Request] = nil
-  end
+RegisterServerEvent('esx:triggerServerCallback')
+AddEventHandler('esx:triggerServerCallback', function(name, requestId, ...)
+	local _source = source
+
+	ESX.TriggerServerCallback(name, requestID, _source, function(...)
+		TriggerClientEvent('esx:serverCallback', _source, requestId, ...)
+	end, ...)
 end)

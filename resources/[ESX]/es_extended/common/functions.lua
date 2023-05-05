@@ -4,68 +4,62 @@ for i = 48,  57 do table.insert(Charset, string.char(i)) end
 for i = 65,  90 do table.insert(Charset, string.char(i)) end
 for i = 97, 122 do table.insert(Charset, string.char(i)) end
 
-local weaponsByName = {}
-local weaponsByHash = {}
-
-CreateThread(function()
-	for index, weapon in pairs(Config.Weapons) do
-		weaponsByName[weapon.name] = index
-		weaponsByHash[joaat(weapon.name)] = weapon
-	end
-end)
-
-function ESX.GetRandomString(length)
+ESX.GetRandomString = function(length)
 	math.randomseed(GetGameTimer())
 
-	return length > 0 and ESX.GetRandomString(length - 1) .. Charset[math.random(1, #Charset)] or ''
+	if length > 0 then
+		return ESX.GetRandomString(length - 1) .. Charset[math.random(1, #Charset)]
+	else
+		return ''
+	end
 end
 
-function ESX.GetConfig()
+ESX.GetConfig = function()
 	return Config
 end
 
-function ESX.GetWeapon(weaponName)
+ESX.GetWeapon = function(weaponName)
 	weaponName = string.upper(weaponName)
+	local weapons = ESX.GetWeaponList()
 
-	assert(weaponsByName[weaponName], "Invalid weapon name!")
-
-	local index = weaponsByName[weaponName]
-	return index, Config.Weapons[index]
-end
-
-function ESX.GetWeaponFromHash(weaponHash)
-	weaponHash = type(weaponHash) == "string" and joaat(weaponHash) or weaponHash
-
-	return weaponsByHash[weaponHash]
-end
-
-function ESX.GetWeaponList(byHash)
-	return byHash and weaponsByHash or Config.Weapons
-end
-
-function ESX.GetWeaponLabel(weaponName)
-	weaponName = string.upper(weaponName)
-
-	assert(weaponsByName[weaponName], "Invalid weapon name!")
-
-	local index = weaponsByName[weaponName]
-	return Config.Weapons[index].label or ""
-end
-
-function ESX.GetWeaponComponent(weaponName, weaponComponent)
-	weaponName = string.upper(weaponName)
-
-	assert(weaponsByName[weaponName], "Invalid weapon name!")
-	local weapon = Config.Weapons[weaponsByName[weaponName]]
-
-	for _, component in ipairs(weapon.components) do
-		if component.name == weaponComponent then
-			return component
+	for i=1, #weapons, 1 do
+		if weapons[i].name == weaponName then
+			return i, weapons[i]
 		end
 	end
 end
 
-function ESX.DumpTable(table, nb)
+ESX.GetWeaponList = function()
+	return Config.Weapons
+end
+
+ESX.GetWeaponLabel = function(weaponName)
+	weaponName = string.upper(weaponName)
+	local weapons = ESX.GetWeaponList()
+
+	for i=1, #weapons, 1 do
+		if weapons[i].name == weaponName then
+			return weapons[i].label
+		end
+	end
+end
+
+ESX.GetWeaponComponent = function(weaponName, weaponComponent)
+	weaponName = string.upper(weaponName)
+	local weapons = ESX.GetWeaponList()
+
+	for i=1, #weapons, 1 do
+		if weapons[i].name == weaponName then
+			for j=1, #weapons[i].components, 1 do
+				if weapons[i].components[j].name == weaponComponent then
+					return weapons[i].components[j]
+				end
+			end
+		end
+	end
+end
+
+ESX.DumpTable = function(table, nb)
 	if nb == nil then
 		nb = 0
 	end
@@ -95,6 +89,6 @@ function ESX.DumpTable(table, nb)
 	end
 end
 
-function ESX.Round(value, numDecimalPlaces)
+ESX.Round = function(value, numDecimalPlaces)
 	return ESX.Math.Round(value, numDecimalPlaces)
 end
