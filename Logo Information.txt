@@ -1,0 +1,3 @@
+Logogröße 96x96
+
+Name "Logo.png"
