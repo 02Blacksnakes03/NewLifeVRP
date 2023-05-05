@@ -4,12 +4,12 @@ author 'Sander#2211'
 
 ui_page "html/html.html"
 files {
-	"html/html.html",
-	"html/*.js",
-	"html/*.svg",
-	"html/*.ttf",
-	"html/*.png",
-	"html/*.css"
+--	"html/html.html",
+--	"html/*.js",
+--	"html/*.svg",
+--	"html/*.ttf",
+--	"html/*.png",
+--	"html/*.css"
 }
 
 client_scripts {
