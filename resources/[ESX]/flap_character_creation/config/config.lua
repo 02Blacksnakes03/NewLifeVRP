@@ -12,7 +12,7 @@ FLAP_CHARACTER_CREATION = {
 	CHAR_CREATOR = {
 
 		DefaultSpawn = {
-			coords = { coords = vector3(-1049.67, -2768.23, 4.64), heading = 39.96 }
+			coords = { coords = vector3(-1042.96, -2746.64, 21.36), heading = 39.96 }
 		},
 
 		DisableControlAction = {
