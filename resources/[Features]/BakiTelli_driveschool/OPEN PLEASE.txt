@@ -1,0 +1,25 @@
+
+-ESX-
+If you are using ESX, it is directly set with esx_license, if you are using it, you can continue with it.
+
+
+-QBCORE-
+If you are using QB Core, first open __resource.lua and '@es_extended/locale.lua', remove it and enable '@qb-core/locale.lua', then go to sv_config.lua and select open codes and remove QBCORE below Activate the codes starting with and adapt it to the license system you are using, if you do not know how to do it, contact us
+
+
+
+HELP : 
+
+discord.gg/debux
+
+
+
+
+
+
+
+
+
+
+UPDATE QB VERSİON:
+ If you can't open the qb version on the bottom line from client > main.lua in the qb version and delete the esx at the top, you can come to the discord <3

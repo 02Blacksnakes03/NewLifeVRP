@@ -1,0 +1,149 @@
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/cb27a9ac19.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+
+<body>
+	<div class="bg">
+		<div class="bottom-menu-main">
+			<div class="close-button">CLOSE</div>
+			<div class="bottom-text-main">LOS SANTOS <span>DRIVING SCHOOL</span></div>
+			<div class="bottom-name-bg-main">
+				<div class="name-main">BRENDEN <span>RANDALL</span></div>
+			</div>
+			<div class="bottom-wallet-main"><i id="wallet-main" class="fa-solid fa-wallet"></i></div>
+			<div class="bottom-wallet-money-main">$<span>5000</span></div>
+		</div>
+		<div id="box"></div>
+	</div>
+	<div class="full-screen">
+		<div class="bg-1">
+		<div class="header">
+			<div class="close-button">CLOSE</div>
+			<div class="bottom-text">LOS SANTOS <span>DRIVING SCHOOL</span></div>
+			<div class="bottom-name-bg">
+				<div class="name">BRENDEN <span>RANDALL</span></div>
+			</div>
+			<div class="bottom-wallet"><i id="wallet" class="fa-solid fa-wallet"></i></div>
+			<div class="bottom-wallet-money">$<span>5000</span></div>
+			</div>
+			<div class="bottom-menu">
+				<div class="buttonspot">
+					<a href="#" class="button btnQuestion">START</a>
+				</div>
+			</div>
+			<div class="header-2">
+
+			</div>
+			<div class="bottom-menu-2">
+				<p id="question"></p>
+	
+			</div>
+		<div class="question-container">
+			<!-- home -->
+			<div class="body home">
+				<div class="content">
+					<!-- ICI BREVE PRESENTATION -->
+					<center>
+						<div class="space"></div>
+						<p class="bold-text">Welcome to Driving School
+					</center>
+					<div class="space"></div>
+					<center>All citizens of Los Santos must pass their exam before they can drive.
+						<div class="space"></div>Take your time, answer with common sense, and do not answer randomly.
+						<div class="space"></div>
+						<div class="space"></div> Theory Test
+						<div class="space"></div> - The Theory Test costs $200, this is not refunded if you fail the test.
+						<div class="space"></div> - Don't be afraid, the driving school accepts credit, but be careful not to get into debt.
+						<div class="space"></div> - If you fail your test the first time, you can't retake it immediately, you'll have to take it at a later
+						date.
+						<div class="space"></div>
+						<div class="space"></div> Driving Test
+						<div class="space"></div> - The Driving Test costs $500, just like the theory test, this payment will not be refunded if you fail.
+						<div class="space"></div> - Make sure you stay alert whilst driving, and avoid accidents!</p>
+					</center>
+				</div>
+			</div>
+		</div>
+	</div>
+			<!-- Question-->
+			<div class="body questionnaire-container">
+				<div class="content">
+					<h2 id="questionNumero"></h2>
+					<div class="allahvar">
+					<div class="q-big-A">A</div>
+					<div class="q-big-B">B</div>
+					<div class="q-big-C">C</div>
+					<div class="q-big-D">D</div>
+					<form class="form" id="question-form">
+						<div>
+							<input type="radio" name="question" id="answerA" value="A">
+							<label class="answerA"></label>
+						</div>
+						<div>
+							<input type="radio" name="question" id="answerB" value="B">
+							<label class="answerB"></label>
+						</div>
+						<div>
+							<input type="radio" name="question" id="answerC" value="C">
+							<label class="answerC"></label>
+						</div>
+						<div>
+							<input type="radio" name="question" id="answerD" value="D">
+							<label class="answerD"></label>
+						</div>
+						<button type="submit" id="submit" class="submit">-> NEXT</button>
+					</form>
+				</div>
+				</div>
+				<div class="barre-progression">
+					<progress class="progression" value="0" max="10">
+				</div>
+			</div>
+			<!-- Results -->
+			<div class="body resultGood">
+				<div class="content">
+					<center>
+						<p class="bold-text">Good work!</p>
+						<div class="space"></div>
+						<div class="space"></div>You did well during the examination.
+						<div class="space"></div>
+						<div class="space"></div>You can close this window, and go take your road test(s).
+					</center>
+				</div>
+				<div class="oruspuevladi">
+				<div class="buttonspot" i>
+					<a href="#" class="button btnClose">CLOSE</a>
+				</div>
+			</div>
+			</div>
+			<div class="body resultBad">
+				<div class="content">
+					<center>
+						<p class="bold-text">You failed</p>
+						<div class="space"></div>
+						<div class="space"></div>You weren't ready for this test, try again later...
+						<div class="space"></div>
+						<div class="space"></div>
+					</center>
+				</div>
+				<div class="oruspuevladi" onclick="kilit()">
+					<div class="buttonspot" i>
+						<a href="#" class="button btnKick">CLOSE</a>
+					</div>
+				</div>
+				<div class="barre-progression">
+					<h2>Progress</h2>
+					<progress class="progression" value="10" max="10">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+	<script src="questions.js" type="text/javascript"></script>
+	<script src="scripts.js" type="text/javascript"></script>
+	<script src="debounce.min.js" type="text/javascript"></script>
+
+</body>
