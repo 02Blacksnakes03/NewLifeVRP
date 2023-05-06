@@ -108,7 +108,7 @@ function openinventory()
         local numberslots = -1
         for k, v in pairs(data.items) do
             if tonumber(v.count) > 0 then
-                table.insert(items, {Id = math.random(1,12),Label = v.label,Name = v.name,Amount = v.count,Weight = v.weight * 1000,Slot = numberslots + 1,ImagePath = getPicbyItem(v.name),Max2000 = "2000"})
+                table.insert(items, {Id = math.random(1,12),Label = v.label,Name = v.name,Amount = v.count,Weight = v.limit * 1000,Slot = numberslots + 1,ImagePath = getPicbyItem(v.name),Max2000 = "2000"})
                 numberslots = numberslots + 1
             end
         end
@@ -145,14 +145,14 @@ AddEventHandler("trunkopen123", function()
                 local trunkslots = -1
                 for k, v in pairs(data.items) do
                     if tonumber(v.count) > 0 then
-                        table.insert(items, {Id = math.random(1,12),Label = v.label,Name = v.name,Amount = v.count,Weight = v.weight,Slot = numberslots + 1,ImagePath = getPicbyItem(v.name),MaxStackSize = "2000"})
+                        table.insert(items, {Id = math.random(1,12),Label = v.label,Name = v.name,Amount = v.count,Weight = v.limit,Slot = numberslots + 1,ImagePath = getPicbyItem(v.name),MaxStackSize = "2000"})
                         numberslots = numberslots + 1
                     end
                 end
                 for i=1, #inventory.items, 1 do
                     local item = inventory.items[i]
                     if tonumber(item.count) > 0 then
-                        table.insert(trunkitems, {Id = math.random(1,12),Label = item.label,Name = item.name,Amount = item.count,Weight = item.weight,Slot = trunkslots + 1,ImagePath = getPicbyItem(item.name),MaxStackSize = "2000"})
+                        table.insert(trunkitems, {Id = math.random(1,12),Label = item.label,Name = item.name,Amount = item.count,Weight = item.limit,Slot = trunkslots + 1,ImagePath = getPicbyItem(item.name),MaxStackSize = "2000"})
                         trunkslots = trunkslots + 1
                     end
                 end
@@ -199,14 +199,14 @@ AddEventHandler("openSpind", function()
                 local spindslots = -1
                 for k, v in pairs(data.items) do
                     if tonumber(v.count) > 0 then
-                        table.insert(items, {Id = math.random(1,12),Label = v.label,Name = v.name,Amount = v.count,Weight = v.weight,Slot = numberslots + 1,ImagePath = getPicbyItem(v.name),Max2000 = "2000"})
+                        table.insert(items, {Id = math.random(1,12),Label = v.label,Name = v.name,Amount = v.count,Weight = v.limit,Slot = numberslots + 1,ImagePath = getPicbyItem(v.name),Max2000 = "2000"})
                         numberslots = numberslots + 1
                     end
                 end
                 for i=1, #inventory.itemsSpind, 1 do
                     local item = inventory.itemsSpind[i]
                     if tonumber(item.count) > 0 then
-                        table.insert(spinditems, {Id = math.random(1,12),Label = item.label,Name = item.name,Amount = item.count,Weight = item.weight,Slot = spindslots + 1,ImagePath = getPicbyItem(item.name),Max2000 = "2000"})
+                        table.insert(spinditems, {Id = math.random(1,12),Label = item.label,Name = item.name,Amount = item.count,Weight = item.limit,Slot = spindslots + 1,ImagePath = getPicbyItem(item.name),Max2000 = "2000"})
                         spindslots = spindslots + 1
                     end
                 end
@@ -251,14 +251,14 @@ AddEventHandler("handschuhfach", function()
                 local handschuhfachslots = -1
                 for k, v in pairs(data.items) do
                     if tonumber(v.count) > 0 then
-                        table.insert(items, {Id = math.random(1,12),Label = v.label,Name = v.name,Amount = v.count,Weight = v.weight,Slot = numberslots + 1,ImagePath = getPicbyItem(v.name),Max2000 = "2000"})
+                        table.insert(items, {Id = math.random(1,12),Label = v.label,Name = v.name,Amount = v.count,Weight = v.limit,Slot = numberslots + 1,ImagePath = getPicbyItem(v.name),Max2000 = "2000"})
                         numberslots = numberslots + 1
                     end
                 end
                 for i=1, #inventory.items, 1 do
                     local item = inventory.items[i]
                     if tonumber(item.count) > 0 then
-                        table.insert(handschuhfachItems, {Id = math.random(1,12),Label = item.label,Name = item.name,Amount = item.count,Weight = item.weight,Slot = handschuhfachslots + 1,ImagePath = getPicbyItem(item.name),Max2000 = "2000"})
+                        table.insert(handschuhfachItems, {Id = math.random(1,12),Label = item.label,Name = item.name,Amount = item.count,Weight = item.limit,Slot = handschuhfachslots + 1,ImagePath = getPicbyItem(item.name),Max2000 = "2000"})
                         handschuhfachslots = handschuhfachslots + 1
                     end
                 end
