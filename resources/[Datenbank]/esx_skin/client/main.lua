@@ -280,7 +280,7 @@ function OpenSaveableMenu(submitCb, cancelCb, restrict)
 
 end
 
-AddEventHandler('playerSpawned', function()
+--[[AddEventHandler('playerSpawned', function()
 
   Citizen.CreateThread(function()
 
@@ -306,7 +306,7 @@ AddEventHandler('playerSpawned', function()
 
   end)
 
-end)
+end)]]--
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
