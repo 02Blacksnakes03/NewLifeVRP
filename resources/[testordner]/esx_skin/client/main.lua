@@ -256,7 +256,7 @@ function OpenSaveableMenu(submitCb, cancelCb, restrict)
 	end, cancelCb, restrict)
 end
 
---[[AddEventHandler('playerSpawned', function()
+AddEventHandler('playerSpawned', function()
 	Citizen.CreateThread(function()
 		while not playerLoaded do
 			Citizen.Wait(100)
@@ -274,7 +274,7 @@ end
 			firstSpawn = false
 		end
 	end)
-end)]]--
+end)
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
@@ -289,10 +289,10 @@ AddEventHandler('esx_skin:setLastSkin', function(skin)
 	lastSkin = skin
 end)
 
-RegisterNetEvent('esx_skin:openMenu')
+--[[RegisterNetEvent('esx_skin:openMenu')
 AddEventHandler('esx_skin:openMenu', function(submitCb, cancelCb)
 	OpenMenu(submitCb, cancelCb, nil)
-end)
+end)]]--
 
 RegisterNetEvent('esx_skin:openRestrictedMenu')
 AddEventHandler('esx_skin:openRestrictedMenu', function(submitCb, cancelCb, restrict)

@@ -313,7 +313,7 @@ function nearEntertainment()
 end
 
 
-Citizen.CreateThread(function()
+--[[Citizen.CreateThread(function()
   local timer = 0
   local canPay = true
 
@@ -356,7 +356,7 @@ Citizen.CreateThread(function()
 
   end
 
-end)
+end)]]--
 
 
 -- entertainer shit ^^
