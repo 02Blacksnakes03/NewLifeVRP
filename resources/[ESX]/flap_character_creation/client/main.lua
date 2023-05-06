@@ -296,7 +296,7 @@ end
 
 function flap_saveSkin()
 	TriggerEvent('skinchanger:getSkin', function(skin)
-		TriggerServerEvent('flap_character_creation:saveSkin', skin)
+		TriggerServerEvent('esx_skin:save', skin)
 	end)
 end
 
