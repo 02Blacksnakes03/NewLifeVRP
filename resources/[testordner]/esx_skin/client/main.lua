@@ -265,6 +265,7 @@ AddEventHandler('playerSpawned', function()
 		if firstSpawn then
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
 				if skin == nil then
+					--TriggerEvent('myCreator:openMenu')
 					TriggerEvent('VexCreator:loadCreator')
 				else
 					TriggerEvent('skinchanger:loadSkin', skin)
