@@ -265,7 +265,6 @@ AddEventHandler('playerSpawned', function()
 		if firstSpawn then
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
 				if skin == nil then
-					--TriggerEvent('myCreator:openMenu')
 					TriggerEvent('VexCreator:loadCreator')
 				else
 					TriggerEvent('skinchanger:loadSkin', skin)
@@ -293,7 +292,7 @@ end)
 --[[RegisterNetEvent('esx_skin:openMenu')
 AddEventHandler('esx_skin:openMenu', function(submitCb, cancelCb)
 	OpenMenu(submitCb, cancelCb, nil)
-end)]]--
+end)
 
 RegisterNetEvent('esx_skin:openRestrictedMenu')
 AddEventHandler('esx_skin:openRestrictedMenu', function(submitCb, cancelCb, restrict)
@@ -308,7 +307,7 @@ end)
 RegisterNetEvent('esx_skin:openSaveableRestrictedMenu')
 AddEventHandler('esx_skin:openSaveableRestrictedMenu', function(submitCb, cancelCb, restrict)
 	OpenSaveableMenu(submitCb, cancelCb, restrict)
-end)
+end)]]--
 
 RegisterNetEvent('esx_skin:requestSaveSkin')
 AddEventHandler('esx_skin:requestSaveSkin', function()
