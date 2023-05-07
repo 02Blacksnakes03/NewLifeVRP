@@ -7,7 +7,7 @@ Config = {
 		AllowInCars = false,			-- Allow the GUI in cars?
 		AllowWhenRagdolled = false,			-- Allow the GUI when ragdolled?
 		Enabled = true, 				-- You can turn the gui off here, the base commands will still work.
-		Key = GetKey("K"), 				-- Change the GUI key here.
+		Key = GetKey("Y"), 				-- Change the GUI key here.
 		Sound = true,					-- You can disable sound in the GUI here.
 		TextColor = {255,255,255},
 		TextOutline = true,
@@ -166,14 +166,6 @@ Config.ExtraCommands = {
 		Sprite = "shirt",
 		Desc = string.format(Lang("TakeOffOn"), string.lower(Lang("Shirt"))),
 		Name = Lang("Shirt"),
-		OffsetX = 0.04,
-		OffsetY = 0.0,
-	},
-	[Lang("USHIRT")] = {
-		Func = function() ToggleClothing("UShirt", true) end,
-		Sprite = "ushirt",  
-		Desc = string.format(Lang("TakeOffOn"), Lang("UShirt")),
-		Name = Lang("UShirt"),
 		OffsetX = 0.04,
 		OffsetY = 0.0,
 	},

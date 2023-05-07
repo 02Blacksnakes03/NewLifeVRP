@@ -50,7 +50,6 @@ Locale.de = { --Translated by @Naifen-Phoxidas
 	WATCH = "uhr",
 	PANTS = "hose",
 	SHIRT = "hemd",
-	USHIRT = "unterhemd",
 	RESET = "kleidungzurücksetzen",
 	BAGOFF = "rucksackab",
 }

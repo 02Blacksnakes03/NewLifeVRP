@@ -70,46 +70,12 @@ local Drawables = {
 }
 
 local Extras = {
-	["Vest"] = {
-		Drawable = 9,
-		Table = {Standalone = true, Male = 0, Female = 0 },
-		Emote = {Dict = "clothingtie", Anim = "try_tie_negative_a", Move = 51, Dur = 1200}
-	},
-	["Shoes"] = {
-		Drawable = 6,
-		Table = {Standalone = true, Male = 34, Female = 35},
-		Emote = {Dict = "random@domestic", Anim = "pickup_low", Move = 0, Dur = 1200}
-	},
-	
-	["Neck"] = {
-		Drawable = 7,
-		Table = {Standalone = true, Male = 0, Female = 0 },
-		Emote = {Dict = "clothingtie", Anim = "try_tie_positive_a", Move = 51, Dur = 2100}
-	},
-	---
-	["Mask"] = {
-		Drawable = 1,
-		Table = {Standalone = true, Male = 0, Female = 0 },
-		Emote = {Dict = "mp_masks@standard_car@ds@", Anim = "put_on_mask", Move = 51, Dur = 800}
-	},
 	["Shirt"] = {
 		Drawable = 11,
 		Table = {
 			Standalone = true, Male = 252, Female = 74,
 			Extra = { 
-						--{Drawable = 8, Id = 15, Tex = 0, Name = "Extra Undershirt"},
-			 			{Drawable = 3, Id = 15, Tex = 0, Name = "Extra Gloves"},
-			 			{Drawable = 10, Id = 0, Tex = 0, Name = "Extra Decals"},
-			  		}
-			},
-		Emote = {Dict = "clothingtie", Anim = "try_tie_negative_a", Move = 51, Dur = 1200}
-	},
-	["UShirt"] = {
-		Drawable = 8,
-		Table = {
-			Standalone = true, Male = 15, Female = 15,
-			Extra = { 
-						--{Drawable = 8, Id = 15, Tex = 0, Name = "Extra Undershirt"},
+						{Drawable = 8, Id = 15, Tex = 0, Name = "Extra Undershirt"},
 			 			{Drawable = 3, Id = 15, Tex = 0, Name = "Extra Gloves"},
 			 			{Drawable = 10, Id = 0, Tex = 0, Name = "Extra Decals"},
 			  		}
@@ -176,13 +142,8 @@ local Props = {
 
 LastEquipped = {}
 Cooldown = false
-RegisterNetEvent('toggleClothing')
-AddEventHandler('toggleClothing', function(clothing)
-	ToggleClothing(clothing, true) 
 
-end)
 local function PlayToggleEmote(e, cb)
-	print("toggle emote")
 	local Ped = PlayerPedId()
 	while not HasAnimDictLoaded(e.Dict) do RequestAnimDict(e.Dict) Wait(100) end
 	if IsPedInAnyVehicle(Ped) then e.Move = 51 end
@@ -193,9 +154,7 @@ local function PlayToggleEmote(e, cb)
 	cb()
 end
 
-
 function ResetClothing(anim)
-	print("reset clothing")
 	local Ped = PlayerPedId()
 	local e = Drawables.Top.Emote
 	if anim then TaskPlayAnim(Ped, e.Dict, e.Anim, 3.0, 3.0, 3000, e.Move, 0, false, false, false) end
@@ -209,7 +168,6 @@ function ResetClothing(anim)
 end
 
 function ToggleClothing(which, extra)
-	print("toggle clothing")
 	if Cooldown then return end
 	local Toggle = Drawables[which] if extra then Toggle = Extras[which] end
 	local Ped = PlayerPedId()
@@ -278,15 +236,10 @@ function ToggleClothing(which, extra)
 			return true
 		end
 	end
-	TriggerEvent('glmp_singlenotify', '', 'Dieses Kleidungsstück hast du nicht!')return false
+	Notify(Lang("AlreadyWearing")) return false
 end
 
-RegisterNetEvent('toggleProps')
-AddEventHandler('toggleProps', function(which)
-	ToggleProps(which) 
-end)
 function ToggleProps(which)
-	print("toggle props")
 	if Cooldown then return end
 	local Prop = Props[which]
 	local Ped = PlayerPedId()

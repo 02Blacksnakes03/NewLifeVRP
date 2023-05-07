@@ -271,10 +271,10 @@ local function DrawGUI()
 end
 
 local TextureDicts = {"dp_clothing", "dp_wheel"}
---[[Citizen.CreateThread(function()
+Citizen.CreateThread(function()
 	for k,v in pairs(TextureDicts) do while not HasStreamedTextureDictLoaded(v) do Wait(100) RequestStreamedTextureDict(v, true) end end
 	GenerateTheButtons()
-	while true do Wait(0) 
+	while true do Wait(0)
 		if not Config.GUI.Toggle then
 			if IsControlPressed(1, Config.GUI.Key) then
 				local Ped = PlayerPedId() 
@@ -295,4 +295,4 @@ local TextureDicts = {"dp_clothing", "dp_wheel"}
 		if MenuOpened then DrawGUI() end
 		if Config.Debug then DrawDev() end
 	end
-end)]]
+end)

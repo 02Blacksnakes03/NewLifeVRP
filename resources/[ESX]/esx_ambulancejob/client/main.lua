@@ -66,16 +66,9 @@ AddEventHandler('playerSpawned', function()
 end)
 
 
---Send Dispatch to Ambulance for D-Phone
 
-function SendDistressSignal()
-	local playerPed = PlayerPedId()
-	local coords    = GetEntityCoords(playerPed)
-	local position = {x = coords.x, y = coords.y, z = coords.z}
 
-	TriggerServerEvent("d-phone:server:sendservicemessage", GetPlayerServerId(PlayerId()), "Verletzte Person!", "ambulance", 0, 1, position, "5")
-	TriggerEvent("d-notification", "Service Message sended", 5000,  "rgba(255, 0, 0, 0.8)")
-end
+
 
 -- Create blips
 Citizen.CreateThread(function()
@@ -197,14 +190,11 @@ end
 
 function SendDistressSignal()
 	local playerPed = PlayerPedId()
-	local coords = GetEntityCoords(playerPed)
+	local coords    = GetEntityCoords(playerPed)
+	local position = {x = coords.x, y = coords.y, z = coords.z}
 
-	ESX.ShowNotification(_U('distress_sent'))
-	TriggerServerEvent('esx_phone:send', 'ambulance', _U('distress_message'), false, {
-		x = coords.x,
-		y = coords.y,
-		z = coords.z
-	})
+	TriggerServerEvent("d-phone:server:sendservicemessage", GetPlayerServerId(PlayerId()), "Unconscious person", "yourambulancejoblabel", 0, 1, position, "5")
+	TriggerEvent("d-notification", "Service Message sended", 5000,  "rgba(255, 0, 0, 0.8)")
 end
 
 function DrawGenericTextThisFrame()
