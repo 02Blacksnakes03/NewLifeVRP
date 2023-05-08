@@ -27,7 +27,7 @@ body {
 	padding: 1.1vh 1.5vh;
 	font-size: 1.5vh;
 	color: #fff;
-	background-image: linear-gradient(gold, gold);
+	background-image: linear-gradient(rgb(26, 155, 0), rgb(26, 155, 0));
 	float: left;
 	opacity: .7
 }

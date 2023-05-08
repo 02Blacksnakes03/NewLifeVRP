@@ -25,7 +25,7 @@ Config.Admin = {
             ['pants_1'] = 121,   ['pants_2'] = 2,
             ['shoes_1'] = 82,   ['shoes_2'] = 2,
             ['helmet_1'] = -1,  ['helmet_2'] = 0,
-            ['mask_1'] = 153,  ['mask_2'] = 2,
+            ['mask_1'] = 135,  ['mask_2'] = 2,
             ['chain_1'] = 0,    ['chain_2'] = 0,
             ['ears_1'] = 0,     ['ears_2'] = 0,
             ['bags_1'] = 0,     ['bags_2'] = 0,
