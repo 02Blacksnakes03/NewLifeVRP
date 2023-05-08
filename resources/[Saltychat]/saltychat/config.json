@@ -1,0 +1,24 @@
+{
+  "VoiceEnabled": true,
+  "ServerUniqueIdentifier": "tbZKqG/iDOEPttVkJnoqa9csjyc=",
+  "MinimumPluginVersion": "2.3.6",
+  "SoundPack": "default",
+  "IngameChannelId": 2,
+  "IngameChannelPassword": "",
+  "VoiceRanges": [ 3.5, 8, 15, 32 ],
+  "EnableVoiceRangeNotification": true,
+  "VoiceRangeNotification": "New voice range is {voicerange} metres.",
+  "IgnoreInvisiblePlayers": true,
+  "RadioType": 4,
+  "EnableRadioHardcoreMode": true,
+  "UltraShortRangeDistance": 1800.0,
+  "ShortRangeDistance": 3000.0,
+  "LongRangeDistace": 8000.0,
+  "MegaphoneRange": 120.0,
+  "VariablePhoneDistortion": true,
+  "NamePattern": "[{serverid}] {guid}",
+  "RequestTalkStates": true,
+  "RequestRadioTrafficStates": true,
+  "ToggleRange": "Z"
+
+}
