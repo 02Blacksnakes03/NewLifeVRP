@@ -24,6 +24,8 @@ function setUniform(playerPed)
             if skin.sex == 0 then
                 if group == "superadmin" then
                     TriggerEvent("skinchanger:loadClothes", skin, Config.Admin.superadmin.male)
+                elseif gourp == "mina" then
+                    TriggerEvent("skinchanger:loadClothes", skin, Config.Admin.mina.male)
                 elseif group == "admin" then
                     TriggerEvent("skinchanger:loadClothes", skin, Config.Admin.admin.male)
                 elseif group == "mod" then
@@ -34,6 +36,8 @@ function setUniform(playerPed)
             else
                 if group == "superadmin" then
                     TriggerEvent("skinchanger:loadClothes", skin, Config.Admin.superadmin.female)
+                elseif gourp == "mina" then
+                    TriggerEvent("skinchanger:loadClothes", skin, Config.Admin.mina.female)    
                 elseif group == "admin" then
                     TriggerEvent("skinchanger:loadClothes", skin, Config.Admin.admin.female)
                 elseif group == "mod" then
