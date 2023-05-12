@@ -986,3 +986,37 @@ Citizen.CreateThread(function()
 	EnableInteriorProp(interiorID, 'csr_beforeMission') -- Load large window
 	RefreshInterior(interiorID)
 end)
+
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+			for i = 1, #vehiclesNeedsToCreate, 1 do
+			local playerPed = GetPlayerPed(-1)
+			local coords    = GetEntityCoords(playerPed)
+				if(GetDistanceBetweenCoords(coords, vehiclesNeedsToCreate[i].x, vehiclesNeedsToCreate[i].y, vehiclesNeedsToCreate[i].z, true) < Config.DistanseSpawn) then
+					if not vehiclesNeedsToCreate[i].isOwned and not vehiclesNeedsToCreate[i].created then 
+						vehiclesNeedsToCreate[i].created = true
+						LoadModel(GetHashKey(vehiclesNeedsToCreate[i].model))
+						local entity =  CreateVehicle(GetHashKey(vehiclesNeedsToCreate[i].model), vehiclesNeedsToCreate[i].x, vehiclesNeedsToCreate[i].y, vehiclesNeedsToCreate[i].z, vehiclesNeedsToCreate[i].h, false)
+						SetVehicleOnGroundProperly(entity)
+						FreezeEntityPosition(entity, true)
+						SetEntityAsMissionEntity(entity, true, true)
+						SetModelAsNoLongerNeeded(entity)
+						SetEntityInvincible( entity, true )
+						local price = vehiclesNeedsToCreate[i].price
+						table.insert(spawnedVehs, {entityId = entity, price = price, id = i, x =  vehiclesNeedsToCreate[i].x, y = vehiclesNeedsToCreate[i].y, z = vehiclesNeedsToCreate[i].z, h = vehiclesNeedsToCreate[i].h, model = vehiclesNeedsToCreate[i].model, job =  vehiclesNeedsToCreate[i].job})  
+					end
+				else 
+				vehiclesNeedsToCreate[i].created = false
+				for z = 1, #spawnedVehs, 1 do
+				if spawnedVehs[z].id == i then 
+				ESX.Game.DeleteVehicle(spawnedVehs[z].entityId)
+				table.remove(spawnedVehs, z)
+				break
+				end
+				end
+				end
+			end
+		end
+end)
