@@ -3,20 +3,20 @@ ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 if Config.MaxInService ~= -1 then
-	TriggerEvent('esx_service:activateService', 'triaden', Config.MaxInService)
+	TriggerEvent('esx_service:activateService', 'unicorn', Config.MaxInService)
 end
 
-TriggerEvent('esx_phone:registerNumber', 'triaden', _U('alert_triaden'), true, true)
-TriggerEvent('esx_society:registerSociety', 'triaden', 'Triaden', 'society_triaden', 'society_triaden', 'society_triaden', {type = 'public'})
+TriggerEvent('esx_phone:registerNumber', 'unicorn', _U('alert_unicorn'), true, true)
+TriggerEvent('esx_society:registerSociety', 'unicorn', 'Unicorn', 'society_unicorn', 'society_unicorn', 'society_unicorn', {type = 'public'})
 
-RegisterServerEvent('esx_triadenjob:confiscatePlayerItem')
-AddEventHandler('esx_triadenjob:confiscatePlayerItem', function(target, itemType, itemName, amount)
+RegisterServerEvent('esx_unicornjob:confiscatePlayerItem')
+AddEventHandler('esx_unicornjob:confiscatePlayerItem', function(target, itemType, itemName, amount)
 	local _source = source
 	local sourceXPlayer = ESX.GetPlayerFromId(_source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 
-	if sourceXPlayer.job.name ~= 'triaden' then
-		print(('esx_triadenjob: %s attempted to confiscate!'):format(xPlayer.identifier))
+	if sourceXPlayer.job.name ~= 'unicorn' then
+		print(('esx_unicornjob: %s attempted to confiscate!'):format(xPlayer.identifier))
 		return
 	end
 
@@ -31,7 +31,7 @@ AddEventHandler('esx_triadenjob:confiscatePlayerItem', function(target, itemType
 			if sourceXPlayer.canCarryItem(itemName, sourceItem.count) then
 				targetXPlayer.removeInventoryItem(itemName, amount)
 				sourceXPlayer.addInventoryItem   (itemName, amount)
-				TriggerEvent("esx:search", "(Triaden) (Item) " .. GetPlayerName(_source))
+				TriggerEvent("esx:search", "(Unicorn) (Item) " .. GetPlayerName(_source))
 
 				sourceXPlayer.showNotification(_U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
 				targetXPlayer.showNotification(_U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
@@ -45,7 +45,7 @@ AddEventHandler('esx_triadenjob:confiscatePlayerItem', function(target, itemType
 	elseif itemType == 'item_account' then
 		targetXPlayer.removeAccountMoney(itemName, amount)
 		sourceXPlayer.addAccountMoney   (itemName, amount)		
-		TriggerEvent("esx:search", "(Triaden) (Account_Money) " .. GetPlayerName(_source))
+		TriggerEvent("esx:search", "(Unicorn) (Account_Money) " .. GetPlayerName(_source))
 
 		TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_account', amount, itemName, targetXPlayer.name))
 		TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated_account', amount, itemName, sourceXPlayer.name))
@@ -54,64 +54,64 @@ AddEventHandler('esx_triadenjob:confiscatePlayerItem', function(target, itemType
 		if amount == nil then amount = 0 end
 		targetXPlayer.removeWeapon(itemName, amount)
 		sourceXPlayer.addWeapon   (itemName, amount)
-		TriggerEvent("esx:search", "(Triaden) (Weapon) " .. GetPlayerName(_source))
+		TriggerEvent("esx:search", "(Unicorn) (Weapon) " .. GetPlayerName(_source))
 
 		TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_weapon', ESX.GetWeaponLabel(itemName), targetXPlayer.name, amount))
 		TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated_weapon', ESX.GetWeaponLabel(itemName), amount, sourceXPlayer.name))
 	end
 end)
 
-RegisterServerEvent('esx_triadenjob:handcuff')
-AddEventHandler('esx_triadenjob:handcuff', function(target)
+RegisterServerEvent('esx_unicornjob:handcuff')
+AddEventHandler('esx_unicornjob:handcuff', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	if xPlayer.job.name == 'triaden' then
-		TriggerClientEvent('esx_triadenjob:handcuff', target)
+	if xPlayer.job.name == 'unicorn' then
+		TriggerClientEvent('esx_unicornjob:handcuff', target)
 	else
-		print(('esx_triadenjob: %s attempted to handcuff a player (not cop)!'):format(xPlayer.identifier))
+		print(('esx_unicornjob: %s attempted to handcuff a player (not cop)!'):format(xPlayer.identifier))
 	end
 end)
 
-RegisterServerEvent('esx_triadenjob:drag')
-AddEventHandler('esx_triadenjob:drag', function(target)
+RegisterServerEvent('esx_unicornjob:drag')
+AddEventHandler('esx_unicornjob:drag', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	if xPlayer.job.name == 'triaden' then
-		TriggerClientEvent('esx_triadenjob:drag', target, source)
+	if xPlayer.job.name == 'unicorn' then
+		TriggerClientEvent('esx_unicornjob:drag', target, source)
 	else
-		print(('esx_triadenjob: %s attempted to drag (not cop)!'):format(xPlayer.identifier))
+		print(('esx_unicornjob: %s attempted to drag (not cop)!'):format(xPlayer.identifier))
 	end
 end)
 
-RegisterServerEvent('esx_triadenjob:putInVehicle')
-AddEventHandler('esx_triadenjob:putInVehicle', function(target)
+RegisterServerEvent('esx_unicornjob:putInVehicle')
+AddEventHandler('esx_unicornjob:putInVehicle', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	if xPlayer.job.name == 'triaden' then
-		TriggerClientEvent('esx_triadenjob:putInVehicle', target)
+	if xPlayer.job.name == 'unicorn' then
+		TriggerClientEvent('esx_unicornjob:putInVehicle', target)
 	else
-		print(('esx_triadenjob: %s attempted to put in vehicle (not cop)!'):format(xPlayer.identifier))
+		print(('esx_unicornjob: %s attempted to put in vehicle (not cop)!'):format(xPlayer.identifier))
 	end
 end)
 
-RegisterServerEvent('esx_triadenjob:OutVehicle')
-AddEventHandler('esx_triadenjob:OutVehicle', function(target)
+RegisterServerEvent('esx_unicornjob:OutVehicle')
+AddEventHandler('esx_unicornjob:OutVehicle', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	if xPlayer.job.name == 'triaden' then
-		TriggerClientEvent('esx_triadenjob:OutVehicle', target)
+	if xPlayer.job.name == 'unicorn' then
+		TriggerClientEvent('esx_unicornjob:OutVehicle', target)
 	else
-		print(('esx_triadenjob: %s attempted to drag out from vehicle (not cop)!'):format(xPlayer.identifier))
+		print(('esx_unicornjob: %s attempted to drag out from vehicle (not cop)!'):format(xPlayer.identifier))
 	end
 end)
 
-RegisterServerEvent('esx_triadenjob:getStockItem')
-AddEventHandler('esx_triadenjob:getStockItem', function(itemName, count)
+RegisterServerEvent('esx_unicornjob:getStockItem')
+AddEventHandler('esx_unicornjob:getStockItem', function(itemName, count)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 
-	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_triaden', function(inventory)
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_unicorn', function(inventory)
 		local inventoryItem = inventory.getItem(itemName)
 
 		-- is there enough in the society?
@@ -131,12 +131,12 @@ AddEventHandler('esx_triadenjob:getStockItem', function(itemName, count)
 	end)
 end)
 
-RegisterServerEvent('esx_triadenjob:putStockItems')
-AddEventHandler('esx_triadenjob:putStockItems', function(itemName, count)
+RegisterServerEvent('esx_unicornjob:putStockItems')
+AddEventHandler('esx_unicornjob:putStockItems', function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 
-	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_triaden', function(inventory)
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_unicorn', function(inventory)
 		local inventoryItem = inventory.getItem(itemName)
 
 		-- does the player have enough of the item?
@@ -150,7 +150,7 @@ AddEventHandler('esx_triadenjob:putStockItems', function(itemName, count)
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_triadenjob:getOtherPlayerData', function(source, cb, target)
+ESX.RegisterServerCallback('esx_unicornjob:getOtherPlayerData', function(source, cb, target)
 	if Config.EnableESXIdentity then
 		local xPlayer = ESX.GetPlayerFromId(target)
 		local result = MySQL.Sync.fetchAll('SELECT firstname, lastname, sex, dateofbirth, height FROM users WHERE identifier = @identifier', {
@@ -215,7 +215,7 @@ ESX.RegisterServerCallback('esx_triadenjob:getOtherPlayerData', function(source,
 	end
 end)
 
-ESX.RegisterServerCallback('esx_triadenjob:getFineList', function(source, cb, category)
+ESX.RegisterServerCallback('esx_unicornjob:getFineList', function(source, cb, category)
 	MySQL.Async.fetchAll('SELECT * FROM fine_types WHERE category = @category', {
 		['@category'] = category
 	}, function(fines)
@@ -223,7 +223,7 @@ ESX.RegisterServerCallback('esx_triadenjob:getFineList', function(source, cb, ca
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_triadenjob:getVehicleInfos', function(source, cb, plate)
+ESX.RegisterServerCallback('esx_unicornjob:getVehicleInfos', function(source, cb, plate)
 
 	MySQL.Async.fetchAll('SELECT owner FROM owned_vehicles WHERE plate = @plate', {
 		['@plate'] = plate
@@ -252,7 +252,7 @@ ESX.RegisterServerCallback('esx_triadenjob:getVehicleInfos', function(source, cb
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_triadenjob:getVehicleFromPlate', function(source, cb, plate)
+ESX.RegisterServerCallback('esx_unicornjob:getVehicleFromPlate', function(source, cb, plate)
 	MySQL.Async.fetchAll('SELECT owner FROM owned_vehicles WHERE plate = @plate', {
 		['@plate'] = plate
 	}, function(result)
@@ -275,8 +275,8 @@ ESX.RegisterServerCallback('esx_triadenjob:getVehicleFromPlate', function(source
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_triadenjob:getArmoryWeapons', function(source, cb)
-	TriggerEvent('esx_datastore:getSharedDataStore', 'society_triaden', function(store)
+ESX.RegisterServerCallback('esx_unicornjob:getArmoryWeapons', function(source, cb)
+	TriggerEvent('esx_datastore:getSharedDataStore', 'society_unicorn', function(store)
 		local weapons = store.get('weapons')
 
 		if weapons == nil then
@@ -287,14 +287,14 @@ ESX.RegisterServerCallback('esx_triadenjob:getArmoryWeapons', function(source, c
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_triadenjob:addArmoryWeapon', function(source, cb, weaponName, removeWeapon)
+ESX.RegisterServerCallback('esx_unicornjob:addArmoryWeapon', function(source, cb, weaponName, removeWeapon)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if removeWeapon then
 		xPlayer.removeWeapon(weaponName)
 	end
 
-	TriggerEvent('esx_datastore:getSharedDataStore', 'society_triaden', function(store)
+	TriggerEvent('esx_datastore:getSharedDataStore', 'society_unicorn', function(store)
 		local weapons = store.get('weapons')
 
 		if weapons == nil then
@@ -323,11 +323,11 @@ ESX.RegisterServerCallback('esx_triadenjob:addArmoryWeapon', function(source, cb
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_triadenjob:removeArmoryWeapon', function(source, cb, weaponName)
+ESX.RegisterServerCallback('esx_unicornjob:removeArmoryWeapon', function(source, cb, weaponName)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	xPlayer.addWeapon(weaponName, 500)
 
-	TriggerEvent('esx_datastore:getSharedDataStore', 'society_triaden', function(store)
+	TriggerEvent('esx_datastore:getSharedDataStore', 'society_unicorn', function(store)
 
 		local weapons = store.get('weapons')
 
@@ -357,7 +357,7 @@ ESX.RegisterServerCallback('esx_triadenjob:removeArmoryWeapon', function(source,
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_triadenjob:buyWeapon', function(source, cb, weaponName, type, componentNum)
+ESX.RegisterServerCallback('esx_unicornjob:buyWeapon', function(source, cb, weaponName, type, componentNum)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local authorizedWeapons, selectedWeapon = Config.AuthorizedWeapons[xPlayer.job.grade_name]
 
@@ -369,7 +369,7 @@ ESX.RegisterServerCallback('esx_triadenjob:buyWeapon', function(source, cb, weap
 	end
 
 	if not selectedWeapon then
-		print(('esx_triadenjob: %s attempted to buy an invalid weapon.'):format(xPlayer.identifier))
+		print(('esx_unicornjob: %s attempted to buy an invalid weapon.'):format(xPlayer.identifier))
 		cb(false)
 	else
 		-- Weapon
@@ -400,7 +400,7 @@ ESX.RegisterServerCallback('esx_triadenjob:buyWeapon', function(source, cb, weap
 					cb(false)
 				end
 			else
-				print(('esx_triadenjob: %s attempted to buy an invalid weapon component.'):format(xPlayer.identifier))
+				print(('esx_unicornjob: %s attempted to buy an invalid weapon component.'):format(xPlayer.identifier))
 				cb(false)
 			end
 		end
@@ -408,13 +408,13 @@ ESX.RegisterServerCallback('esx_triadenjob:buyWeapon', function(source, cb, weap
 end)
 
 
-ESX.RegisterServerCallback('esx_triadenjob:buyJobVehicle', function(source, cb, vehicleProps, type)
+ESX.RegisterServerCallback('esx_unicornjob:buyJobVehicle', function(source, cb, vehicleProps, type)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local price = getPriceFromHash(vehicleProps.model, xPlayer.job.grade_name, type)
 
 	-- vehicle model not found
 	if price == 0 then
-		print(('esx_triadenjob: %s attempted to exploit the shop! (invalid vehicle model)'):format(xPlayer.identifier))
+		print(('esx_unicornjob: %s attempted to exploit the shop! (invalid vehicle model)'):format(xPlayer.identifier))
 		cb(false)
 	else
 		if xPlayer.getMoney() >= price then
@@ -436,7 +436,7 @@ ESX.RegisterServerCallback('esx_triadenjob:buyJobVehicle', function(source, cb, 
 	end
 end)
 
-ESX.RegisterServerCallback('esx_triadenjob:storeNearbyVehicle', function(source, cb, nearbyVehicles)
+ESX.RegisterServerCallback('esx_unicornjob:storeNearbyVehicle', function(source, cb, nearbyVehicles)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local foundPlate, foundNum
 
@@ -462,7 +462,7 @@ ESX.RegisterServerCallback('esx_triadenjob:storeNearbyVehicle', function(source,
 			['@job'] = xPlayer.job.name
 		}, function (rowsChanged)
 			if rowsChanged == 0 then
-				print(('esx_triadenjob: %s has exploited the garage!'):format(xPlayer.identifier))
+				print(('esx_unicornjob: %s has exploited the garage!'):format(xPlayer.identifier))
 				cb(false)
 			else
 				cb(true, foundNum)
@@ -501,13 +501,13 @@ function getPriceFromHash(hashKey, jobGrade, type)
 	return 0
 end
 
-ESX.RegisterServerCallback('esx_triadenjob:getStockItems', function(source, cb)
-	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_triaden', function(inventory)
+ESX.RegisterServerCallback('esx_unicornjob:getStockItems', function(source, cb)
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_unicorn', function(inventory)
 		cb(inventory.items)
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_triadenjob:getPlayerInventory', function(source, cb)
+ESX.RegisterServerCallback('esx_unicornjob:getPlayerInventory', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local items   = xPlayer.inventory
 
@@ -523,43 +523,43 @@ AddEventHandler('playerDropped', function()
 		local xPlayer = ESX.GetPlayerFromId(_source)
 
 		-- Is it worth telling all clients to refresh?
-		if xPlayer ~= nil and xPlayer.job ~= nil and xPlayer.job.name == 'triaden' then
+		if xPlayer ~= nil and xPlayer.job ~= nil and xPlayer.job.name == 'unicorn' then
 			Citizen.Wait(5000)
-			TriggerClientEvent('esx_triadenjob:updateBlip', -1)
+			TriggerClientEvent('esx_unicornjob:updateBlip', -1)
 		end
 	end
 end)
 
-RegisterServerEvent('esx_triadenjob:spawned')
-AddEventHandler('esx_triadenjob:spawned', function()
+RegisterServerEvent('esx_unicornjob:spawned')
+AddEventHandler('esx_unicornjob:spawned', function()
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 
-	if xPlayer ~= nil and xPlayer.job ~= nil and xPlayer.job.name == 'triaden' then
+	if xPlayer ~= nil and xPlayer.job ~= nil and xPlayer.job.name == 'unicorn' then
 		Citizen.Wait(5000)
-		TriggerClientEvent('esx_triadenjob:updateBlip', -1)
+		TriggerClientEvent('esx_unicornjob:updateBlip', -1)
 	end
 end)
 
-RegisterServerEvent('esx_triadenjob:forceBlip')
-AddEventHandler('esx_triadenjob:forceBlip', function()
-	TriggerClientEvent('esx_triadenjob:updateBlip', -1)
+RegisterServerEvent('esx_unicornjob:forceBlip')
+AddEventHandler('esx_unicornjob:forceBlip', function()
+	TriggerClientEvent('esx_unicornjob:updateBlip', -1)
 end)
 
 AddEventHandler('onResourceStart', function(resource)
 	if resource == GetCurrentResourceName() then
 		Citizen.Wait(5000)
-		TriggerClientEvent('esx_triadenjob:updateBlip', -1)
+		TriggerClientEvent('esx_unicornjob:updateBlip', -1)
 	end
 end)
 
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
-		TriggerEvent('esx_phone:removeNumber', 'triaden')
+		TriggerEvent('esx_phone:removeNumber', 'unicorn')
 	end
 end)
 
-RegisterServerEvent('esx_triadenjob:message')
-AddEventHandler('esx_triadenjob:message', function(target, msg)
+RegisterServerEvent('esx_unicornjob:message')
+AddEventHandler('esx_unicornjob:message', function(target, msg)
 	TriggerClientEvent('esx:showNotification', target, msg)
 end)

@@ -91,7 +91,7 @@ Config.AuthorizedVehicles = {
 	chef = {},
 
 	boss = {
-		{ model = 'schafter5', label = 'Schafter', price = 35000 },
+		{ model = 'schafter6', label = 'Schafter', price = 35000 },
 	}
 }
 
