@@ -76,7 +76,7 @@ Config.AuthorizedVehicles = {
 	Shared = {
 		{ model = 'SABREGT2', label = 'Sabre', price = 20000 },
 		{ model = 'baller5', label = 'Baller', price = 20000 },
-		{ model = 'schafter2', label = 'Schafter', price = 20000 }
+		{ model = 'schafter4', label = 'Schafter', price = 20000 }
 	},
 
 	recruit = {},
@@ -91,7 +91,9 @@ Config.AuthorizedVehicles = {
 
 	chef = {},
 
-	boss = {}
+	boss = {
+		{ model = 'schafter6', label = 'Leaderschafter', price = 20000}
+	}
 }
 
 Config.AuthorizedHelicopters = {
