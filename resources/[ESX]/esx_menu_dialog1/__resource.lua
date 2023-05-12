@@ -1,6 +1,8 @@
 resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
-description 'ESX Menu Dialog Redesign by Arctic Development'
+description 'ESX Menu Dialog'
+
+version '1.1.0'
 
 client_script 'client/main.lua'
 

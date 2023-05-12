@@ -2,19 +2,20 @@
 
 	let MenuTpl =
 		'<div id="menu_{{_namespace}}_{{_name}}" class="dialog {{#isBig}}big{{/isBig}}">' +
-		'{{#isDefault}}<input type="text" name="value" placeholder="{{title}}" id="inputText"/>{{/isDefault}}' +
-		'{{#isBig}}<textarea name="value"/>{{/isBig}}' +
-		'<button type="button" name="submit">Accept</button>' +
-		'<button type="button" name="cancel">Cancel</button>'
-	'</div>' +
+			'<div class="head"><span>{{title}}</span></div>' +
+				'{{#isDefault}}<input type="text" name="value" id="inputText"/>{{/isDefault}}' +
+				'{{#isBig}}<textarea name="value"/>{{/isBig}}' +
+				'<button type="button" name="submit">Zapisz</button>' +
+				'<button type="button" name="cancel">Zamknij</button>' +
+			'</div>' +
 		'</div>'
-		;
+	;
 
-	window.ESX_MENU = {};
+	window.ESX_MENU       = {};
 	ESX_MENU.ResourceName = 'esx_menu_dialog';
-	ESX_MENU.opened = {};
-	ESX_MENU.focus = [];
-	ESX_MENU.pos = {};
+	ESX_MENU.opened       = {};
+	ESX_MENU.focus        = [];
+	ESX_MENU.pos          = {};
 
 	ESX_MENU.open = function (namespace, name, data) {
 
