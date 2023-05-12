@@ -24,20 +24,20 @@ Config.PoliceStations = {
 	Triaden = {
 
 		Cloakrooms = {
-			
+			vector3(105.44,-1303.27,28.77)
 		},
 
 		Armories = {
-			vector3(1400.04,1139.71,114.33)
+			vector3(108.47,-1304.19,28.77)
 
 		},
 
 		Vehicles = {
 			{
-				Spawner = vector3(1401.43,1114.25,114.84),
-				InsideShop = vector3(1404.82,1119.12,114.84),
+				Spawner = vector3(161.59,-1306.74,29.35),
+				InsideShop = vector3(142.72,-1323.8,28.56),
 				SpawnPoints = {
-					{ coords = vector3(1404.82,1119.12,115.84), heading = 114.13, radius = 6.0 }
+					{ coords = vector3(158.18,-1300.11,28.54), heading = 64.02, radius = 6.0 }
 				}
 			}
 		},
@@ -47,7 +47,7 @@ Config.PoliceStations = {
 		},
 
 		BossActions = {
-			vector3(1398.36,1157.03,114.33)
+			vector3(93.82,-1291.53,29.27)
 		}
 
 	}
@@ -123,10 +123,10 @@ Config.Uniforms = {
 	boss_wear = { },
 	bullet_wear = {
 		male = {
-			['bproof_1'] = 27,  ['bproof_2'] = 5
+			['bproof_1'] = 17,  ['bproof_2'] = 2
 		},
 		female = {
-			['bproof_1'] = 29,  ['bproof_2'] = 5
+			['bproof_1'] = 17,  ['bproof_2'] = 2
 		}
 	},
 	gilet_wear = {
