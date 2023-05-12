@@ -74,8 +74,8 @@ Config.AuthorizedWeapons = {
 
 Config.AuthorizedVehicles = {
 	Shared = {
-		{ model = 'SABREGT2', label = 'Sabre', price = 20000 },
-		{ model = 'baller5', label = 'Baller', price = 20000 },
+		{ model = 'feltzer2', label = 'Feltzer2', price = 20000 },
+		{ model = 'sultan2', label = 'Sultan3', price = 20000 },
 		{ model = 'schafter4', label = 'Schafter', price = 20000 }
 	},
 
@@ -92,7 +92,8 @@ Config.AuthorizedVehicles = {
 	chef = {},
 
 	boss = {
-		{ model = 'schafter6', label = 'Leaderschafter', price = 20000}
+		{ model = 'schafter6', label = 'Leaderschafter', price = 20000},
+		{ model = 'baller5', label = 'LeaderBaller', price = 20000}
 	}
 }
 
