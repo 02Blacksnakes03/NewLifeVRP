@@ -43,7 +43,7 @@ ESX.RegisterUsableItem('case', function (source)
             end
         end
     local rockstarlicense = identifiers.license
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
+    if xPlayer.getInventoryItem("case").count >= 1 then
     TriggerClientEvent('caseOpen', source)
     sendToDiscord("Case genutzt : ", "**" .. GetPlayerName(source) .. "**", 222)
 else
@@ -71,8 +71,8 @@ AddEventHandler("caseMoneyWin1", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
-    xPlayer.removeInventoryItem('WeihnachtsCase', 1)
+    if xPlayer.getInventoryItem("case").count >= 1 then
+    xPlayer.removeInventoryItem('case', 1)
     xPlayer.addMoney(MoneyWin1)
     sendToDiscord(GetPlayerName(source), "**" .. "hat "..MoneyWin1.. "$ Gewonnen" .. "**", 222)
 else
@@ -101,8 +101,8 @@ AddEventHandler("caseMoneyWin2", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
-    xPlayer.removeInventoryItem('WeihnachtsCase', 1)
+    if xPlayer.getInventoryItem("case").count >= 1 then
+    xPlayer.removeInventoryItem('case', 1)
     xPlayer.addMoney(MoneyWin2)
     sendToDiscord(GetPlayerName(source), "**" .. "hat "..MoneyWin2.. "$ Gewonnen" .. "**", 222)
 else
@@ -131,8 +131,8 @@ AddEventHandler("caseMoneyWin3", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
-    xPlayer.removeInventoryItem('WeihnachtsCase', 1)
+    if xPlayer.getInventoryItem("case").count >= 1 then
+    xPlayer.removeInventoryItem('case', 1)
     xPlayer.addMoney(MoneyWin3)
     sendToDiscord(GetPlayerName(source), "**" .. "hat "..MoneyWin3.. "$ Gewonnen" .. "**", 222)
 else
@@ -161,8 +161,8 @@ AddEventHandler("caseBlackMoneyWin1", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
-    xPlayer.removeInventoryItem('WeihnachtsCase', 1)
+    if xPlayer.getInventoryItem("case").count >= 1 then
+    xPlayer.removeInventoryItem('case', 1)
     xPlayer.addAccountMoney('black_money', BlackMoneyWin1)
      sendToDiscord(GetPlayerName(source), "**" .. "hat "..BlackMoneyWin1.."$ Schwarzgeld Gewonnen" .. "**", 222)
 else
@@ -191,8 +191,8 @@ AddEventHandler("caseBlackMoneyWin2", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
-    xPlayer.removeInventoryItem('WeihnachtsCase', 1)
+    if xPlayer.getInventoryItem("case").count >= 1 then
+    xPlayer.removeInventoryItem('case', 1)
     xPlayer.addAccountMoney('black_money', BlackMoneyWin2)
     sendToDiscord(GetPlayerName(source), "**" .. "hat "..BlackMoneyWin2.."$ Schwarzgeld Gewonnen" .. "**", 222)
 else
@@ -221,8 +221,8 @@ AddEventHandler("caseBlackMoneyWin3", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
-    xPlayer.removeInventoryItem('WeihnachtsCase', 1)
+    if xPlayer.getInventoryItem("case").count >= 1 then
+    xPlayer.removeInventoryItem('case', 1)
     xPlayer.addAccountMoney('black_money', BlackMoneyWin3)
      sendToDiscord(GetPlayerName(source), "**" .. "hat "..BlackMoneyWin3.."$ Schwarzgeld Gewonnen" .. "**", 222)
 else
@@ -251,7 +251,7 @@ AddEventHandler("caseWeaponWin1", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
+    if xPlayer.getInventoryItem("case").count >= 1 then
     xPlayer.removeInventoryItem('case', 1)
     xPlayer.addWeapon(WeaponWin1, 50)
      sendToDiscord(GetPlayerName(source), "**" .. "hat " .. WeaponWin1 .. " gewonnen!" .. "**", 222)
@@ -281,7 +281,7 @@ AddEventHandler("caseWeaponWin2", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
+    if xPlayer.getInventoryItem("case").count >= 1 then
     xPlayer.removeInventoryItem('case', 1)
     xPlayer.addWeapon(WeaponWin2, 50)
      sendToDiscord(GetPlayerName(source), "**" .. "hat " .. WeaponWin2 .. " gewonnen!" .. "**", 222)
@@ -311,7 +311,7 @@ AddEventHandler("caseWeaponWin3", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
+    if xPlayer.getInventoryItem("case").count >= 1 then
     xPlayer.removeInventoryItem('case', 1)
     xPlayer.addWeapon(WeaponWin3, 50)
      sendToDiscord(GetPlayerName(source), "**" .. "hat " .. WeaponWin3 .. " gewonnen!" .. "**", 222)
@@ -341,7 +341,7 @@ AddEventHandler("caseItemWin1", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
+    if xPlayer.getInventoryItem("case").count >= 1 then
     xPlayer.removeInventoryItem('case', 1)
     xPlayer.addInventoryItem(ExtraItem1, ExtraItem1Amount)
      sendToDiscord(GetPlayerName(source), "**" .. "hat " .. ExtraItem1Amount .. " " .. ExtraItem1 .. " gewonnen!" .. "**", 222)
@@ -371,7 +371,7 @@ AddEventHandler("caseItemWin2", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
+    if xPlayer.getInventoryItem("case").count >= 1 then
     xPlayer.removeInventoryItem('case', 1)
     xPlayer.addInventoryItem(ExtraItem2 , ExtraItem2Amount)
      sendToDiscord(GetPlayerName(source), "**" .. "hat " .. ExtraItem2Amount .. " " .. ExtraItem2 .. " gewonnen!" .. "**", 222)
@@ -401,7 +401,7 @@ AddEventHandler("caseItemWin3", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
+    if xPlayer.getInventoryItem("case").count >= 1 then
     xPlayer.removeInventoryItem('case', 1)
     xPlayer.addInventoryItem(ExtraItem3, ExtraItem3Amount)
     sendToDiscord(GetPlayerName(source), "**" .. "hat " .. ExtraItem3Amount .. " " .. ExtraItem3 .. " gewonnen!" .. "**", 222)
@@ -432,7 +432,7 @@ AddEventHandler("caseImportWin1", function(importPlate)
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
+    if xPlayer.getInventoryItem("case").count >= 1 then
     xPlayer.removeInventoryItem('case', 1)
     MySQL.Async.execute('INSERT INTO owned_vehicles (owner, plate, vehicle) VALUES (@owner, @plate, @vehicle)', {
         ['@owner']   = xPlayer.identifier,
@@ -467,7 +467,7 @@ AddEventHandler("caseImportWin2", function(importPlate)
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
+    if xPlayer.getInventoryItem("case").count >= 1 then
     xPlayer.removeInventoryItem('case', 1)
     MySQL.Async.execute('INSERT INTO owned_vehicles (owner, plate, vehicle) VALUES (@owner, @plate, @vehicle)', {
         ['@owner']   = xPlayer.identifier,
@@ -502,7 +502,7 @@ AddEventHandler("caseImportWin3", function(importPlate)
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
+    if xPlayer.getInventoryItem("case").count >= 1 then
     xPlayer.removeInventoryItem('case', 1)
     MySQL.Async.execute('INSERT INTO owned_vehicles (owner, plate, vehicle) VALUES (@owner, @plate, @vehicle)', {
         ['@owner']   = xPlayer.identifier,
@@ -537,7 +537,7 @@ AddEventHandler("caseImportWin4", function(importPlate)
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
+    if xPlayer.getInventoryItem("case").count >= 1 then
     xPlayer.removeInventoryItem('case', 1)
     MySQL.Async.execute('INSERT INTO owned_vehicles (owner, plate, vehicle, type) VALUES (@owner, @plate, @vehicle, @type)', {
         ['@owner']   = xPlayer.identifier,
@@ -573,9 +573,9 @@ AddEventHandler("caseRESPIN", function()
         end
     local rockstarlicense = identifiers.license
     if xPlayer ~= nil then
-    if xPlayer.getInventoryItem("WeihnachtsCase").count >= 1 then
+    if xPlayer.getInventoryItem("case").count >= 1 then
     xPlayer.removeInventoryItem('case', 1)
-    xPlayer.addInventoryItem("WeihnachtsCase", 1)
+    xPlayer.addInventoryItem("case", 1)
     sendToDiscord(GetPlayerName(source), "**" .. "hat ein ReSpin gewonnen!" .. "**", 222)
 else
     sendToDiscord("Cheater/Duper gefunden : ", "**" .. GetPlayerName(source) .. "**", 222)
