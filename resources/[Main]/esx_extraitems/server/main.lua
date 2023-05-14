@@ -44,14 +44,14 @@ end)
 -- End of Dark Net
 
 -- Bandage
-ESX.RegisterUsableItem('bandage', function(source)
+--[[ESX.RegisterUsableItem('bandage', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	TriggerClientEvent('esx_extraitems:bandage', source)
 	if Config.Removeables.Bandage then
 		xPlayer.removeInventoryItem('bandage', 1)
 		xPlayer.showNotification(_U('used_bandage'))
 	end
-end)
+end)]]--
 
 RegisterServerEvent('esx_extraitems:givebandages')
 AddEventHandler('esx_extraitems:givebandages', function()
