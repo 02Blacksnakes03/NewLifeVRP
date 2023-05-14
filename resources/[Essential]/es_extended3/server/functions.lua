@@ -44,7 +44,7 @@ ESX.SavePlayer = function(xPlayer, cb)
 	for i=1, #xPlayer.accounts, 1 do
 		if ESX.LastPlayerData[xPlayer.source].accounts[xPlayer.accounts[i].name] ~= xPlayer.accounts[i].money then
 			table.insert(asyncTasks, function(cb)
-				MySQL.Async.execute('UPDATE user_accounts SET `money` = @money WHERE identifier = @identifier AND name = @name', {
+				MySQL.Async.execute('UPDATE user_accounts SET money = @money WHERE identifier = @identifier AND name = @name', {
 					['@money']      = xPlayer.accounts[i].money,
 					['@identifier'] = xPlayer.identifier,
 					['@name']       = xPlayer.accounts[i].name
@@ -61,7 +61,7 @@ ESX.SavePlayer = function(xPlayer, cb)
 	for i=1, #xPlayer.inventory, 1 do
 		if ESX.LastPlayerData[xPlayer.source].items[xPlayer.inventory[i].name] ~= xPlayer.inventory[i].count then
 			table.insert(asyncTasks, function(cb)
-				MySQL.Async.execute('UPDATE user_inventory SET `count` = @count WHERE identifier = @identifier AND item = @item', {
+				MySQL.Async.execute('UPDATE user_inventory SET count = @count WHERE identifier = @identifier AND item = @item', {
 					['@count']      = xPlayer.inventory[i].count,
 					['@identifier'] = xPlayer.identifier,
 					['@item']       = xPlayer.inventory[i].name
@@ -76,7 +76,7 @@ ESX.SavePlayer = function(xPlayer, cb)
 
 	-- Job, loadout and position
 	table.insert(asyncTasks, function(cb)
-		MySQL.Async.execute('UPDATE users SET `job` = @job, `job_grade` = @job_grade, `loadout` = @loadout, `position` = @position WHERE identifier = @identifier', {
+		MySQL.Async.execute('UPDATE users SET job = @job, job_grade = @job_grade, loadout = @loadout, position = @position WHERE identifier = @identifier', {
 			['@job']        = xPlayer.job.name,
 			['@job_grade']  = xPlayer.job.grade,
 			['@loadout']    = json.encode(xPlayer.getLoadout()),
@@ -171,7 +171,20 @@ ESX.CreatePickup = function(type, name, count, label, player)
 		count = count
 	}
 
-	TriggerClientEvent('esx:pickup', -1, pickupId, label, player)
+	TriggerClientEvent('esx:pickup', -1, pickupId, label, name, player)
+	ESX.PickupId = pickupId
+end
+
+ESX.CreatePickupLocation = function(type, name, count, label, coords)
+	local pickupId = (ESX.PickupId == 65635 and 0 or ESX.PickupId + 1)
+
+	ESX.Pickups[pickupId] = {
+		type  = type,
+		name  = name,
+		count = count
+	}
+
+	TriggerClientEvent('esx:pickupLocation', -1, pickupId, label, coords)
 	ESX.PickupId = pickupId
 end
 

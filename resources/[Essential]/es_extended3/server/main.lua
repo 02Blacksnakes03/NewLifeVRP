@@ -14,7 +14,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 	TriggerEvent('es:getPlayerFromId', _source, function(player)
 		-- Update user name in DB
 		table.insert(tasks, function(cb)
-			MySQL.Async.execute('UPDATE `users` SET `name` = @name WHERE `identifier` = @identifier', {
+			MySQL.Async.execute('UPDATE users SET name = @name WHERE identifier = @identifier', {
 				['@identifier'] = player.getIdentifier(),
 				['@name'] = userData.playerName
 			}, function(rowsChanged)
@@ -24,7 +24,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 
 		-- Get accounts
 		table.insert(tasks, function(cb)
-			MySQL.Async.fetchAll('SELECT * FROM `user_accounts` WHERE `identifier` = @identifier', {
+			MySQL.Async.fetchAll('SELECT * FROM user_accounts WHERE identifier = @identifier', {
 				['@identifier'] = player.getIdentifier()
 			}, function(accounts)
 				for i=1, #Config.Accounts, 1 do
@@ -35,9 +35,8 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 								money = accounts[j].money,
 								label = Config.AccountLabels[accounts[j].name]
 							})
+							break
 						end
-
-						break
 					end
 				end
 
@@ -48,7 +47,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 		-- Get inventory
 		table.insert(tasks, function(cb)
 
-			MySQL.Async.fetchAll('SELECT * FROM `user_inventory` WHERE `identifier` = @identifier', {
+			MySQL.Async.fetchAll('SELECT * FROM user_inventory WHERE identifier = @identifier', {
 				['@identifier'] = player.getIdentifier()
 			}, function(inventory)
 				local tasks2 = {}
@@ -128,7 +127,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 			-- Get job name, grade and last position
 			table.insert(tasks2, function(cb2)
 
-				MySQL.Async.fetchAll('SELECT job, job_grade, loadout, position FROM `users` WHERE `identifier` = @identifier', {
+				MySQL.Async.fetchAll('SELECT job, job_grade, loadout, position FROM users WHERE identifier = @identifier', {
 					['@identifier'] = player.getIdentifier()
 				}, function(result)
 					local job, grade = result[1].job, tostring(result[1].job_grade)
@@ -276,70 +275,135 @@ AddEventHandler('esx:giveInventoryItem', function(target, type, itemName, itemCo
 
 	if type == 'item_standard' then
 
-		local sourceItem = sourceXPlayer.getInventoryItem(itemName)
-		local targetItem = targetXPlayer.getInventoryItem(itemName)
+		local sourceItem    = sourceXPlayer.getInventoryItem(itemName)
+		local targetItem    = targetXPlayer.getInventoryItem(itemName)
 
 		if itemCount > 0 and sourceItem.count >= itemCount then
 
 			if targetItem.limit ~= -1 and (targetItem.count + itemCount) > targetItem.limit then
-				TriggerClientEvent('esx:showNotification', _source, _U('ex_inv_lim', targetXPlayer.name))
+				TriggerClientEvent("pNotify:SendNotification", _source, {
+					text = 'คุณ <strong class="red-text">' .. targetXPlayer.name ..'</strong> ไม่สามารถรับไอเทมจากคุณได้เนื่องจากไอเทมเกินขีดจำกัด',
+					type = "error",
+					timeout = 3000,
+					layout = "bottomCenter",
+					queue = "global"
+				})
 			else
 				sourceXPlayer.removeInventoryItem(itemName, itemCount)
-				targetXPlayer.addInventoryItem   (itemName, itemCount)
+				targetXPlayer.addInventoryItem(itemName, itemCount)
 				
-				TriggerClientEvent('esx:showNotification', _source, _U('gave_item', itemCount, ESX.Items[itemName].label, targetXPlayer.name))
-				TriggerClientEvent('esx:showNotification', target,  _U('received_item', itemCount, ESX.Items[itemName].label, sourceXPlayer.name))
+				TriggerClientEvent("pNotify:SendNotification", _source, {
+					text = 'ส่ง <strong class="amber-text">'.. ESX.Items[itemName].label ..'</strong> จำนวน ' .. itemCount,
+					type = "success",
+					timeout = 3000,
+					layout = "bottomCenter",
+					queue = "global"
+				})
+				TriggerClientEvent("pNotify:SendNotification", target, {
+					text = 'ได้รับ <strong class="amber-text">'.. ESX.Items[itemName].label ..'</strong> จำนวน ' .. itemCount,
+					type = "success",
+					timeout = 3000,
+					layout = "bottomCenter",
+					queue = "global"
+				})
 			end
 
 		else
-			TriggerClientEvent('esx:showNotification', _source, _U('imp_invalid_quantity'))
+			TriggerClientEvent("pNotify:SendNotification", _source, {
+				text = '<span class="red-text">ปริมาณที่ไม่ถูกต้อง</span>',
+				type = "error",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
 		end
 
 	elseif type == 'item_money' then
 
-		if itemCount > 0 and sourceXPlayer.getMoney() >= itemCount then
-			sourceXPlayer.removeMoney(itemCount)
-			targetXPlayer.addMoney   (itemCount)
+		if itemCount > 0 and sourceXPlayer.player.get('money') >= itemCount then
 
-			TriggerClientEvent('esx:showNotification', _source, _U('gave_money', ESX.Math.GroupDigits(itemCount), targetXPlayer.name))
-			TriggerClientEvent('esx:showNotification', target,  _U('received_money', ESX.Math.GroupDigits(itemCount), sourceXPlayer.name))
+			sourceXPlayer.removeMoney(itemCount)
+			targetXPlayer.addMoney(itemCount)
+
+			TriggerClientEvent("pNotify:SendNotification", _source, { --แจ้งเตือนเรา _source = owned
+				text = 'ส่ง <strong class="amber-text">เงินสด</strong> จำนวน ' .. itemCount,
+				type = "success",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
+			TriggerClientEvent("pNotify:SendNotification", target, { --แจ้งเตือนเป้าหมาย target = Other players
+				text = 'ได้รับ <strong class="amber-text">เงินสด</strong> จำนวน ' .. itemCount,
+				type = "success",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
+
 		else
-			TriggerClientEvent('esx:showNotification', _source, _U('imp_invalid_amount'))
+			TriggerClientEvent("pNotify:SendNotification", _source, {
+				text = '<span class="red-text">จำนวนเงินไม่ถูกต้อง</span>',
+				type = "error",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
 		end
 
 	elseif type == 'item_account' then
 
 		if itemCount > 0 and sourceXPlayer.getAccount(itemName).money >= itemCount then
+
 			sourceXPlayer.removeAccountMoney(itemName, itemCount)
 			targetXPlayer.addAccountMoney   (itemName, itemCount)
 
-			TriggerClientEvent('esx:showNotification', _source, _U('gave_account_money', ESX.Math.GroupDigits(itemCount), Config.AccountLabels[itemName], targetXPlayer.name))
-			TriggerClientEvent('esx:showNotification', target,  _U('received_account_money', ESX.Math.GroupDigits(itemCount), Config.AccountLabels[itemName], sourceXPlayer.name))
+			TriggerClientEvent("pNotify:SendNotification", _source, {
+				text = 'ส่ง <strong class="amber-text">'.. Config.AccountLabels[itemName] ..'</strong> จำนวน ' .. itemCount,
+				type = "success",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
+			TriggerClientEvent("pNotify:SendNotification", target, {
+				text = 'ได้รับ <strong class="amber-text">'.. Config.AccountLabels[itemName] ..'</strong> จำนวน ' .. itemCount,
+				type = "success",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
+
 		else
-			TriggerClientEvent('esx:showNotification', _source, _U('imp_invalid_amount'))
+			TriggerClientEvent("pNotify:SendNotification", _source, {
+				text = '<span class="red-text">จำนวนเงินไม่ถูกต้อง</span>',
+				type = "error",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
 		end
 
 	elseif type == 'item_weapon' then
-
-		if not targetXPlayer.hasWeapon(itemName) then
-			sourceXPlayer.removeWeapon(itemName)
-			targetXPlayer.addWeapon(itemName, itemCount)
-
-			local weaponLabel = ESX.GetWeaponLabel(itemName)
-
-			if itemCount > 0 then
-				TriggerClientEvent('esx:showNotification', _source, _U('gave_weapon_ammo', weaponLabel, itemCount, targetXPlayer.name))
-				TriggerClientEvent('esx:showNotification', target,  _U('received_weapon_ammo', weaponLabel, itemCount, sourceXPlayer.name))
-			else
-				TriggerClientEvent('esx:showNotification', _source, _U('gave_weapon', weaponLabel, targetXPlayer.name))
-				TriggerClientEvent('esx:showNotification', target,  _U('received_weapon', weaponLabel, sourceXPlayer.name))
-			end
-		else
-			TriggerClientEvent('esx:showNotification', _source, _U('gave_weapon_hasalready', targetXPlayer.name, weaponLabel))
-			TriggerClientEvent('esx:showNotification', _source, _U('received_weapon_hasalready', sourceXPlayer.name, weaponLabel))
-		end
-
+		
+		sourceXPlayer.removeWeapon(itemName)
+		targetXPlayer.addWeapon(itemName, itemCount)
+		
+		local weaponLabel = ESX.GetWeaponLabel(itemName)
+		TriggerClientEvent("pNotify:SendNotification", _source, {
+			text = 'ส่ง <strong class="amber-text">'.. weaponLabel ..'</strong> (กระสุน จำนวน ' .. itemCount ..') ',
+			type = "success",
+			timeout = 3000,
+			layout = "bottomCenter",
+			queue = "global"
+		})
+		TriggerClientEvent("pNotify:SendNotification", target, {
+			text = 'ได้รับ <strong class="amber-text">'.. weaponLabel ..'</strong> (กระสุน จำนวน ' .. itemCount ..')  ',
+			type = "success",
+			timeout = 3000,
+			layout = "bottomCenter",
+			queue = "global"
+		})
 	end
+
 end)
 
 RegisterServerEvent('esx:removeInventoryItem')
@@ -349,57 +413,111 @@ AddEventHandler('esx:removeInventoryItem', function(type, itemName, itemCount)
 	if type == 'item_standard' then
 
 		if itemCount == nil or itemCount < 1 then
-			TriggerClientEvent('esx:showNotification', _source, _U('imp_invalid_quantity'))
+			TriggerClientEvent("pNotify:SendNotification", _source, {
+				text = '<strong class="red-text">ปริมาณที่ไม่ถูกต้อง</strong>',
+				type = "error",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
 		else
 			local xPlayer = ESX.GetPlayerFromId(source)
 			local xItem = xPlayer.getInventoryItem(itemName)
 
 			if (itemCount > xItem.count or xItem.count < 1) then
-				TriggerClientEvent('esx:showNotification', _source, _U('imp_invalid_quantity'))
+				TriggerClientEvent("pNotify:SendNotification", _source, {
+					text = '<strong class="red-text">ปริมาณที่ไม่ถูกต้อง</strong>',
+					type = "error",
+					timeout = 3000,
+					layout = "bottomCenter",
+					queue = "global"
+				})
 			else
 				xPlayer.removeInventoryItem(itemName, itemCount)
 
 				local pickupLabel = ('~y~%s~s~ [~b~%s~s~]'):format(xItem.label, itemCount)
 				ESX.CreatePickup('item_standard', itemName, itemCount, pickupLabel, _source)
-				TriggerClientEvent('esx:showNotification', _source, _U('threw_standard', itemCount, xItem.label))
+				TriggerClientEvent("pNotify:SendNotification", _source, {
+					text = 'คุณได้ทิ้ง <strong class="amber-text">'..xItem.label..'</strong> จำนวน <strong class="green-text">'..itemCount..'</strong>',
+					type = "success",
+					timeout = 3000,
+					layout = "bottomCenter",
+					queue = "global"
+				})
 			end
 		end
 
 	elseif type == 'item_money' then
 
 		if itemCount == nil or itemCount < 1 then
-			TriggerClientEvent('esx:showNotification', _source, _U('imp_invalid_amount'))
+			TriggerClientEvent("pNotify:SendNotification", _source, {
+				text = '<strong class="red-text">จำนวนที่ไม่ถูกต้อง</strong>',
+				type = "error",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
 		else
 			local xPlayer = ESX.GetPlayerFromId(source)
 			local playerCash = xPlayer.getMoney()
 
 			if (itemCount > playerCash or playerCash < 1) then
-				TriggerClientEvent('esx:showNotification', _source, _U('imp_invalid_amount'))
+				TriggerClientEvent("pNotify:SendNotification", _source, {
+					text = '<strong class="red-text">จำนวนที่ไม่ถูกต้อง</strong>',
+					type = "error",
+					timeout = 3000,
+					layout = "bottomCenter",
+					queue = "global"
+				})
 			else
 				xPlayer.removeMoney(itemCount)
 
 				local pickupLabel = ('~y~%s~s~ [~g~%s~s~]'):format(_U('cash'), _U('locale_currency', ESX.Math.GroupDigits(itemCount)))
 				ESX.CreatePickup('item_money', 'money', itemCount, pickupLabel, _source)
-				TriggerClientEvent('esx:showNotification', _source, _U('threw_money', ESX.Math.GroupDigits(itemCount)))
+				TriggerClientEvent("pNotify:SendNotification", _source, {
+					text = 'คุณได้ทิ้ง <strong class="amber-text">เงินสด</strong> จำนวน <strong class="green-text">'..ESX.Math.GroupDigits(itemCount)..'</strong>',
+					type = "success",
+					timeout = 3000,
+					layout = "bottomCenter",
+					queue = "global"
+				})
 			end
 		end
 
 	elseif type == 'item_account' then
 
 		if itemCount == nil or itemCount < 1 then
-			TriggerClientEvent('esx:showNotification', _source, _U('imp_invalid_amount'))
+			TriggerClientEvent("pNotify:SendNotification", _source, {
+				text = '<strong class="red-text">จำนวนที่ไม่ถูกต้อง</strong>',
+				type = "error",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
 		else
 			local xPlayer = ESX.GetPlayerFromId(source)
 			local account = xPlayer.getAccount(itemName)
 
 			if (itemCount > account.money or account.money < 1) then
-				TriggerClientEvent('esx:showNotification', _source, _U('imp_invalid_amount'))
+				TriggerClientEvent("pNotify:SendNotification", _source, {
+					text = '<strong class="red-text">จำนวนที่ไม่ถูกต้อง</strong>',
+					type = "error",
+					timeout = 3000,
+					layout = "bottomCenter",
+					queue = "global"
+				})
 			else
 				xPlayer.removeAccountMoney(itemName, itemCount)
 
 				local pickupLabel = ('~y~%s~s~ [~g~%s~s~]'):format(account.label, _U('locale_currency', ESX.Math.GroupDigits(itemCount)))
 				ESX.CreatePickup('item_account', itemName, itemCount, pickupLabel, _source)
-				TriggerClientEvent('esx:showNotification', _source, _U('threw_account', ESX.Math.GroupDigits(itemCount), string.lower(account.label)))
+				TriggerClientEvent("pNotify:SendNotification", _source, {
+					text = 'คุณได้ทิ้ง <strong class="amber-text">'..account.label..'</strong> จำนวน <strong class="green-text">'..ESX.Math.GroupDigits(itemCount)..'</strong>',
+					type = "success",
+					timeout = 3000,
+					layout = "bottomCenter",
+					queue = "global"
+				})
 			end
 		end
 
@@ -422,11 +540,23 @@ AddEventHandler('esx:removeInventoryItem', function(type, itemName, itemCount)
 
 			if itemCount > 0 then
 				TriggerClientEvent('esx:pickupWeapon', _source, weaponPickup, itemName, itemCount)
-				TriggerClientEvent('esx:showNotification', _source, _U('threw_weapon_ammo', weaponLabel, itemCount))
+				TriggerClientEvent("pNotify:SendNotification", _source, {
+					text = 'คุณได้ทิ้ง <strong class="amber-text">'..weaponLabel..'</strong> กระสุนจำนวน <strong class="green-text">'..ESX.Math.GroupDigits(itemCount)..'</strong>',
+					type = "success",
+					timeout = 3000,
+					layout = "bottomCenter",
+					queue = "global"
+				})
 			else
 				-- workaround for CreateAmbientPickup() giving 30 rounds of ammo when you drop the weapon with 0 ammo
 				TriggerClientEvent('esx:pickupWeapon', _source, weaponPickup, itemName, 1)
-				TriggerClientEvent('esx:showNotification', _source, _U('threw_weapon', weaponLabel))
+				TriggerClientEvent("pNotify:SendNotification", _source, {
+					text = 'คุณได้ทิ้ง <strong class="amber-text">'..weaponLabel..'</strong>',
+					type = "success",
+					timeout = 3000,
+					layout = "bottomCenter",
+					queue = "global"
+				})
 			end
 		end
 
@@ -441,7 +571,13 @@ AddEventHandler('esx:useItem', function(itemName)
 	if count > 0 then
 		ESX.UseItem(source, itemName)
 	else
-		TriggerClientEvent('esx:showNotification', xPlayer.source, _U('act_imp'))
+		TriggerClientEvent("pNotify:SendNotification", source, {
+			text = '<strong class="red-text">การกระทำเป็นไปไม่ได้</strong>',
+			type = "error",
+			timeout = 3000,
+			layout = "bottomCenter",
+			queue = "global"
+		})
 	end
 end)
 
@@ -450,6 +586,8 @@ AddEventHandler('esx:onPickup', function(id)
 	local _source = source
 	local pickup  = ESX.Pickups[id]
 	local xPlayer = ESX.GetPlayerFromId(_source)
+
+	TriggerClientEvent("esx:pickupAnimation", _source , id)
 
 	if pickup.type == 'item_standard' then
 
@@ -465,7 +603,13 @@ AddEventHandler('esx:onPickup', function(id)
 		end
 
 		if remaining > 0 then
-			TriggerClientEvent('esx:showNotification', _source, _U('cannot_pickup_room', item.label))
+			TriggerClientEvent("pNotify:SendNotification", _source, {
+				text = '<strong class="red-text">คุณมีที่ว่างไม่เพียงพอในช่องเก็บของคุณ</strong> <strong class="amber-text">'..item.label..'</strong>',
+				type = "error",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
 
 			local pickupLabel = ('~y~%s~s~ [~b~%s~s~]'):format(item.label, remaining)
 			ESX.CreatePickup('item_standard', pickup.name, remaining, pickupLabel, _source)

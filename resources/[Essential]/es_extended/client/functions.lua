@@ -20,8 +20,6 @@ ESX.Scaleform.Utils           = {}
 
 ESX.Streaming                 = {}
 
-local fontId
-
 ESX.SetTimeout = function(msec, cb)
 	table.insert(ESX.TimeoutCallbacks, {
 		time = GetGameTimer() + msec,
@@ -46,19 +44,13 @@ ESX.SetPlayerData = function(key, val)
 	ESX.PlayerData[key] = val
 end
 
-ESX.GetCustomFont = function()
-	return fontId
-end
-
 ESX.ShowNotification = function(msg)
-	SetTextFont(fontId)
 	SetNotificationTextEntry('STRING')
 	AddTextComponentSubstringPlayerName(msg)
 	DrawNotification(false, true)
 end
 
 ESX.ShowAdvancedNotification = function(title, subject, msg, icon, iconType)
-	SetTextFont(fontId)
 	SetNotificationTextEntry('STRING')
 	AddTextComponentSubstringPlayerName(msg)
 	SetNotificationMessage(icon, icon, false, iconType, title, subject)
@@ -67,10 +59,9 @@ end
 
 ESX.ShowHelpNotification = function(msg)
 	--if not IsHelpMessageBeingDisplayed() then
-	SetTextFont(fontId)
-	BeginTextCommandDisplayHelp('STRING')
-	AddTextComponentSubstringPlayerName(msg)
-	EndTextCommandDisplayHelp(0, false, true, -1)
+		BeginTextCommandDisplayHelp('STRING')
+		AddTextComponentSubstringPlayerName(msg)
+		EndTextCommandDisplayHelp(0, false, true, -1)
 	--end
 end
 
@@ -307,7 +298,11 @@ ESX.Game.SpawnObject = function(model, coords, cb)
 	local model = (type(model) == 'number' and model or GetHashKey(model))
 
 	Citizen.CreateThread(function()
-		ESX.Streaming.RequestModel(model)
+		RequestModel(model)
+
+		while not HasModelLoaded(model) do
+			Citizen.Wait(0)
+		end
 
 		local obj = CreateObject(model, coords.x, coords.y, coords.z, true, false, true)
 
@@ -321,23 +316,13 @@ ESX.Game.SpawnLocalObject = function(model, coords, cb)
 	local model = (type(model) == 'number' and model or GetHashKey(model))
 
 	Citizen.CreateThread(function()
-		ESX.Streaming.RequestModel(model)
+		RequestModel(model)
+
+		while not HasModelLoaded(model) do
+			Citizen.Wait(0)
+		end
 
 		local obj = CreateObject(model, coords.x, coords.y, coords.z, false, false, true)
-
-		if cb ~= nil then
-			cb(obj)
-		end
-	end)
-end
-
-ESX.Game.SpawnLocalObjectNetwork = function(model, coords, cb)
-	local model = (type(model) == 'number' and model or GetHashKey(model))
-
-	Citizen.CreateThread(function()
-		ESX.Streaming.RequestModel(model)
-
-		local obj = CreateObject(model, coords.x, coords.y, coords.z, true, false, true)
 
 		if cb ~= nil then
 			cb(obj)
@@ -359,7 +344,11 @@ ESX.Game.SpawnVehicle = function(modelName, coords, heading, cb)
 	local model = (type(modelName) == 'number' and modelName or GetHashKey(modelName))
 
 	Citizen.CreateThread(function()
-		ESX.Streaming.RequestModel(model)
+		RequestModel(model)
+
+		while not HasModelLoaded(model) do
+			Citizen.Wait(0)
+		end
 
 		local vehicle = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, false)
 		local id      = NetworkGetNetworkIdFromEntity(vehicle)
@@ -389,7 +378,11 @@ ESX.Game.SpawnLocalVehicle = function(modelName, coords, heading, cb)
 	local model = (type(modelName) == 'number' and modelName or GetHashKey(modelName))
 
 	Citizen.CreateThread(function()
-		ESX.Streaming.RequestModel(model)
+		RequestModel(model)
+
+		while not HasModelLoaded(model) do
+			Citizen.Wait(0)
+		end
 
 		local vehicle = CreateVehicle(model, coords.x, coords.y, coords.z, heading, false, false)
 
@@ -397,6 +390,7 @@ ESX.Game.SpawnLocalVehicle = function(modelName, coords, heading, cb)
 		SetVehicleHasBeenOwnedByPlayer(vehicle, true)
 		SetVehicleNeedsToBeHotwired(vehicle, false)
 		SetModelAsNoLongerNeeded(model)
+
 		RequestCollisionAtCoord(coords.x, coords.y, coords.z)
 
 		while not HasCollisionLoadedAroundEntity(vehicle) do
@@ -1015,9 +1009,10 @@ ESX.Game.Utils.DrawText3D = function(coords, text, size)
 
 	if onScreen then
 		SetTextScale(0.0 * scale, 0.55 * scale)
-		SetTextFont(fontId)
+		SetTextFont(0)
 		SetTextColour(255, 255, 255, 255)
 		SetTextDropshadow(0, 0, 0, 0, 255)
+		SetTextEdge(2, 0, 0, 0, 150)
 		SetTextDropShadow()
 		SetTextOutline()
 		SetTextEntry('STRING')
@@ -1346,11 +1341,6 @@ end)
 RegisterNetEvent('esx:showHelpNotification')
 AddEventHandler('esx:showHelpNotification', function(msg)
 	ESX.ShowHelpNotification(msg)
-end)
-
-Citizen.CreateThread(function()
-	RegisterFontFile('athiti') -- the name of your .gfx, without .gfx
-    fontId = RegisterFontId('athiti') -- the name from the .xml
 end)
 
 -- SetTimeout

@@ -1,5 +1,6 @@
 Locales['en'] = {
   -- Inventory
+  ['threw_pickup_prompt'] = 'press ~y~E~s~ to pickup',
   ['cash'] = 'cash',
   ['inventory'] = 'inventory',
   ['use'] = 'use',
@@ -93,13 +94,16 @@ Locales['en'] = {
   ['weapon_golfclub'] = 'golf club',
   ['weapon_crowbar'] = 'crow bar',
   ['weapon_pistol'] = 'pistol',
+  ['weapon_pistol_mk2'] = 'pistol MK2',
   ['weapon_combatpistol'] = 'combat pistol',
   ['weapon_appistol'] = 'AP pistol',
   ['weapon_pistol50'] = 'pistol .50',
   ['weapon_microsmg'] = 'micro SMG',
   ['weapon_smg'] = 'SMG',
+  ['weapon_smg_mk2'] = 'SMG MK2',
   ['weapon_assaultsmg'] = 'assault SMG',
   ['weapon_assaultrifle'] = 'assault rifle',
+  ['weapon_assaultrifle_mk2'] = 'assault rifle MK2',
   ['weapon_carbinerifle'] = 'carbine rifle',
   ['weapon_advancedrifle'] = 'advanced rifle',
   ['weapon_mg'] = 'MG',

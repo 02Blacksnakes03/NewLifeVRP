@@ -118,7 +118,13 @@ TriggerEvent('es:addGroupCommand', 'setmoney', 'admin', function(source, args, u
 	print('es_extended: ' .. GetPlayerName(source) .. ' just set $' .. money_amount .. ' (' .. money_type .. ') to ' .. xPlayer.name)
 	
 	if xPlayer.source ~= _source then
-		TriggerClientEvent('esx:showNotification', xPlayer.source, _U('money_set', money_amount, money_type))
+		TriggerClientEvent("pNotify:SendNotification", target, {
+			text = 'แอดมินได้เพิ่ม <strong class="amber-text">'.. money_type ..'</strong> จำนวน ' .. money_amount ..' ให้คุณเรียบร้อยแล้ว',
+			type = "success",
+			timeout = 3000,
+			layout = "bottomCenter",
+			queue = "global"
+		})
 	end
 end, function(source, args, user)
 	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient Permissions.' } })
@@ -134,16 +140,29 @@ TriggerEvent('es:addGroupCommand', 'giveaccountmoney', 'admin', function(source,
 		if xPlayer.getAccount(account) ~= nil then
 			xPlayer.addAccountMoney(account, amount)
 		else
-			TriggerClientEvent('esx:showNotification', _source, _U('invalid_account'))
+			TriggerClientEvent("pNotify:SendNotification", target, {
+				text = '<strong class="red-text">บัญชีไม่ถูกต้อง</strong>',
+				type = "error",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
 		end
 	else
-		TriggerClientEvent('esx:showNotification', _source, _U('amount_invalid'))
+		TriggerClientEvent("pNotify:SendNotification", target, {
+			text = '<strong class="red-text">จำนวนไม่ถูกต้อง</strong>',
+			type = "error",
+			timeout = 3000,
+			layout = "bottomCenter",
+			queue = "global"
+		})
 	end
 end, function(source, args, user)
 	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient Permissions.' } })
 end, {help = _U('giveaccountmoney'), params = {{name = "id", help = _U('id_param')}, {name = "account", help = _U('account')}, {name = "amount", help = _U('money_amount')}}})
 
 TriggerEvent('es:addGroupCommand', 'giveitem', 'admin', function(source, args, user)
+	print('test')
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(args[1])
 	local item    = args[2]
@@ -153,10 +172,22 @@ TriggerEvent('es:addGroupCommand', 'giveitem', 'admin', function(source, args, u
 		if xPlayer.getInventoryItem(item) ~= nil then
 			xPlayer.addInventoryItem(item, count)
 		else
-			TriggerClientEvent('esx:showNotification', _source, _U('invalid_item'))
+			TriggerClientEvent("pNotify:SendNotification", _source, {
+				text = '<strong class="red-text">ไอเทมไม่ถูกต้อง</strong>',
+				type = "error",
+				timeout = 3000,
+				layout = "bottomCenter",
+				queue = "global"
+			})
 		end
 	else
-		TriggerClientEvent('esx:showNotification', _source, _U('invalid_amount'))
+		TriggerClientEvent("pNotify:SendNotification", _source, {
+			text = '<strong class="red-text">จำนวนไม่ถูกต้อง</strong>',
+			type = "error",
+			timeout = 3000,
+			layout = "bottomCenter",
+			queue = "global"
+		})
 	end
 end, function(source, args, user)
 	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient Permissions.' } })
