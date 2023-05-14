@@ -2,10 +2,11 @@
 --  GNU AFFERO GENERAL PUBLIC LICENSE  --
 --     Version 3, 19 November 2007     --
 
-Citizen.CreateThread(function()
+local enablePositionSending = true
+local UpdateTickTime = 5000
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
-
+		Wait(0)
 		if NetworkIsSessionStarted() then
 			TriggerServerEvent('es:firstJoinProper')
 			TriggerEvent('es:allowedToSpawn')
@@ -14,14 +15,13 @@ Citizen.CreateThread(function()
 	end
 end)
 
-local oldPos
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(1000)
-		local pos = GetEntityCoords(PlayerPedId())
-
-		if(oldPos ~= pos)then
+local oldPos = vector3(0, 0, 0)
+CreateThread(function()
+	while enablePositionSending do
+		Wait(UpdateTickTime)
+		local playerPed = PlayerPedId()
+		local pos = GetEntityCoords(playerPed)
+		if #(oldPos - pos) > 10 then
 			TriggerServerEvent('es:updatePositions', pos.x, pos.y, pos.z)
 			oldPos = pos
 		end
@@ -29,7 +29,6 @@ Citizen.CreateThread(function()
 end)
 
 local myDecorators = {}
-
 RegisterNetEvent("es:setPlayerDecorator")
 AddEventHandler("es:setPlayerDecorator", function(key, value, doNow)
 	myDecorators[key] = value
@@ -46,4 +45,9 @@ AddEventHandler("playerSpawned", function()
 	end
 
 	TriggerServerEvent('playerSpawn')
+end)
+
+RegisterNetEvent("es:disableClientPosition")
+AddEventHandler("es:disableClientPosition", function()
+	enablePositionSending = false
 end)

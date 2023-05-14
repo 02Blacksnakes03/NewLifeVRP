@@ -1,56 +1,35 @@
-fx_version 'adamant'
-games { 'rdr3', 'gta5' }
-rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
+fx_version 'cerulean'
+game 'gta5'
+description 'Overextended'
+version 'legacy'
+lua54 'yes'
 
-description 'ES Extended'
-
-version '1.1.0'
-
-server_scripts {
-	'@async/async.lua',
-	'@mysql-async/lib/MySQL.lua',
-
+shared_scripts {
 	'locale.lua',
-	'locales/de.lua',
-	'locales/br.lua',
-	'locales/fr.lua',
 	'locales/en.lua',
-	'locales/fi.lua',
-	'locales/sv.lua',
-	'locales/pl.lua',
-	'locales/cs.lua',
 
 	'config.lua',
 	'config.weapons.lua',
+	'common/interval.lua'
+}
 
+server_scripts {
+	'@mysql-async/lib/MySQL.lua',
 	'server/common.lua',
 	'server/classes/player.lua',
 	'server/functions.lua',
-	'server/paycheck.lua',
 	'server/main.lua',
 	'server/commands.lua',
 
 	'common/modules/math.lua',
 	'common/modules/table.lua',
-	'common/functions.lua'
+	'common/functions.lua',
+
+	'server/onesync.lua',
+	'server/npwd.lua'
 }
 
 client_scripts {
-	'locale.lua',
-	'locales/de.lua',
-	'locales/br.lua',
-	'locales/fr.lua',
-	'locales/en.lua',
-	'locales/fi.lua',
-	'locales/sv.lua',
-	'locales/pl.lua',
-	'locales/cs.lua',
-
-	'config.lua',
-	'config.weapons.lua',
-
-	'client/common.lua',
-	'client/entityiter.lua',
 	'client/functions.lua',
 	'client/wrapper.lua',
 	'client/main.lua',
@@ -69,6 +48,7 @@ ui_page {
 }
 
 files {
+	'imports.lua',
 	'locale.js',
 	'html/ui.html',
 
@@ -82,20 +62,11 @@ files {
 	'html/fonts/bankgothic.ttf',
 
 	'html/img/accounts/bank.png',
-	'html/img/accounts/black_money.png'
-}
-
-exports {
-	'getSharedObject'
-}
-
-server_exports {
-	'getSharedObject'
+	'html/img/accounts/black_money.png',
+	'html/img/accounts/money.png'
 }
 
 dependencies {
-	'mysql-async',
-	'essentialmode',
-	'esplugin_mysql',
-	'async'
+	'spawnmanager',
+	'oxmysql'
 }
