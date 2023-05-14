@@ -12,6 +12,10 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 	self.source     = self.player.get('source')
 	self.identifier = self.player.get('identifier')
 
+	self.triggerEvent = function(eventName, ...)
+		TriggerClientEvent(eventName, self.source, ...)
+	end
+
 	self.setMoney = function(money)
 		money = ESX.Math.Round(money)
 
@@ -40,8 +44,15 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 		return self.player.get('bank')
 	end
 
-	self.getCoords = function()
-		return self.player.get('coords')
+	self.getCoords = function(vectorType)
+		local coords = self.player.get('coords')
+		coords = {x = ESX.Math.Round(coords.x, 1), y = ESX.Math.Round(coords.y, 1), z = ESX.Math.Round(coords.z, 1)}
+
+		if vectorType then
+			return vector3(coords.x, coords.y, coords.z)
+		else
+			return coords
+		end
 	end
 
 	self.setCoords = function(x, y, z)
@@ -141,21 +152,17 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 
 		for k,v in ipairs(Config.Accounts) do
 			if v == 'bank' then
-
 				table.insert(accounts, {
 					name  = 'bank',
 					money = self.get('bank'),
 					label = Config.AccountLabels.bank
 				})
-
 			else
-
 				for k2,v2 in ipairs(self.accounts) do
-					if v2 == v then
+					if v2.name == v then
 						table.insert(accounts, v2)
 					end
 				end
-
 			end
 		end
 
@@ -289,18 +296,18 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 		TriggerClientEvent('esx:setAccountMoney', self.source, account)
 	end
 
-	self.removeAccountMoney = function(a, m)
-		if m < 0 then
+	self.removeAccountMoney = function(acc, money)
+		if money < 0 then
 			print(('es_extended: %s attempted exploiting! (reason: player tried removing -1 account balance)'):format(self.identifier))
 			return
 		end
 
-		local account  = self.getAccount(a)
-		local newMoney = account.money - m
+		local account  = self.getAccount(acc)
+		local newMoney = account.money - ESX.Math.Round(money)
 
 		account.money = newMoney
 
-		if a == 'bank' then
+		if acc == 'bank' then
 			self.set('bank', newMoney)
 		end
 
@@ -484,5 +491,13 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 		return nil
 	end
 
+	self.showNotification = function(msg, flash, saveToBrief, hudColorIndex)
+		self.triggerEvent('esx:showNotification', msg, flash, saveToBrief, hudColorIndex)
+	end
+
+	self.showHelpNotification = function(msg, thisFrame, beep, duration)
+		self.triggerEvent('esx:showHelpNotification', msg, thisFrame, beep, duration)
+	end
+	
 	return self
 end

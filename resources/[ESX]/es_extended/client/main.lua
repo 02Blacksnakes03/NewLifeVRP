@@ -301,127 +301,23 @@ AddEventHandler('esx:spawnObject', function(model)
 	end)
 end)
 
-RegisterNetEvent('esx:pickupLocation')
-AddEventHandler('esx:pickupLocation', function(id, label, coords)
-	local x, y, z = table.unpack(coords)
-	ESX.Game.SpawnLocalObject('ex_prop_adv_case_sm_03', {
-		x = x,
-		y = y,
-		z = z + 2.0,
-	}, function(obj)
-		SetEntityAsMissionEntity(obj, true, false)
-		PlaceObjectOnGroundProperly(obj)
-
-		pickups[id] = {
-			id = id,
-			obj = obj,
-			label = label,
-			inRange = false,
-			coords = {
-				x = x,
-				y = y,
-				z = z
-			}
-		}
-	end)
-end)
-
-RegisterNetEvent('esx:pickupAnimation')
-AddEventHandler('esx:pickupAnimation', function(id)
-		
-	ClearPedTasks(GetPlayerPed(-1))
-	local playerPed = GetPlayerPed(-1)
-	local dict = "weapons@first_person@aim_rng@generic@projectile@sticky_bomb@"
-	local anim = "plant_floor"
-
-	RequestAnimDict(dict)
-
-	while not HasAnimDictLoaded(dict) do
-		Citizen.Wait(1)
-	end
-
-	TaskPlayAnim(playerPed, dict, anim, 8.0, 1.0, -1, 2, 0, 0, 0, 0)
-
-	Wait(500)
-	ClearPedTasks(GetPlayerPed(-1))
-
-	--TriggerServerEvent('esx:onPickup', id)
-
-end)
-
 RegisterNetEvent('esx:pickup')
-AddEventHandler('esx:pickup', function(id, label, name, player)
+AddEventHandler('esx:pickup', function(id, label, player)
 	local ped     = GetPlayerPed(GetPlayerFromServerId(player))
-	local playerPed = GetPlayerPed(-1)
 	local coords  = GetEntityCoords(ped)
 	local forward = GetEntityForwardVector(ped)
-	local offset = -2.0
+	local x, y, z = table.unpack(coords + forward * -2.0)
 
-	if IsPedInAnyVehicle(playerPed, true) == false then
-
-		if not IsPedSwimming(playerPed) then
-
-			offset = 0.5
-
-		end
-
-	end
-
-	local x, y, z = table.unpack(coords + forward * offset)
-	local itemobject = 'prop_money_bag_01'
-
-	for k,v in pairs(Config.ItemDrop) do
-		local found = false
-
-		if v.ItemName == name then
-			found = true
-			itemobject = v.ItemObject
-			break
-		end
-
-	end
-
-	ESX.Game.SpawnLocalObject(itemobject, {
+	ESX.Game.SpawnLocalObject('prop_money_bag_01', {
 		x = x,
 		y = y,
-		z = z - 1.8,
+		z = z - 2.0,
 	}, function(obj)
-		
-
-		if playerPed == ped then
-
-			if IsPedInAnyVehicle(playerPed, true) == false then
-			
-				ClearPedTasks(GetPlayerPed(-1))
-
-				if not IsPedSwimming(playerPed) then
-
-					local dict = "weapons@first_person@aim_rng@generic@projectile@sticky_bomb@"
-					local anim = "plant_floor"
-					RequestAnimDict(dict)
-
-					while not HasAnimDictLoaded(dict) do
-						Citizen.Wait(1)
-					end
-
-					TaskPlayAnim(playerPed, dict, anim, 8.0, 1.0, -1, 2, 0, 0, 0, 0)
-
-					Wait(1000)
-
-				end
-				
-				ClearPedTasks(GetPlayerPed(-1))
-
-			end
-
-		end
-
 		SetEntityAsMissionEntity(obj, true, false)
 		PlaceObjectOnGroundProperly(obj)
 
 		pickups[id] = {
 			id = id,
-			name = name,
 			obj = obj,
 			label = label,
 			inRange = false,
@@ -557,32 +453,15 @@ Citizen.CreateThread(function()
 end)
 
 -- Menu interactions
--- Citizen.CreateThread(function()
--- 	while true do
--- 		Citizen.Wait(0)
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
 
--- 		if IsControlJustReleased(0, 289) and IsInputDisabled(0) and not isDead and not ESX.UI.Menu.IsOpen('default', 'es_extended', 'inventory') then
--- 			ESX.ShowInventory()
--- 		end
--- 	end
--- end)
-
--- Dot above head
-if Config.ShowDotAbovePlayer then
-	Citizen.CreateThread(function()
-		while true do
-			Citizen.Wait(1)
-
-			local players = ESX.Game.GetPlayers()
-			for i = 1, #players, 1 do
-				if players[i] ~= PlayerId() then
-					local ped    = GetPlayerPed(players[i])
-					local headId = CreateMpGamerTag(ped, ('·'), false, false, '', false)
-				end
-			end
+		if IsControlJustReleased(0, 289) and IsInputDisabled(0) and not isDead and not ESX.UI.Menu.IsOpen('default', 'es_extended', 'inventory') then
+			ESX.ShowInventory()
 		end
-	end)
-end
+	end
+end)
 
 -- Disable wanted level
 if Config.DisableWantedLevel then
@@ -599,7 +478,7 @@ if Config.DisableWantedLevel then
 	end)
 end
 
--- pickups
+-- Pickups
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -625,13 +504,9 @@ Citizen.CreateThread(function()
 			end
 
 			if (closestDistance == -1 or closestDistance > 3) and distance <= 1.0 and not v.inRange and IsPedOnFoot(playerPed) then
-				ESX.ShowHelpNotification('Press ~INPUT_CONTEXT~ to ~g~Pickup.')
-				if IsControlJustReleased(0, 38) then
-					--TriggerEvent('esx:pickupAnimation', v.id)
-					TriggerServerEvent('esx:onPickup', v.id)
-					PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', false)
-					v.inRange = true
-				end
+				TriggerServerEvent('esx:onPickup', v.id)
+				PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', false)
+				v.inRange = true
 			end
 		end
 	end

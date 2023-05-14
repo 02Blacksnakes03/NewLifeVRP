@@ -171,20 +171,7 @@ ESX.CreatePickup = function(type, name, count, label, player)
 		count = count
 	}
 
-	TriggerClientEvent('esx:pickup', -1, pickupId, label, name, player)
-	ESX.PickupId = pickupId
-end
-
-ESX.CreatePickupLocation = function(type, name, count, label, coords)
-	local pickupId = (ESX.PickupId == 65635 and 0 or ESX.PickupId + 1)
-
-	ESX.Pickups[pickupId] = {
-		type  = type,
-		name  = name,
-		count = count
-	}
-
-	TriggerClientEvent('esx:pickupLocation', -1, pickupId, label, coords)
+	TriggerClientEvent('esx:pickup', -1, pickupId, label, player)
 	ESX.PickupId = pickupId
 end
 

@@ -20,8 +20,6 @@ ESX.Scaleform.Utils           = {}
 
 ESX.Streaming                 = {}
 
-local fontId
-
 ESX.SetTimeout = function(msec, cb)
 	table.insert(ESX.TimeoutCallbacks, {
 		time = GetGameTimer() + msec,
@@ -46,19 +44,13 @@ ESX.SetPlayerData = function(key, val)
 	ESX.PlayerData[key] = val
 end
 
-ESX.GetCustomFont = function()
-	return fontId
-end
-
 ESX.ShowNotification = function(msg)
-	SetTextFont(fontId)
 	SetNotificationTextEntry('STRING')
 	AddTextComponentSubstringPlayerName(msg)
 	DrawNotification(false, true)
 end
 
 ESX.ShowAdvancedNotification = function(title, subject, msg, icon, iconType)
-	SetTextFont(fontId)
 	SetNotificationTextEntry('STRING')
 	AddTextComponentSubstringPlayerName(msg)
 	SetNotificationMessage(icon, icon, false, iconType, title, subject)
@@ -67,10 +59,9 @@ end
 
 ESX.ShowHelpNotification = function(msg)
 	--if not IsHelpMessageBeingDisplayed() then
-	SetTextFont(fontId)
-	BeginTextCommandDisplayHelp('STRING')
-	AddTextComponentSubstringPlayerName(msg)
-	EndTextCommandDisplayHelp(0, false, true, -1)
+		BeginTextCommandDisplayHelp('STRING')
+		AddTextComponentSubstringPlayerName(msg)
+		EndTextCommandDisplayHelp(0, false, true, -1)
 	--end
 end
 
@@ -331,20 +322,6 @@ ESX.Game.SpawnLocalObject = function(model, coords, cb)
 	end)
 end
 
-ESX.Game.SpawnLocalObjectNetwork = function(model, coords, cb)
-	local model = (type(model) == 'number' and model or GetHashKey(model))
-
-	Citizen.CreateThread(function()
-		ESX.Streaming.RequestModel(model)
-
-		local obj = CreateObject(model, coords.x, coords.y, coords.z, true, false, true)
-
-		if cb ~= nil then
-			cb(obj)
-		end
-	end)
-end
-
 ESX.Game.DeleteVehicle = function(vehicle)
 	SetEntityAsMissionEntity(vehicle, false, true)
 	DeleteVehicle(vehicle)
@@ -477,15 +454,13 @@ ESX.Game.GetClosestObject = function(filter, coords)
 end
 
 ESX.Game.GetPlayers = function()
-	local maxPlayers = Config.MaxPlayers
-	local players    = {}
+	local players = {}
 
-	for i=0, maxPlayers, 1 do
-
-		local ped = GetPlayerPed(i)
+	for _,player in ipairs(GetActivePlayers()) do
+		local ped = GetPlayerPed(player)
 
 		if DoesEntityExist(ped) then
-			table.insert(players, i)
+			table.insert(players, player)
 		end
 	end
 
@@ -663,15 +638,16 @@ ESX.Game.GetVehicleProperties = function(vehicle)
 	end
 
 	return {
-
 		model             = GetEntityModel(vehicle),
 
 		plate             = ESX.Math.Trim(GetVehicleNumberPlateText(vehicle)),
 		plateIndex        = GetVehicleNumberPlateTextIndex(vehicle),
 
-		health            = GetEntityHealth(vehicle),
-		dirtLevel         = GetVehicleDirtLevel(vehicle),
+		bodyHealth        = ESX.Math.Round(GetVehicleBodyHealth(vehicle), 1),
+		engineHealth      = ESX.Math.Round(GetVehicleEngineHealth(vehicle), 1),
 
+		fuelLevel         = ESX.Math.Round(GetVehicleFuelLevel(vehicle), 1),
+		dirtLevel         = ESX.Math.Round(GetVehicleDirtLevel(vehicle), 1),
 		color1            = color1,
 		color2            = color2,
 
@@ -756,12 +732,20 @@ ESX.Game.SetVehicleProperties = function(vehicle, props)
 		SetVehicleNumberPlateTextIndex(vehicle, props.plateIndex)
 	end
 
-	if props.health ~= nil then
-		SetEntityHealth(vehicle, props.health)
+	if props.bodyHealth ~= nil then
+		SetVehicleBodyHealth(vehicle, props.bodyHealth + 0.0)
+	end
+
+	if props.engineHealth ~= nil then
+		SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0)
+	end
+
+	if props.fuelLevel ~= nil then
+		SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0)
 	end
 
 	if props.dirtLevel ~= nil then
-		SetVehicleDirtLevel(vehicle, props.dirtLevel)
+		SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0)
 	end
 
 	if props.color1 ~= nil then
@@ -1015,7 +999,7 @@ ESX.Game.Utils.DrawText3D = function(coords, text, size)
 
 	if onScreen then
 		SetTextScale(0.0 * scale, 0.55 * scale)
-		SetTextFont(fontId)
+		SetTextFont(0)
 		SetTextColour(255, 255, 255, 255)
 		SetTextDropshadow(0, 0, 0, 0, 255)
 		SetTextDropShadow()
@@ -1346,11 +1330,6 @@ end)
 RegisterNetEvent('esx:showHelpNotification')
 AddEventHandler('esx:showHelpNotification', function(msg)
 	ESX.ShowHelpNotification(msg)
-end)
-
-Citizen.CreateThread(function()
-	RegisterFontFile('athiti') -- the name of your .gfx, without .gfx
-    fontId = RegisterFontId('athiti') -- the name from the .xml
 end)
 
 -- SetTimeout
