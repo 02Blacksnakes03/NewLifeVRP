@@ -1,59 +1,62 @@
-CREATE DATABASE IF NOT EXISTS `es_extended`;
+USE `essentialmode`;
 
-ALTER DATABASE es_extended
-	DEFAULT CHARACTER SET UTF8MB4;
-	
-ALTER DATABASE es_extended
-	DEFAULT COLLATE UTF8MB4_UNICODE_CI;
-
-USE `es_extended`;
-
-CREATE TABLE `users` (
-	`identifier` VARCHAR(60) NOT NULL,
-	`accounts` LONGTEXT NULL DEFAULT NULL,
-	`group` VARCHAR(50) NULL DEFAULT 'user',
-	`inventory` LONGTEXT NULL DEFAULT NULL,
-	`job` VARCHAR(20) NULL DEFAULT 'unemployed',
-	`job_grade` INT NULL DEFAULT 0,
-	`position` VARCHAR(255) NOT NULL DEFAULT '{"x":-269.4,"y":-955.3,"z":31.2,"heading":205.8}',
-
-	PRIMARY KEY (`identifier`)
-);
-
+ALTER TABLE `users`
+	ADD COLUMN `name` VARCHAR(50) NULL DEFAULT '' AFTER `money`,
+	ADD COLUMN `skin` LONGTEXT NULL AFTER `name`,
+	ADD COLUMN `job` varchar(50) NULL DEFAULT 'unemployed' AFTER `skin`,
+	ADD COLUMN `job_grade` INT NULL DEFAULT 0 AFTER `job`,
+	ADD COLUMN `loadout` LONGTEXT NULL AFTER `job_grade`,
+	ADD COLUMN `position` VARCHAR(36) NULL AFTER `loadout`
+;
 
 CREATE TABLE `items` (
-	`name` VARCHAR(50) NOT NULL,
-	`label` VARCHAR(50) NOT NULL,
-	`weight` INT NOT NULL DEFAULT 1,
-	`rare` TINYINT NOT NULL DEFAULT 0,
-	`can_remove` TINYINT NOT NULL DEFAULT 1,
+	`name` varchar(50) NOT NULL,
+	`label` varchar(50) NOT NULL,
+	`limit` int(11) NOT NULL DEFAULT '-1',
+	`rare` int(11) NOT NULL DEFAULT '0',
+	`can_remove` int(11) NOT NULL DEFAULT '1',
 
 	PRIMARY KEY (`name`)
 );
 
-
 CREATE TABLE `job_grades` (
-	`id` INT NOT NULL AUTO_INCREMENT,
-	`job_name` VARCHAR(50) DEFAULT NULL,
-	`grade` INT NOT NULL,
-	`name` VARCHAR(50) NOT NULL,
-	`label` VARCHAR(50) NOT NULL,
-	`salary` INT NOT NULL,
-	`skin_male` LONGTEXT NOT NULL,
-	`skin_female` LONGTEXT NOT NULL,
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`job_name` varchar(50) DEFAULT NULL,
+	`grade` int(11) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`label` varchar(50) NOT NULL,
+	`salary` int(11) NOT NULL,
+	`skin_male` longtext NOT NULL,
+	`skin_female` longtext NOT NULL,
 
 	PRIMARY KEY (`id`)
 );
 
-
 INSERT INTO `job_grades` VALUES (1,'unemployed',0,'unemployed','Unemployed',200,'{}','{}');
 
 CREATE TABLE `jobs` (
-	`name` VARCHAR(50) NOT NULL,
-	`label` VARCHAR(50) DEFAULT NULL,
+	`name` varchar(50) NOT NULL,
+	`label` varchar(50) DEFAULT NULL,
 
 	PRIMARY KEY (`name`)
 );
 
-
 INSERT INTO `jobs` VALUES ('unemployed','Unemployed');
+
+CREATE TABLE `user_accounts` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`identifier` varchar(22) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`money` double NOT NULL DEFAULT '0',
+
+	PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `user_inventory` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`identifier` varchar(22) NOT NULL,
+	`item` varchar(50) NOT NULL,
+	`count` int(11) NOT NULL,
+
+	PRIMARY KEY (`id`)
+);

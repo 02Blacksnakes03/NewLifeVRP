@@ -1,96 +1,91 @@
-ESX = {}
-ESX.Jobs = {}
-ESX.Players = {}
-Core = {}
-Core.UsableItemsCallbacks = {}
-Core.ServerCallbacks = {}
-Core.TimeoutCount = -1
-Core.CancelledTimeouts = {}
-Core.RegisteredCommands = {}
+ESX                      = {}
+ESX.Players              = {}
+ESX.UsableItemsCallbacks = {}
+ESX.Items                = {}
+ESX.ServerCallbacks      = {}
+ESX.TimeoutCount         = -1
+ESX.CancelledTimeouts    = {}
+ESX.LastPlayerData       = {}
+ESX.Pickups              = {}
+ESX.PickupId             = 0
+ESX.Jobs                 = {}
 
 AddEventHandler('esx:getSharedObject', function(cb)
 	cb(ESX)
 end)
 
-exports('getSharedObject', function()
+function getSharedObject()
 	return ESX
-end)
-
-Core.LoadJobs = function()
-	local Jobs = {}
-	MySQL.Async.fetchAll('SELECT * FROM jobs', function(jobs)
-		for _, v in pairs(jobs) do
-			Jobs[v.name] = v
-			Jobs[v.name].grades = {}
-		end
-
-		MySQL.Async.fetchAll('SELECT * FROM job_grades', function(grades)
-			for _, v in pairs(grades) do
-				if Jobs[v.job_name] then
-					Jobs[v.job_name].grades[v.grade] = v
-				else
-					print(('[^3WARNING^7] Ignoring job grades for ^5"%s"^0 due to missing job'):format(v.job_name))
-				end
-			end
-
-			for _, v in pairs(Jobs) do
-				if ESX.Table.SizeOf(v.grades) == 0 then
-					Jobs[v.name] = nil
-					print(('[^3WARNING^7] Ignoring job ^5"%s"^0 due to no job grades found'):format(v.name))
-				end
-			end
-			ESX.Jobs = table.clone(Jobs)
-		end)
-	end)
 end
 
-RegisterServerEvent('esx:clientLog', function(msg)
-	if Config.EnableDebug then
-		print(('[^2TRACE^7] %s^7'):format(msg))
+MySQL.ready(function()
+	MySQL.Async.fetchAll('SELECT * FROM items', {}, function(result)
+		for i=1, #result, 1 do
+			ESX.Items[result[i].name] = {
+				label     = result[i].label,
+				limit     = result[i].limit,
+				rare      = (result[i].rare       == 1 and true or false),
+				canRemove = (result[i].can_remove == 1 and true or false),
+			}
+		end
+	end)
+
+	local result = MySQL.Sync.fetchAll('SELECT * FROM jobs', {})
+
+	for i=1, #result do
+		ESX.Jobs[result[i].name] = result[i]
+		ESX.Jobs[result[i].name].grades = {}
 	end
-end)
 
-RegisterServerEvent('esx:triggerServerCallback', function(name, requestId, ...)
-	local source = source
+	local result2 = MySQL.Sync.fetchAll('SELECT * FROM job_grades', {})
 
-	Core.TriggerServerCallback(name, requestId, source, function(...)
-		TriggerClientEvent('esx:serverCallback', source, requestId, ...)
-	end, ...)
-end)
-
-SetInterval(function()
-	for _, xPlayer in pairs(ESX.Players) do
-		local job     = xPlayer.job.grade_name
-		local salary  = xPlayer.job.grade_salary
-		if salary > 0 then
-			if job == 'unemployed' then -- unemployed
-				xPlayer.addAccountMoney('bank', salary)
-				TriggerClientEvent('esx:showAdvancedNotification', xPlayer.source, _U('bank'), _U('received_paycheck'), _U('received_help', salary), 'CHAR_BANK_MAZE', 9)
-			elseif Config.EnableSocietyPayouts then -- possibly a society
-				TriggerEvent('esx_society:getSociety', xPlayer.job.name, function (society)
-					if society ~= nil then -- verified society
-						TriggerEvent('esx_addonaccount:getSharedAccount', society.account, function (account)
-							if account.money >= salary then -- does the society money to pay its employees?
-								xPlayer.addAccountMoney('bank', salary)
-								account.removeMoney(salary)
-
-								TriggerClientEvent('esx:showAdvancedNotification', xPlayer.source, _U('bank'), _U('received_paycheck'), _U('received_salary', salary), 'CHAR_BANK_MAZE', 9)
-							else
-								TriggerClientEvent('esx:showAdvancedNotification', xPlayer.source, _U('bank'), '', _U('company_nomoney'), 'CHAR_BANK_MAZE', 1)
-							end
-						end)
-					else -- not a society
-						xPlayer.addAccountMoney('bank', salary)
-						TriggerClientEvent('esx:showAdvancedNotification', xPlayer.source, _U('bank'), _U('received_paycheck'), _U('received_salary', salary), 'CHAR_BANK_MAZE', 9)
-					end
-				end)
-			else -- generic job
-				xPlayer.addAccountMoney('bank', salary)
-				TriggerClientEvent('esx:showAdvancedNotification', xPlayer.source, _U('bank'), _U('received_paycheck'), _U('received_salary', salary), 'CHAR_BANK_MAZE', 9)
-			end
+	for i=1, #result2 do
+		if ESX.Jobs[result2[i].job_name] then
+			ESX.Jobs[result2[i].job_name].grades[tostring(result2[i].grade)] = result2[i]
+		else
+			print(('es_extended: invalid job "%s" from table job_grades ignored!'):format(result2[i].job_name))
 		end
 	end
-end, Config.PaycheckInterval)
 
-Core.LoadJobs()
-print('[^2INFO^7] ESX ^5Legacy^0 initialized')
+	for k,v in pairs(ESX.Jobs) do
+		if next(v.grades) == nil then
+			ESX.Jobs[v.name] = nil
+			print(('es_extended: ignoring job "%s" due to missing job grades!'):format(v.name))
+		end
+	end
+end)
+
+AddEventHandler('esx:playerLoaded', function(source)
+	local xPlayer         = ESX.GetPlayerFromId(source)
+	local accounts        = {}
+	local items           = {}
+	local xPlayerAccounts = xPlayer.getAccounts()
+	local xPlayerItems    = xPlayer.getInventory()
+
+	for i=1, #xPlayerAccounts, 1 do
+		accounts[xPlayerAccounts[i].name] = xPlayerAccounts[i].money
+	end
+
+	for i=1, #xPlayerItems, 1 do
+		items[xPlayerItems[i].name] = xPlayerItems[i].count
+	end
+
+	ESX.LastPlayerData[source] = {
+		accounts = accounts,
+		items    = items
+	}
+end)
+
+RegisterServerEvent('esx:clientLog')
+AddEventHandler('esx:clientLog', function(msg)
+	RconPrint(msg .. "\n")
+end)
+
+RegisterServerEvent('esx:triggerServerCallback')
+AddEventHandler('esx:triggerServerCallback', function(name, requestId, ...)
+	local _source = source
+
+	ESX.TriggerServerCallback(name, requestID, _source, function(...)
+		TriggerClientEvent('esx:serverCallback', _source, requestId, ...)
+	end, ...)
+end)
