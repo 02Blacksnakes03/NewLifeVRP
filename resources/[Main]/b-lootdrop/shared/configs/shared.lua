@@ -10,7 +10,7 @@ BDEV.Command = {
         "superadmin",
         "admin"
     },
-    name = "loot", -- The command name
+    name = "lootdrop", -- The command name
 }
 
 
@@ -18,7 +18,7 @@ BDEV.Drops = {
     {
         label = "Sandy-Shores", -- The label of the drop 
         jobs = { -- only these jobs would see the global message
-            ["bbg"] = {
+            ["unicorn"] = {
                 capture = true,
                 getLoot = true,
             },
