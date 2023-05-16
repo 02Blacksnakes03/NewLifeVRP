@@ -1,4 +1,4 @@
-if not Lang then Lang = {} end
+
 Lang['en'] = {
     ['open'] = "Drücke ~y~E~w~ zum öffnen",
     ['download_jobs'] = "Drücke auf ~y~E~w~ um Details zu sehen",

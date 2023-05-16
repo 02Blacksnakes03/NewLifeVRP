@@ -1348,3 +1348,17 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+
+
+function ESX.GetJobPlayers(job)
+	local xPlayers = {}
+
+	for k,v in pairs(ESX.Players) do
+		if v.job.name == job then
+			xPlayers[#xPlayers + 1] = v
+		end
+	end
+
+	return xPlayers
+end

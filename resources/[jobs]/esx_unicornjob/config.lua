@@ -28,16 +28,16 @@ Config.PoliceStations = {
 		},
 
 		Armories = {
-			vector3(108.47,-1304.19,28.77)
+			vector3(-1506.4,-1515.3,6.3)
 
 		},
 
 		Vehicles = {
 			{
-				Spawner = vector3(161.59,-1306.74,29.35),
+				Spawner = vector3(-1484.69,-1472.47,2.41),
 				InsideShop = vector3(142.72,-1323.8,28.56),
 				SpawnPoints = {
-					{ coords = vector3(158.18,-1300.11,28.54), heading = 64.02, radius = 6.0 }
+					{ coords = vector3(-1481.22,-1463.16,1.58), heading = 298.15, radius = 6.0 }
 				}
 			}
 		},
@@ -55,7 +55,12 @@ Config.PoliceStations = {
 }
 
 Config.AuthorizedWeapons = {
-	recruit = {},
+	recruit = {
+		{ weapon = 'WEAPON_STUNGUN', price = 0 },
+		{ weapon = 'WEAPON_DOUBLEACTION', price = 15000 },
+		{ weapon = 'WEAPON_BAT', price = 0 },
+		{ weapon = 'WEAPON_FLAREGUN', price = 15000 }
+	},
 
 	officer = {},
 
@@ -68,14 +73,20 @@ Config.AuthorizedWeapons = {
 	chef = {},
 
 	boss = { 
-		{ weapon = 'WEAPON_PISTOL', price = 0 },
-		{ weapon = 'WEAPON_FLASHLIGHT', price = 0 }
+		{ weapon = 'WEAPON_STUNGUN', price = 0 },
+		{ weapon = 'WEAPON_DOUBLEACTION', price = 15000 },
+		{ weapon = 'WEAPON_BAT', price = 0 },
+		{ weapon = 'WEAPON_FLAREGUN', price = 15000 }
+
 	}
 }
 
 Config.AuthorizedVehicles = {
 	Shared = {
 		{ model = 'revolter', label = 'Revolter', price = 25000 },
+		{ model = 't20', label = 'T20', price = 25000 },
+		{ model = 'italirsx', label = 'ItaliRSX', price = 25000 },
+		{ model = 'models', label = 'Tesla Model S', price = 25000 },
 	},
 
 	recruit = {},

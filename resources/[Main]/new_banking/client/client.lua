@@ -136,7 +136,7 @@ if bankMenu then
 	while true do
 		Wait(0)
 	if nearBank() or nearATM() then
-			DisplayHelpText("Appuie sur ~INPUT_PICKUP~ pour accèder à tes comptes ~b~")
+			DisplayHelpText("Drücke ~INPUT_PICKUP~ um auf deine Konten zuzugreifen ~b~")
 	
 		if IsControlJustPressed(1, 38) then
 			inMenu = true
