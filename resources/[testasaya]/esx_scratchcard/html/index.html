@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="main.css">
+<script src=https://code.jquery.com/jquery-3.2.1.min.js></script>
+
+<meta charset="UTF-8">
+
+<body class="all">
+	<div class="container">
+		<div class="title">
+			<h2>KAZI KAZAN</h2>
+		</div>
+		<div class="box-title">KAZANAN NUMARALAR</div>
+		<div class="winning-numbers">
+			<canvas id="winning-numbers-image"></canvas> 
+			<div class="winning-numbers-container">
+				<div class="winning-number" id="w1"></div>
+				<div class="winning-number" id="w2"></div>
+				<div class="winning-number" id="w3"></div>
+				<div class="winning-number" id="w4"></div>
+				<div class="winning-number" id="w5"></div>
+			</div>
+		</div>
+		<div class="box-title">NUMARALARINIZ</div>
+		<div class="my-numbers">
+			<canvas id="my-numbers-image"></canvas> 
+			<div class="my-numbers-container">
+				<div class="my-number" id="m1"></div>
+				<div class="my-number" id="m2"></div>
+				<div class="my-number" id="m3"></div>
+				<div class="my-number" id="m4"></div>
+				<div class="my-number" id="m5"></div>
+				<div class="my-number" id="m6"></div>
+				<div class="my-number" id="m7"></div>
+				<div class="my-number" id="m8"></div>
+				<div class="my-number" id="m9"></div>
+				<div class="my-number" id="m10"></div>
+				<div class="my-number" id="m11"></div>
+				<div class="my-number" id="m12"></div>
+				<div class="my-number" id="m13"></div>
+				<div class="my-number" id="m14"></div>
+				<div class="my-number" id="m15"></div>
+			</div>
+		</div>
+		<div class="info-box">
+			"NUMARALARINIZ" içinde bir veya daha fazla kez bir veya daha fazla "KAZANAN NUMARA" bulursanız, ödülü veya karşılık gelen ödüllerin toplamını kazanırsınız.
+		</div>
+		<div class="btn-next">İleri</div>
+	</div>
+
+	<div class="win-screen-lose">
+		<div class="prize-title">
+			<div class="prize-title-text">TOPLAM ÖDÜL</div>
+			<p>0 $</p>
+			<div class="prize-title-2">DENEYİN DAHA ŞANSLI OLACAKSINIZ</div>
+		</div>
+		<div class="btn-close">Kabul</div>
+	</div>	
+
+	<div class="win-screen-win">
+		<div class="prize-title">
+			<div class="prize-title-text">TOPLAM ÖDÜL</div>
+			<p class="prize-dollars">$ 100.000</p>
+			<div class="prize-title-2">TEBRİKLER</div>
+		</div>
+		<div class="btn-close">Kabul</div>
+	</div>
+
+	<script src="app.js"></script>
+</body>
+</html>
