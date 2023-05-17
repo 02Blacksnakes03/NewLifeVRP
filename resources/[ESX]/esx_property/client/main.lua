@@ -49,7 +49,7 @@ function DrawSub(text, time)
 	EndTextCommandPrint(time, 1)
 end
 
-function CreateBlips()
+--[[function CreateBlips()
 	for i=1, #Config.Properties, 1 do
 		local property = Config.Properties[i]
 
@@ -66,7 +66,7 @@ function CreateBlips()
 			EndTextCommandSetBlipName(Blips[property.name])
 		end
 	end
-end
+end]]--
 
 function GetProperties()
 	return Config.Properties
