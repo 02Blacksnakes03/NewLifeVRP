@@ -50,7 +50,7 @@ AddEventHandler("program-casino:removeMoney", function(price)
 	TriggerEvent('esx_addonaccount:getSharedAccount', 'society_casino', function(account)
 		societyAccount = account
     end)
-    societyAccount.addMoney(price)
+    xPlayer.getAccount('cash').money
 end)
 
 
