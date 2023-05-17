@@ -113,7 +113,10 @@ AK4Y.PremiumCases = {
             { itemName = "kuruma", label = "KURUMA", chance = 2, sellCredit = 150, itemType = "mythical", itemCount = 1, giveItemType = "vehicle", image = "./images/items/KURUMA.png" },
             { itemName = "t20", label = "T20", chance = 1, sellCredit = 250, itemType = "legendary", itemCount = 1, giveItemType = "vehicle", image = "./images/items/t20.png" },
             { itemName = "zentorno", label = "ZENTORNO", chance = 0.5, sellCredit = 250, itemType = "legendary", itemCount = 1, giveItemType = "vehicle", image = "./images/items/zentorno.png" },
+            { itemName = "Itali RSX", label = "Italirsx", chance = 0.5, sellCredit = 250, itemType = "legendary", itemCount = 1, giveItemType = "vehicle", image = "./images/items/zentorno.png" },
+            { itemName = "Import", label = "luffscat", chance = 0.5, sellCredit = 250, itemType = "legendary", itemCount = 1, giveItemType = "vehicle", image = "./images/items/zentorno.png" },
         },
+
     },
     {
         uniqueId = 3, -- IDs must be different and sequential
