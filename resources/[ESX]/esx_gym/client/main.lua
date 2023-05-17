@@ -41,7 +41,7 @@ function hintToDisplay(text)
 end
 
 local blips = {
-	{title="Gym", colour=4, id=311, x = -1201.2257, y = -1568.8670, z = 4.6101}
+	{title="Gym", colour=0, id=311, x = -1201.2257, y = -1568.8670, z = 4.6101}
 }
 	
 Citizen.CreateThread(function()
