@@ -178,15 +178,15 @@ function RemoveTattoo(name, label)
 		end
 	end
 	TriggerServerEvent("SmallTattoos:RemoveTattoo", currentTattoos)
-	ESX.ShowNotification("You have removed the ~y~" .. GetLabelText(label) .. "~s~ tattoo")
+	ESX.ShowNotification("Du hast erfolgreich die ~y~" .. GetLabelText(label) .. "~s~ Tattoos entfernt")
 end
 
 function CreateScale(sType)
 	if scaleString ~= sType and sType == "OpenShop" then
-		scaleType = setupScaleform("instructional_buttons", "Open Tattoo Shop", 38)
+		scaleType = setupScaleform("instructional_buttons", "Zum Öffnen vom Tattoo Studio Drücke", 38)
 		scaleString = sType
 	elseif scaleString ~= sType and sType == "Control" then
-		scaleType = setupScaleform2("instructional_buttons", "Change Camera View", 21, "Change Opacity", {90, 89}, "Buy/Remove Tattoo", 191)
+		scaleType = setupScaleform2("instructional_buttons", "Kamera Position ändern", 21, "Deckkraft ändern", {90, 89}, "Tattoos Kaufen oder Entfernen", 191)
 		scaleString = sType
 	end
 end
@@ -195,7 +195,7 @@ Citizen.CreateThread(function()
 	JayMenu.CreateMenu("tattoo", "Tattoo Shop", function()
         return CloseTattooShop()
     end)
-    JayMenu.SetSubTitle('tattoo', "Categories")
+    JayMenu.SetSubTitle('tattoo', "Kategorie")
 	
 	for k, v in ipairs(Config.TattooCats) do
 		JayMenu.CreateSubMenu(v[1], "tattoo", v[2])
