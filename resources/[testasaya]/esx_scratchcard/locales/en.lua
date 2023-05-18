@@ -1,5 +1,5 @@
 Locales['en'] = {
-	['news_title'] = "BIG WIN",
-	['news_end'] = " with a scratch card",
-	['news_middle'] = " just won "
+	['news_title'] = "GROßER GEWINN",
+	['news_end'] = "Mit einem Rubbellos",
+	['news_middle'] = "Gewonnen"
 }
