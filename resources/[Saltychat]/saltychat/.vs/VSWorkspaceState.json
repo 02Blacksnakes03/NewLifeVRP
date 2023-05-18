@@ -1,9 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\SaltyClient",
-    "\\SaltyServer"
+    ""
   ],
-  "SelectedNode": "\\SaltyServer\\VoiceManager.cs",
+  "SelectedNode": "\\SaltyClient",
   "PreviewInSolutionExplorer": false
 }

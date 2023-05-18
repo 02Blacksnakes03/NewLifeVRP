@@ -5,7 +5,7 @@
   "SoundPack": "default",
   "IngameChannelId": 2,
   "IngameChannelPassword": "",
-  "SwissChannelIds": [ 61, 62 ],
+  "SwissChannelIds": [ 1 ],
   "VoiceRanges": [ 3.5, 8, 15, 32 ],
   "EnableVoiceRangeNotification": true,
   "VoiceRangeNotification": "New voice range is {voicerange} metres.",
