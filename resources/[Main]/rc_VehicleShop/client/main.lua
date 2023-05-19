@@ -35,7 +35,7 @@ Citizen.CreateThread(function()
 
 	if distance <= 3 then
 			if isMenuOpen == false then
-					ESX.ShowHelpNotification("Press ~INPUT_CONTEXT~ to access the menu", thisFrame, beep, duration)
+					ESX.ShowHelpNotification("Drücke ~INPUT_CONTEXT~ um das Menü zuöffnen", thisFrame, beep, duration)
                     if IsControlJustReleased(0, 38) then
                         SetDisplay(not display) -- Aktiviert die UI
 						isMenuOpen = true
@@ -115,7 +115,7 @@ Citizen.CreateThread(function()
                 
 
 				if isMenuOpen == false then
-					ESX.ShowHelpNotification("Press ~INPUT_CONTEXT~ to access the menu", thisFrame, beep, duration)
+					ESX.ShowHelpNotification("Drücke ~INPUT_CONTEXT~ um das Menü zuöffnen", thisFrame, beep, duration)
 
 					if IsControlJustReleased(0, 38) then
                         isMenuOpen = true
