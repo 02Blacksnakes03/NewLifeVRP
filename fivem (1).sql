@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 05. Mai 2023 um 17:09
+-- Erstellungszeit: 19. Mai 2023 um 16:21
 -- Server-Version: 10.4.28-MariaDB
 -- PHP-Version: 8.2.4
 
@@ -44,11 +44,13 @@ INSERT INTO `addon_account` (`name`, `label`, `shared`) VALUES
 ('society_ambulance', 'Ambulance', 1),
 ('society_banker', 'Banker', 1),
 ('society_cardealer', 'Cardealer', 1),
+('society_casino', 'Casino', 1),
 ('society_fbi', 'FBI', 1),
 ('society_fisherman', 'Fisherman', 1),
 ('society_fueler', 'Fueler', 1),
 ('society_lumberjack', 'Lumberjack', 1),
 ('society_mechanic', 'Mechanic', 1),
+('society_mina', 'Unicorn', 1),
 ('society_miner', 'Miner', 1),
 ('society_police', 'Police', 1),
 ('society_prisoner', 'Gefängnis Wart', 1),
@@ -57,7 +59,9 @@ INSERT INTO `addon_account` (`name`, `label`, `shared`) VALUES
 ('society_slaughterer', 'Butcher', 1),
 ('society_tailor', 'Tailor', 1),
 ('society_taxi', 'Taxi', 1),
-('society_unemployed', 'Unemployed', 1);
+('society_unemployed', 'Unemployed', 1),
+('society_unicorn', 'Unicorn', 1),
+('society_vagos', 'Vagos', 1);
 
 -- --------------------------------------------------------
 
@@ -99,7 +103,14 @@ INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
 (20, 'society_fueler', 0, NULL),
 (21, 'society_slaughterer', 0, NULL),
 (22, 'society_reporter', 0, NULL),
-(23, 'society_lumberjack', 0, NULL);
+(23, 'society_lumberjack', 0, NULL),
+(24, 'society_mina', 0, NULL),
+(25, 'society_vagos', 0, NULL),
+(26, 'society_unicorn', 0, NULL),
+(27, 'bank_savings', 0, 'steam:110000112ce923f'),
+(28, 'property_black_money', 0, 'steam:110000112ce923f'),
+(29, 'caution', 0, 'steam:110000112ce923f'),
+(30, 'society_casino', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -122,11 +133,14 @@ INSERT INTO `addon_inventory` (`name`, `label`, `shared`) VALUES
 ('society_ambulance', 'Ambulance', 1),
 ('society_banker', 'Banker', 1),
 ('society_cardealer', 'Cardealer', 1),
+('society_casino', 'Casino', 1),
+('society_casino_fridge', 'casino (frigo)', 1),
 ('society_fbi', 'FBI', 1),
 ('society_fisherman', 'Fisherman', 1),
 ('society_fueler', 'Fueler', 1),
 ('society_lumberjack', 'Lumberjack', 1),
 ('society_mechanic', 'Mechanic', 1),
+('society_mina', 'Unicorn', 1),
 ('society_miner', 'Miner', 1),
 ('society_police', 'Police', 1),
 ('society_prisoner', 'Gefängnis Wart', 1),
@@ -135,7 +149,9 @@ INSERT INTO `addon_inventory` (`name`, `label`, `shared`) VALUES
 ('society_slaughterer', 'Butcher', 1),
 ('society_tailor', 'Tailor', 1),
 ('society_taxi', 'Taxi', 1),
-('society_unemployed', 'Unemployed', 1);
+('society_unemployed', 'Unemployed', 1),
+('society_unicorn', 'Unicorn', 1),
+('society_vagos', 'Vagos', 1);
 
 -- --------------------------------------------------------
 
@@ -154,6 +170,84 @@ CREATE TABLE `addon_inventory_items` (
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `ak4y_blackmarket`
+--
+
+CREATE TABLE `ak4y_blackmarket` (
+  `#` int(11) NOT NULL,
+  `citizenid` varchar(50) DEFAULT NULL,
+  `currentXP` int(11) DEFAULT NULL,
+  `tasks` longtext DEFAULT NULL,
+  `taskResetTime` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Daten für Tabelle `ak4y_blackmarket`
+--
+
+INSERT INTO `ak4y_blackmarket` (`#`, `citizenid`, `currentXP`, `tasks`, `taskResetTime`) VALUES
+(5, 'steam:110000112ce923f', 0, '[{\"hasCount\":0,\"requiredCount\":2,\"taken\":false,\"taskId\":1,\"rewardEXP\":1500},{\"hasCount\":0,\"requiredCount\":50,\"taken\":false,\"taskId\":2,\"rewardEXP\":200},{\"hasCount\":0,\"requiredCount\":8,\"taken\":false,\"taskId\":3,\"rewardEXP\":300},{\"hasCount\":0,\"requiredCount\":20,\"taken\":false,\"taskId\":4,\"rewardEXP\":400},{\"hasCount\":0,\"requiredCount\":10,\"taken\":false,\"taskId\":5,\"rewardEXP\":500},{\"hasCount\":0,\"requiredCount\":5,\"taken\":false,\"taskId\":6,\"rewardEXP\":600},{\"hasCount\":0,\"requiredCount\":20,\"taken\":false,\"taskId\":7,\"rewardEXP\":700},{\"hasCount\":0,\"requiredCount\":10,\"taken\":false,\"taskId\":8,\"rewardEXP\":800}]', '2023-05-20 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `ak4y_caseopening`
+--
+
+CREATE TABLE `ak4y_caseopening` (
+  `#` int(11) NOT NULL,
+  `citizenid` varchar(255) NOT NULL DEFAULT '0',
+  `goldcoin` int(11) NOT NULL DEFAULT 0,
+  `silvercoin` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Daten für Tabelle `ak4y_caseopening`
+--
+
+INSERT INTO `ak4y_caseopening` (`#`, `citizenid`, `goldcoin`, `silvercoin`) VALUES
+(2, 'steam:110000112ce923f', 36015, 49865);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `ak4y_caseopening_codes`
+--
+
+CREATE TABLE `ak4y_caseopening_codes` (
+  `code` varchar(255) DEFAULT NULL,
+  `creditCount` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `ak4y_playtimeshop`
+--
+
+CREATE TABLE `ak4y_playtimeshop` (
+  `#` int(11) NOT NULL,
+  `citizenid` varchar(255) NOT NULL DEFAULT '0',
+  `coin` int(11) DEFAULT NULL,
+  `firstName` varchar(255) DEFAULT NULL,
+  `lastName` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `ak4y_playtimeshop_codes`
+--
+
+CREATE TABLE `ak4y_playtimeshop_codes` (
+  `#` int(11) NOT NULL,
+  `code` varchar(50) DEFAULT NULL,
+  `credit` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `billing`
 --
 
@@ -166,6 +260,15 @@ CREATE TABLE `billing` (
   `label` varchar(255) NOT NULL,
   `amount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Daten für Tabelle `billing`
+--
+
+INSERT INTO `billing` (`id`, `identifier`, `sender`, `target_type`, `target`, `label`, `amount`) VALUES
+(1, 'steam:11000013d79d68d', 'steam:1100001166f2d38', 'player', 'steam:1100001166f2d38', 'Strafe: Murder of an LEO', 30000),
+(2, 'steam:11000013d79d68d', 'steam:1100001166f2d38', 'player', 'steam:1100001166f2d38', 'Strafe: Murder of an LEO', 30000),
+(3, 'steam:11000013d79d68d', 'steam:1100001166f2d38', 'player', 'steam:1100001166f2d38', 'Strafe: Murder of an LEO', 30000);
 
 -- --------------------------------------------------------
 
@@ -201,7 +304,23 @@ CREATE TABLE `characters` (
 
 INSERT INTO `characters` (`id`, `identifier`, `firstname`, `lastname`, `dateofbirth`, `sex`, `height`) VALUES
 (1, 'steam:11000013d79d68d', 'Mina', 'Savalas', '1995.12.22', 'f', '175'),
-(2, 'steam:1100001166f2d38', 'Manuel', 'Savalas', '12.08.2001', 'm', '187');
+(2, 'steam:1100001166f2d38', 'Manuel', 'Savalas', '12.08.2001', 'm', '187'),
+(3, 'steam:11000013d79d68d', 'Mina', 'Savalas', '1995.12.22', 'f', '175'),
+(4, 'steam:1100001166f2d38', 'test', 'test', '12.08.2001', 'm', '187'),
+(5, 'steam:1100001166f2d38', 'Manuel', 'Savalas', '2001.08.12', 'm', '187'),
+(6, 'steam:1100001166f2d38', 'Manuel', 'Savalas', '12.08.2001', 'm', '187'),
+(7, 'steam:1100001166f2d38', 'Manuel', 'Savalas', '12.08.2001', 'm', '187'),
+(8, 'steam:1100001166f2d38', 'Manuel', 'Savalas', '12.08.2001', 'm', '187'),
+(9, 'steam:1100001166f2d38', 'Manuel', 'Savalas', '12.08.2001', 'm', '187'),
+(10, 'steam:1100001166f2d38', 'Manuel', 'Savalas', '12.08.2001', 'm', '187'),
+(11, 'steam:11000013d79d68d', 'Test', 'Test', '12.08.2001', 'm', '187'),
+(12, 'steam:11000013d79d68d', 'Mina', 'Savalas', '01.01.1990', 'm', '187'),
+(13, 'steam:11000013d79d68d', 'Test', 'Test', '01.01.2023', 'm', '187'),
+(14, 'steam:11000013d79d68d', 'test', 'tear', '01.01.1990', 'm', '187'),
+(15, 'steam:11000013d79d68d', 'Test', 'Test', '12.08.2001', 'm', '187'),
+(16, 'steam:11000013d79d68d', 'Manuel', 'Test', '12.08.2001', 'm', '187'),
+(17, 'steam:110000112ce923f', 'Nikolaj', 'Romanov', '30.07.1996', 'm', '187'),
+(18, 'steam:11000013d79d68d', 'Mina', 'Savalas', '01.01.1990', 'f', '187');
 
 -- --------------------------------------------------------
 
@@ -237,11 +356,13 @@ INSERT INTO `datastore` (`name`, `label`, `shared`) VALUES
 ('society_ambulance', 'Ambulance', 1),
 ('society_banker', 'Banker', 1),
 ('society_cardealer', 'Car Dealer', 1),
+('society_casino', 'Casino', 1),
 ('society_fbi', 'FBI', 1),
 ('society_fisherman', 'Fisherman', 1),
 ('society_fueler', 'Fueler', 1),
 ('society_lumberjack', 'Lumberjack', 1),
 ('society_mechanic', 'Mechanic', 1),
+('society_mina', 'Unicorn', 1),
 ('society_miner', 'Miner', 1),
 ('society_police', 'Police', 1),
 ('society_prisoner', 'Gefängnis Wart', 1),
@@ -251,6 +372,8 @@ INSERT INTO `datastore` (`name`, `label`, `shared`) VALUES
 ('society_tailor', 'Tailor', 1),
 ('society_taxi', 'Taxi', 1),
 ('society_unemployed', 'Unemployed', 1),
+('society_unicorn', 'Unicorn', 1),
+('society_vagos', 'Vagos', 1),
 ('user_ears', 'Ears', 0),
 ('user_glasses', 'Glasses', 0),
 ('user_helmet', 'Helmet', 0),
@@ -300,7 +423,16 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 (24, 'society_fisherman', NULL, '{}'),
 (25, 'society_slaughterer', NULL, '{}'),
 (26, 'society_lumberjack', NULL, '{}'),
-(27, 'society_reporter', NULL, '{}');
+(27, 'society_reporter', NULL, '{}'),
+(28, 'society_mina', NULL, '{}'),
+(29, 'society_vagos', NULL, '{}'),
+(30, 'society_unicorn', NULL, '{}'),
+(31, 'property', 'steam:110000112ce923f', '{}'),
+(32, 'user_ears', 'steam:110000112ce923f', '{}'),
+(33, 'user_mask', 'steam:110000112ce923f', '{}'),
+(34, 'user_glasses', 'steam:110000112ce923f', '{}'),
+(35, 'user_helmet', 'steam:110000112ce923f', '{}'),
+(36, 'society_casino', NULL, '{}');
 
 -- --------------------------------------------------------
 
@@ -330,7 +462,8 @@ CREATE TABLE `dpkeybinds` (
 
 INSERT INTO `dpkeybinds` (`id`, `keybind1`, `emote1`, `keybind2`, `emote2`, `keybind3`, `emote3`, `keybind4`, `emote4`, `keybind5`, `emote5`, `keybind6`, `emote6`) VALUES
 ('steam:11000013d79d68d', 'num4', '', 'num5', '', 'num6', '', 'num7', '', 'num8', '', 'num9', ''),
-('steam:1100001166f2d38', 'num4', '', 'num5', '', 'num6', '', 'num7', '', 'num8', '', 'num9', '');
+('steam:1100001166f2d38', 'num4', '', 'num5', '', 'num6', '', 'num7', '', 'num8', '', 'num9', ''),
+('steam:110000112ce923f', 'num4', '', 'num5', '', 'num6', '', 'num7', '', 'num8', '', 'num9', '');
 
 -- --------------------------------------------------------
 
@@ -402,6 +535,94 @@ INSERT INTO `fine_types` (`id`, `label`, `amount`, `category`) VALUES
 (50, 'Murder of an LEO', 30000, 3),
 (51, 'Involuntary manslaughter', 1800, 3),
 (52, 'Fraud', 2000, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gas_station_balance`
+--
+
+CREATE TABLE `gas_station_balance` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `gas_station_id` varchar(50) NOT NULL,
+  `income` bit(1) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `amount` int(10) UNSIGNED NOT NULL,
+  `date` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `gas_station_balance`
+--
+
+INSERT INTO `gas_station_balance` (`id`, `gas_station_id`, `income`, `title`, `amount`, `date`) VALUES
+(54, 'gas_station_26', b'0', 'Депозирани Пари', 100000000, 1684172889),
+(55, 'gas_station_26', b'1', 'Купено гориво: Small cargo of 50 Liters', 1750, 1684172893),
+(56, 'gas_station_26', b'0', 'Fuel sold (1 Liters)', 12, 1684172974),
+(57, 'gas_station_26', b'0', 'Fuel sold (34 Liters)', 340, 1684173011),
+(58, 'gas_station_26', b'1', 'Купен ъпгрейд: Капацитет на запасите', 20000, 1684173022),
+(59, 'gas_station_26', b'1', 'Купен ъпгрейд: Капацитет на запасите', 20000, 1684173024),
+(60, 'gas_station_26', b'1', 'Купен ъпгрейд: Капацитет на запасите', 20000, 1684173026),
+(61, 'gas_station_26', b'1', 'Купен ъпгрейд: Капацитет на запасите', 20000, 1684173027),
+(62, 'gas_station_26', b'1', 'Купен ъпгрейд: Капацитет на запасите', 20000, 1684173028),
+(63, 'gas_station_26', b'1', 'Купен ъпгрейд: Капацитет на камиона', 45000, 1684173032),
+(64, 'gas_station_26', b'1', 'Купен ъпгрейд: Капацитет на камиона', 45000, 1684173034),
+(65, 'gas_station_26', b'1', 'Купен ъпгрейд: Капацитет на камиона', 45000, 1684173036),
+(66, 'gas_station_26', b'1', 'Купен ъпгрейд: Капацитет на камиона', 45000, 1684173037),
+(67, 'gas_station_26', b'1', 'Купен ъпгрейд: Капацитет на камиона', 45000, 1684173058),
+(68, 'gas_station_26', b'1', 'Купен ъпгрейд: Relationship', 60000, 1684173062),
+(69, 'gas_station_26', b'1', 'Купен ъпгрейд: Relationship', 60000, 1684173073),
+(70, 'gas_station_26', b'1', 'Купен ъпгрейд: Relationship', 60000, 1684173074),
+(71, 'gas_station_26', b'1', 'Купен ъпгрейд: Relationship', 60000, 1684173075),
+(72, 'gas_station_26', b'1', 'Купен ъпгрейд: Relationship', 60000, 1684173076),
+(73, 'gas_station_26', b'1', 'Купено гориво: Large cargo of 300 Liters', 3600, 1684173084);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gas_station_business`
+--
+
+CREATE TABLE `gas_station_business` (
+  `gas_station_id` varchar(50) NOT NULL DEFAULT '',
+  `user_id` varchar(50) NOT NULL,
+  `stock` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `price` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `stock_upgrade` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `truck_upgrade` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `relationship_upgrade` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `money` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `total_money_earned` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `total_money_spent` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `gas_bought` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `gas_sold` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `distance_traveled` double UNSIGNED NOT NULL DEFAULT 0,
+  `total_visits` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `customers` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `timer` int(10) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `gas_station_business`
+--
+
+INSERT INTO `gas_station_business` (`gas_station_id`, `user_id`, `stock`, `price`, `stock_upgrade`, `truck_upgrade`, `relationship_upgrade`, `money`, `total_money_earned`, `total_money_spent`, `gas_bought`, `gas_sold`, `distance_traveled`, `total_visits`, `customers`, `timer`) VALUES
+('gas_station_26', 'steam:11000013d79d68d', 315, 1000, 5, 5, 5, 99370002, 352, 630350, 350, 35, 7.29, 5, 2, 1684181425);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gas_station_jobs`
+--
+
+CREATE TABLE `gas_station_jobs` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `gas_station_id` varchar(50) NOT NULL DEFAULT '',
+  `name` varchar(50) NOT NULL,
+  `reward` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `amount` int(11) NOT NULL DEFAULT 0,
+  `progress` bit(1) NOT NULL DEFAULT b'0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -483,44 +704,72 @@ CREATE TABLE `insta_stories` (
 CREATE TABLE `items` (
   `name` varchar(50) NOT NULL,
   `label` varchar(50) NOT NULL,
-  `weight` int(11) NOT NULL DEFAULT 1,
-  `rare` tinyint(4) NOT NULL DEFAULT 0,
-  `can_remove` tinyint(4) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `limit` int(11) NOT NULL DEFAULT -1,
+  `rare` int(11) NOT NULL DEFAULT 0,
+  `can_remove` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Daten für Tabelle `items`
 --
 
-INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES
+INSERT INTO `items` (`name`, `label`, `limit`, `rare`, `can_remove`) VALUES
 ('alive_chicken', 'Alive Chicken', 20, 0, 1),
-('aramidfasern', 'Aramidfasern', 20, 0, 1),
+('aramidfasern', 'Aramidfasern', 250, 0, 1),
 ('bandage', 'Bandage', 20, 0, 1),
-('black_phone', 'Black Phone', 10, 0, 1),
+('binoculars', 'Ferngläser', 10, 0, 1),
 ('blowpipe', 'Blowpipe', 10, 0, 1),
-('blue_phone', 'Blue Phone', 10, 0, 1),
+('bolcacahuetes', 'Bol de cacahuètes', 5, 0, 1),
+('bolchips', 'Bol de chips', 5, 0, 1),
+('bolnoixcajou', 'Bol de noix de cajou', 5, 0, 1),
+('bolpistache', 'Bol de pistaches', 5, 0, 1),
+('boxbig', 'Munition', 25, 0, 1),
 ('bread', 'Bread', 10, 0, 1),
 ('bulletproof', 'Schutzweste', 10, 0, 1),
 ('bulletproof50', 'Halfplate', 10, 0, 1),
 ('cannabis', 'Cannabis', 40, 0, 1),
 ('carokit', 'Body kit', 3, 0, 1),
 ('carotool', 'Body Tools', 4, 0, 1),
-('classic_phone', 'Classic Phone', 10, 0, 1),
+('case', 'Mystery Box', 100, 0, 1),
+('casinochips', 'Casino Chips', 100000000, 0, 1),
+('cleankit', 'Reinigungsset', 15, 0, 1),
 ('clothe', 'Clothing', 40, 0, 1),
+('coffee', 'Café', 5, 0, 1),
+('coke', 'Koks', 300, 0, 1),
+('coke10g', 'Cocaine (10G)', 50, 0, 1),
+('coke1g', 'Cocaine (1G)', 50, 0, 1),
+('cokebrick', 'Cocaine Brick (100G)', 20, 0, 1),
 ('copper', 'Copper', 56, 0, 1),
 ('cutted_wood', 'Cut Wood', 20, 0, 1),
+('darknet', 'Dark Net', 10, 0, 1),
+('defib', 'Defibrillator', 1, 0, 1),
 ('diamond', 'Diamond', 50, 0, 1),
+('drill', 'Bohrer', 15, 0, 1),
+('drpepper', 'Dr. Pepper', 5, 0, 1),
+('drugbags', 'Bags', 80, 0, 1),
+('drugItem', 'Black USB-C', 2, 0, 1),
+('energy', 'Energy Drink', 5, 0, 1),
 ('essence', 'Essence', 24, 0, 1),
 ('fabric', 'Fabric', 80, 0, 1),
+('fbulletproof', 'Fullplate', 100, 0, 1),
+('firework', 'Feuerwerk', 5, 0, 1),
+('firstaidkit', 'Erste-Hilfe-Kasten', 15, 0, 1),
 ('fish', 'Fish', 100, 0, 1),
 ('fixkit', 'Repair Kit', 5, 0, 1),
 ('fixtool', 'Repair Tool', 6, 0, 1),
+('flashlight', 'Taschenlampe', 10, 0, 1),
 ('gazbottle', 'Gaz Bottle', 11, 0, 1),
-('gebuendeltearamidfasern', 'Gebündelte Aramidfasern', 15, 0, 1),
+('gebuendeltearamidfasern', 'Gebündelte Aramidfasern', 150, 0, 1),
 ('gold', 'Gold', 21, 0, 1),
-('gold_phone', 'Gold Phone', 10, 0, 1),
-('greenlight_phone', 'Green Light Phone', 10, 0, 1),
-('green_phone', 'Green Phone', 10, 0, 1),
+('goldnecklace', 'Goldkette', 30, 0, 1),
+('goldwatch', 'Gold Uhr', 30, 0, 1),
+('golem', 'Golem', 5, 0, 1),
+('grapperaisin', 'Grappe de raisin', 5, 0, 1),
+('grip', 'Griff', 10, 0, 1),
+('gym_membership', 'Gym Membership', -1, 0, 1),
+('hackerDevice', 'Hacker Device', 25, 0, 1),
+('handcuffkey', 'Schere', 15, 0, 1),
+('handcuffs', 'Seile', 15, 0, 1),
 ('HD_acid', 'Säure', 100, 0, 1),
 ('HD_bCloth', 'Zerbrochener Löffel mit nassem Lappen', 100, 0, 1),
 ('HD_bLadle', 'Zerbrochene Schöpfkelle', 100, 0, 1),
@@ -545,37 +794,71 @@ INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES
 ('HD_sMetal', 'Scharfes Metall', 100, 0, 1),
 ('HD_spoon', 'Löffel', 100, 0, 1),
 ('HD_wCloth', 'Feuchte Tücher', 100, 0, 1),
+('hqscale', 'High Quality Scale', 1, 0, 1),
+('ice', 'Glaçon', 5, 0, 1),
+('icetea', 'Ice Tea', 5, 0, 1),
 ('iron', 'Iron', 42, 0, 1),
+('jager', 'Jägermeister', 5, 0, 1),
+('jagerbomb', 'Jägerbomb', 5, 0, 1),
+('jagercerbere', 'Jäger Cerbère', 3, 0, 1),
+('joint2g', 'Joint (2G)', 50, 0, 1),
+('jusfruit', 'Jus de fruits', 5, 0, 1),
 ('kevlar', 'Kevlar', 50, 0, 1),
+('limonade', 'Limonade', 5, 0, 1),
+('lockpick', 'Dietrich', 15, 0, 1),
 ('marijuana', 'Marijuana', 14, 0, 1),
+('martini', 'Martini blanc', 5, 0, 1),
 ('medikit', 'Medikit', 5, 0, 1),
+('menthe', 'Feuille de menthe', 10, 0, 1),
+('meth10g', 'Meth (10G)', 50, 0, 1),
+('meth1g', 'Meth (1G)', 50, 0, 1),
+('methbrick', 'Meth Brick (100G)', 20, 0, 1),
+('metreshooter', 'Mètre de shooter', 3, 0, 1),
+('mixapero', 'Mix Apéritif', 3, 0, 1),
+('mojito', 'Mojito', 5, 0, 1),
+('oxygenmask', 'Sauerstoffmaske', 15, 0, 1),
 ('packaged_chicken', 'chicken fillet', 100, 0, 1),
 ('packaged_plank', 'packaged wood', 100, 0, 1),
 ('petrol', 'oil', 24, 0, 1),
 ('petrol_raffin', 'processed oil', 24, 0, 1),
 ('phone', 'Handy', 10, 0, 1),
-('phone_hack', 'Phone Hack', 10, 0, 1),
-('phone_module', 'Phone Module', 10, 0, 1),
-('pink_phone', 'Pink Phone', 10, 0, 1),
-('purple_phone', 'Purple Phone', 10, 0, 1),
-('red_phone', 'Red Phone', 10, 0, 1),
+('powerade', 'Powerade', -1, 0, 1),
+('protein_shake', 'Protein Shake', -1, 0, 1),
+('repairkit', 'Reparatur-Kit', 15, 0, 1),
+('rhum', 'Rhum', 5, 0, 1),
+('rhumcoca', 'Rhum-coca', 5, 0, 1),
+('rhumfruit', 'Rhum-jus de fruits', 5, 0, 1),
+('rolpaper', 'Rolling Paper', 80, 0, 1),
+('saucisson', 'Saucisson', 5, 0, 1),
+('scratchcard', 'scratch & win ', 1000, 0, 1),
 ('slaughtered_chicken', 'slaughtered chicken', 20, 0, 1),
+('soda', 'Soda', 5, 0, 1),
+('sportlunch', 'Sportlunch', -1, 0, 1),
 ('stone', 'Stone', 7, 0, 1),
+('suppressor', 'Schalldämpfer', 10, 0, 1),
+('teqpaf', 'Teq\'paf', 5, 0, 1),
+('tequila', 'Tequila', 5, 0, 1),
+('tirekit', 'Reifenkit', 4, 0, 1),
+('vape', 'Vape', 100, 0, 1),
+('vehgps', 'Fahrzeug-GPS', 100, 0, 1),
+('vodka', 'Vodka', 5, 0, 1),
+('vodkaenergy', 'Vodka-energy', 5, 0, 1),
+('vodkafruit', 'Vodka-jus de fruits', 5, 0, 1),
 ('washed_stone', 'Washed Stone', 7, 0, 1),
 ('water', 'Water', 5, 0, 1),
-('wet_black_phone', 'Wet Black Phone', 10, 0, 1),
-('wet_blue_phone', 'Wet Blue Phone', 10, 0, 1),
-('wet_classic_phone', 'Wet Classic Phone', 10, 0, 1),
-('wet_gold_phone', 'Wet Gold Phone', 10, 0, 1),
-('wet_greenlight_phone', 'Wet Green Light Phone', 10, 0, 1),
-('wet_green_phone', 'Wet Green Phone', 10, 0, 1),
-('wet_pink_phone', 'Wet Pink Phone', 10, 0, 1),
-('wet_purple_phone', 'Wet Purple Phone', 10, 0, 1),
-('wet_red_phone', 'Wet Red Phone', 10, 0, 1),
-('wet_white_phone', 'Wet White Phone', 10, 0, 1),
-('white_phone', 'White Phone', 10, 0, 1),
+('weakit', 'Waffenset', 100, 0, 1),
+('weapon_combatmg_mk2', 'Combat MG MKII', 20, 0, 1),
+('weapon_marksmanrifle_mk2', 'Marksman MKII', 20, 0, 1),
+('weapon_precisionrifle', 'Sniper', 20, 0, 1),
+('weapon_tacticalrifle', 'Tactic Rifle', 20, 0, 1),
+('weed20g', 'Weed (20G)', 100, 0, 1),
+('weed4g', 'Weed (4G)', 200, 0, 1),
+('weedbrick', 'Weed Brick (200G)', 25, 0, 1),
+('whisky', 'Whisky', 5, 0, 1),
+('whiskycoca', 'Whisky-coca', 5, 0, 1),
 ('wood', 'Wood', 20, 0, 1),
 ('wool', 'Wool', 40, 0, 1),
+('yusuf', 'Waffen Farbe', 10, 0, 1),
 ('zarowki', 'Farbige Scheinwerfer ', 20, 0, 1);
 
 -- --------------------------------------------------------
@@ -609,23 +892,27 @@ CREATE TABLE `jobs` (
 --
 
 INSERT INTO `jobs` (`name`, `label`, `whitelisted`, `enable_billing`, `can_rob`, `can_handcuff`, `can_lockpick_cars`, `can_wash_vehicles`, `can_repair_vehicles`, `can_impound_vehicles`, `can_check_identity`, `can_check_vehicle_owner`, `can_check_driving_license`, `can_check_weapon_license`, `handyservice`, `hasapp`, `onlyboss`) VALUES
-('ambulance', 'Ambulance', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
+('ambulance', 'Ambulance', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1', 1, 0),
 ('banker', 'Banker', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
 ('cardealer', 'Car Dealer', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
+('casino', 'Casino', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
 ('fbi', 'FBI', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
 ('fisherman', 'Fisherman', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
 ('fueler', 'Fueler', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
 ('lumberjack', 'Lumberjack', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
-('mechanic', 'Mechanic', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
+('mechanic', 'Mechanic', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1', 1, 1),
+('mina', 'Unicorn', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
 ('miner', 'Miner', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
-('police', 'LSPD', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
+('police', 'LSPD', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1', 1, 0),
 ('prisoner', 'Gefängnis Wart', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
 ('realestateagent', 'Real Estate Agent', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
 ('reporter', 'Journalist', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
 ('slaughterer', 'Butcher', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
 ('tailor', 'Tailor', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
 ('taxi', 'Taxi', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
-('unemployed', 'Unemployed', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0);
+('unemployed', 'Unemployed', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
+('unicorn', 'Unicorn', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0),
+('vagos', 'Vagos', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -681,7 +968,9 @@ INSERT INTO `jobs_data` (`id`, `job_name`, `type`, `coords`, `min_grade`, `data`
 (3, 'public_marker', 'process', '{\"z\":33.74,\"x\":-1478.0,\"y\":-519.25}', 0, '{\"animations\":[{\"type\":\"scenario\",\"scenarioName\":\"WORLD_HUMAN_DRUG_DEALER\",\"scenarioDuration\":100}],\"itemToAddQuantity\":1,\"timeToProcess\":10,\"itemToRemoveName\":\"aramidfasern\",\"itemToRemoveQuantity\":3,\"itemToAddName\":\"gebuendeltearamidfasern\"}', NULL, NULL, NULL, 'Aramid Verarbeiter', 1, 5, 5, 0.5, 255, 255, 0, 50, 'g_m_y_ballaeast_01', 356),
 (4, 'public_marker', 'process', '{\"z\":28.57,\"x\":910.34,\"y\":-2491.78}', 0, '{\"animations\":[{\"type\":\"scenario\",\"scenarioName\":\"WORLD_HUMAN_SMOKING\",\"scenarioDuration\":100}],\"itemToAddQuantity\":1,\"timeToProcess\":10,\"itemToRemoveName\":\"gebuendeltearamidfasern\",\"itemToRemoveQuantity\":2,\"itemToAddName\":\"kevlar\"}', NULL, NULL, NULL, 'Kevlar verarbeiter', 1, 5, 5, 0.5, 255, 255, 0, 1, 'g_m_y_ballaeast_01', 356),
 (5, 'public_marker', 'process', '{\"z\":28.8,\"x\":13.92,\"y\":-1106.25}', 0, '{\"itemToAddName\":\"bulletproof\",\"animations\":[{\"type\":\"scenario\",\"scenarioDuration\":100,\"scenarioName\":\"WORLD_HUMAN_SMOKING\"}],\"itemToAddQuantity\":1,\"itemToRemoveQuantity\":2,\"timeToProcess\":10,\"itemToRemoveName\":\"kevlar\"}', NULL, NULL, NULL, 'Westen verarbeiter', 1, 1.5, 1.5, 0.5, 255, 255, 0, 1, 'g_m_y_ballaeast_01', 356),
-(7, 'public_marker', 'process', '{\"z\":28.8,\"x\":3.73,\"y\":-1108.45}', 0, '{\"itemToAddName\":\"bulletproof50\",\"animations\":[{\"type\":\"scenario\",\"scenarioDuration\":100,\"scenarioName\":\"WORLD_HUMAN_SMOKING\"}],\"itemToAddQuantity\":1,\"itemToRemoveQuantity\":2,\"timeToProcess\":10,\"itemToRemoveName\":\"kevlar\"}', 1, 0, 1, 'Westen verarbeiter 2', 1, 2, 2, 0.5, 255, 255, 0, 1, 'g_m_y_ballaeast_01', 290);
+(7, 'public_marker', 'process', '{\"z\":28.8,\"x\":3.73,\"y\":-1108.45}', 0, '{\"itemToAddName\":\"bulletproof50\",\"animations\":[{\"type\":\"scenario\",\"scenarioDuration\":100,\"scenarioName\":\"WORLD_HUMAN_SMOKING\"}],\"itemToAddQuantity\":1,\"itemToRemoveQuantity\":2,\"timeToProcess\":10,\"itemToRemoveName\":\"kevlar\"}', 1, 0, 1, 'Westen verarbeiter 2', 1, 2, 2, 0.5, 255, 255, 0, 1, 'g_m_y_ballaeast_01', 290),
+(9, 'mina', 'boss', '{\"z\":28.27,\"x\":93.68,\"y\":-1291.51}', 11, '{\"canGrades\":true,\"washMoneyGoesToSocietyAccount\":true,\"canWashMoney\":true,\"canWithdraw\":true,\"canDeposit\":true,\"canEmployees\":true}', NULL, NULL, NULL, 'Boss', 1, 1.5, 1.5, 0.5, 253, 148, 255, 50, NULL, NULL),
+(10, 'mina', 'garage_buyable', '{\"x\":94.55,\"y\":-1283.42,\"z\":28.26}', 0, '{\"spawnCoords\":{\"x\":88.58,\"y\":-1280.12,\"z\":27.68},\"vehicles\":{\"schafter6\":1,\"t20\":1},\"heading\":95.04}', NULL, NULL, NULL, 'Fahrzeuge kaufen', 1, 1.5, 1.5, 0.5, 255, 158, 247, 50, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -703,7 +992,8 @@ CREATE TABLE `jobs_garages` (
 --
 
 INSERT INTO `jobs_garages` (`vehicle_id`, `identifier`, `marker_id`, `vehicle`, `vehicle_props`, `plate`) VALUES
-(1, 'steam:1100001166f2d38', 1, 'nero', '{}', NULL);
+(1, 'steam:1100001166f2d38', 1, 'nero', '{}', NULL),
+(2, 'steam:11000013d79d68d', 10, 'schafter6', '{}', NULL);
 
 -- --------------------------------------------------------
 
@@ -800,7 +1090,21 @@ INSERT INTO `job_grades` (`id`, `job_name`, `grade`, `name`, `label`, `salary`, 
 (43, 'fbi', 2, 'sergeant', 'Colonel', 60, '{}', '{}'),
 (44, 'fbi', 3, 'lieutenant', 'Capitaine', 85, '{}', '{}'),
 (45, 'fbi', 4, 'boss', 'Commandant', 100, '{}', '{}'),
-(46, 'prisoner', 0, 'wärter', 'Wärter', 10, '{}', '{}');
+(46, 'prisoner', 0, 'wärter', 'Wärter', 10, '{}', '{}'),
+(47, 'mina', 0, 'prakti', 'Praktikant', 100, '{}', '{}'),
+(48, 'vagos', 0, 'recruit', 'Runner', 2000, '{}', '{}'),
+(49, 'vagos', 1, 'officer', 'Member', 2300, '{}', '{}'),
+(50, 'vagos', 2, 'sergeant', 'Executer', 2500, '{}', '{}'),
+(51, 'vagos', 3, 'lieutenant', 'El Cabeza', 3500, '{}', '{}'),
+(52, 'vagos', 4, 'boss', 'Patron', 3500, '{}', '{}'),
+(53, 'unicorn', 0, 'recruit', 'Praktikant', 2000, '{}', '{}'),
+(54, 'unicorn', 1, 'officer', 'Barkeeper', 2300, '{}', '{}'),
+(55, 'unicorn', 2, 'sergeant', 'Tänzer/in', 2500, '{}', '{}'),
+(56, 'unicorn', 3, 'lieutenant', 'Büro', 2800, '{}', '{}'),
+(57, 'unicorn', 4, 'boss', 'Boss Bitch', 3500, '{}', '{}'),
+(58, 'casino', 0, 'barman', 'Barman', 300, '{}', '{}'),
+(59, 'casino', 1, 'secu', 'Sécurité', 300, '{}', '{}'),
+(60, 'casino', 2, 'boss', 'Patron', 600, '{}', '{}');
 
 -- --------------------------------------------------------
 
@@ -829,22 +1133,6 @@ INSERT INTO `licenses` (`type`, `label`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `npwd_calls`
---
-
-CREATE TABLE `npwd_calls` (
-  `id` int(11) NOT NULL,
-  `identifier` varchar(48) DEFAULT NULL,
-  `transmitter` varchar(255) NOT NULL,
-  `receiver` varchar(255) NOT NULL,
-  `is_accepted` tinyint(4) DEFAULT 0,
-  `start` varchar(255) DEFAULT NULL,
-  `end` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `npwd_darkchat_channels`
 --
 
@@ -852,53 +1140,6 @@ CREATE TABLE `npwd_darkchat_channels` (
   `id` int(11) NOT NULL,
   `channel_identifier` varchar(255) NOT NULL,
   `label` varchar(255) DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `npwd_darkchat_channel_members`
---
-
-CREATE TABLE `npwd_darkchat_channel_members` (
-  `channel_id` int(11) NOT NULL,
-  `user_identifier` varchar(255) NOT NULL,
-  `is_owner` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `npwd_darkchat_messages`
---
-
-CREATE TABLE `npwd_darkchat_messages` (
-  `id` int(11) NOT NULL,
-  `channel_id` int(11) NOT NULL,
-  `message` varchar(255) NOT NULL,
-  `user_identifier` varchar(255) NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `is_image` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `npwd_marketplace_listings`
---
-
-CREATE TABLE `npwd_marketplace_listings` (
-  `id` int(11) NOT NULL,
-  `identifier` varchar(48) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `number` varchar(255) NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `url` varchar(255) DEFAULT NULL,
-  `description` varchar(255) NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `reported` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -924,41 +1165,6 @@ CREATE TABLE `npwd_match_profiles` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `npwd_match_views`
---
-
-CREATE TABLE `npwd_match_views` (
-  `id` int(11) NOT NULL,
-  `identifier` varchar(48) NOT NULL,
-  `profile` int(11) NOT NULL,
-  `liked` tinyint(4) DEFAULT 0,
-  `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `npwd_messages`
---
-
-CREATE TABLE `npwd_messages` (
-  `id` int(11) NOT NULL,
-  `message` varchar(512) NOT NULL,
-  `user_identifier` varchar(48) NOT NULL,
-  `conversation_id` varchar(512) NOT NULL,
-  `isRead` tinyint(4) NOT NULL DEFAULT 0,
-  `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `visible` tinyint(4) NOT NULL DEFAULT 1,
-  `author` varchar(255) NOT NULL,
-  `is_embed` tinyint(4) NOT NULL DEFAULT 0,
-  `embed` varchar(512) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `npwd_messages_conversations`
 --
 
@@ -975,70 +1181,6 @@ CREATE TABLE `npwd_messages_conversations` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `npwd_messages_participants`
---
-
-CREATE TABLE `npwd_messages_participants` (
-  `id` int(11) NOT NULL,
-  `conversation_id` int(11) NOT NULL,
-  `participant` varchar(225) NOT NULL,
-  `unread_count` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `npwd_notes`
---
-
-CREATE TABLE `npwd_notes` (
-  `id` int(11) NOT NULL,
-  `identifier` varchar(48) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `content` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `npwd_phone_contacts`
---
-
-CREATE TABLE `npwd_phone_contacts` (
-  `id` int(11) NOT NULL,
-  `identifier` varchar(48) DEFAULT NULL,
-  `avatar` varchar(255) DEFAULT NULL,
-  `number` varchar(20) DEFAULT NULL,
-  `display` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `npwd_phone_gallery`
---
-
-CREATE TABLE `npwd_phone_gallery` (
-  `id` int(11) NOT NULL,
-  `identifier` varchar(48) DEFAULT NULL,
-  `image` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `npwd_twitter_likes`
---
-
-CREATE TABLE `npwd_twitter_likes` (
-  `id` int(11) NOT NULL,
-  `profile_id` int(11) NOT NULL,
-  `tweet_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `npwd_twitter_profiles`
 --
 
@@ -1049,37 +1191,6 @@ CREATE TABLE `npwd_twitter_profiles` (
   `avatar_url` varchar(255) DEFAULT 'https://i.file.glass/QrEvq.png',
   `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `npwd_twitter_reports`
---
-
-CREATE TABLE `npwd_twitter_reports` (
-  `id` int(11) NOT NULL,
-  `profile_id` int(11) NOT NULL,
-  `tweet_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `npwd_twitter_tweets`
---
-
-CREATE TABLE `npwd_twitter_tweets` (
-  `id` int(11) NOT NULL,
-  `message` varchar(1000) NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `likes` int(11) NOT NULL DEFAULT 0,
-  `identifier` varchar(48) NOT NULL,
-  `visible` tinyint(4) NOT NULL DEFAULT 1,
-  `images` varchar(1000) DEFAULT '',
-  `retweet` int(11) DEFAULT NULL,
-  `profile_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1109,16 +1220,31 @@ CREATE TABLE `owned_vehicles` (
   `type` varchar(20) NOT NULL DEFAULT 'car',
   `job` varchar(20) DEFAULT NULL,
   `stored` tinyint(1) NOT NULL DEFAULT 0,
-  `garage` varchar(200) DEFAULT 'Würfelpark Garage'
+  `garage` varchar(200) DEFAULT 'Würfelpark Garage',
+  `garage_id` varchar(32) NOT NULL DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Daten für Tabelle `owned_vehicles`
 --
 
-INSERT INTO `owned_vehicles` (`owner`, `plate`, `vehicle`, `type`, `job`, `stored`, `garage`) VALUES
-('steam:1100001166f2d38', 'BCN 277', '{\"extras\":[],\"neonColor\":[0,0,255],\"modTank\":-1,\"fuelLevel\":65.0,\"engineHealth\":999.0,\"modAerials\":-1,\"modTransmission\":2,\"modTrunk\":-1,\"modFrontBumper\":1,\"modEngineBlock\":-1,\"modHorns\":-1,\"windows\":[1,1,1,false,false,false,false,false,false,false,false,false,false],\"modTrimB\":-1,\"modSmokeEnabled\":1,\"modRightFender\":-1,\"modLivery\":-1,\"modPlateHolder\":-1,\"modSuspension\":4,\"modOrnaments\":-1,\"modVanityPlate\":-1,\"modShifterLeavers\":-1,\"modRoof\":-1,\"modAPlate\":-1,\"modXenon\":1,\"modSteeringWheel\":-1,\"plateIndex\":1,\"wheels\":0,\"neonEnabled\":[1,1,1,1],\"modGrille\":-1,\"modWindows\":-1,\"modSeats\":-1,\"modSpoilers\":3,\"tyres\":[false,false,false,false,false,false,false],\"modAirFilter\":-1,\"pearlescentColor\":27,\"modExhaust\":3,\"modFrontWheels\":22,\"tyreSmokeColor\":[255,255,255],\"modFender\":-1,\"modSpeakers\":-1,\"modEngine\":3,\"modHydrolic\":-1,\"model\":-998177792,\"plate\":\"BCN 277\",\"modBrakes\":2,\"modTurbo\":1,\"modArmor\":-1,\"wheelColor\":111,\"dirtLevel\":4.79506826400756,\"modHood\":0,\"modDashboard\":-1,\"modDoorSpeaker\":-1,\"health\":898,\"modFrame\":-1,\"color2\":134,\"bodyHealth\":901.3102416992188,\"modStruts\":-1,\"color1\":134,\"modRearBumper\":4,\"modBackWheels\":-1,\"modSideSkirt\":-1,\"modDial\":-1,\"doors\":[1,false,false,false,false,false],\"modArchCover\":-1,\"windowTint\":1,\"modTrimA\":-1}', 'car', NULL, 0, 'Würfelpark Garage'),
-('steam:11000013d79d68d', 'BTW 521', '{\"modDial\":-1,\"modTank\":-1,\"modTrimA\":-1,\"modSmokeEnabled\":1,\"modSuspension\":2,\"modAPlate\":-1,\"modSeats\":-1,\"bodyHealth\":879.308837890625,\"modDoorSpeaker\":-1,\"modShifterLeavers\":-1,\"modFrame\":-1,\"modSpeakers\":-1,\"modLivery\":-1,\"model\":-1848994066,\"modHydrolic\":-1,\"wheels\":0,\"modArchCover\":-1,\"modTurbo\":1,\"modSideSkirt\":3,\"modDashboard\":-1,\"modTrimB\":-1,\"plateIndex\":1,\"plate\":\"BTW 521\",\"modTransmission\":-1,\"modFender\":-1,\"modFrontWheels\":7,\"modEngineBlock\":-1,\"modStruts\":-1,\"fuelLevel\":65.0,\"modExhaust\":-1,\"dirtLevel\":10.12069416046142,\"pearlescentColor\":112,\"modBrakes\":2,\"modGrille\":-1,\"health\":877,\"engineHealth\":999.25,\"modSpoilers\":-1,\"modAirFilter\":-1,\"doors\":[false,false,false,false,false,false],\"neonEnabled\":[false,false,false,false],\"modTrunk\":-1,\"modArmor\":4,\"modPlateHolder\":-1,\"modRoof\":-1,\"modAerials\":-1,\"modBackWheels\":-1,\"extras\":[],\"color1\":136,\"modWindows\":-1,\"color2\":136,\"modSteeringWheel\":-1,\"modHorns\":-1,\"modXenon\":1,\"modRearBumper\":0,\"modOrnaments\":-1,\"modRightFender\":-1,\"tyreSmokeColor\":[255,255,255],\"modFrontBumper\":2,\"windowTint\":-1,\"modHood\":-1,\"wheelColor\":0,\"tyres\":[false,false,false,false,false,false,false],\"windows\":[1,1,1,false,false,false,false,false,false,false,false,false,false],\"modEngine\":3,\"neonColor\":[255,0,255],\"modVanityPlate\":-1}', 'car', NULL, 0, 'Würfelpark Garage');
+INSERT INTO `owned_vehicles` (`owner`, `plate`, `vehicle`, `type`, `job`, `stored`, `garage`, `garage_id`) VALUES
+('steam:110000112ce923f', 'AVH463', '{\"plate\":\"AVH463\",\"model\":-808831384}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:1100001166f2d38', 'BCN 277', '{\"modAerials\":-1,\"extras\":[],\"tyres\":[false,false,false,false,false,false,false],\"modOrnaments\":-1,\"modHood\":0,\"modDoorSpeaker\":-1,\"modTrimA\":-1,\"modWindows\":-1,\"modRightFender\":-1,\"modBrakes\":2,\"modArchCover\":-1,\"modTrimB\":-1,\"modGrille\":-1,\"modRearBumper\":4,\"doors\":[false,false,false,false,false,false],\"modPlateHolder\":-1,\"modSmokeEnabled\":1,\"tyreSmokeColor\":[255,255,255],\"neonEnabled\":[1,1,1,1],\"health\":998,\"modTurbo\":1,\"modArmor\":-1,\"dirtLevel\":5.83754014968872,\"modTrunk\":-1,\"windows\":[1,1,1,false,false,1,1,false,false,false,false,false,false],\"modAirFilter\":-1,\"pearlescentColor\":27,\"modTank\":-1,\"modEngine\":3,\"modHorns\":-1,\"modFrame\":-1,\"modSuspension\":4,\"modLivery\":-1,\"modShifterLeavers\":-1,\"modEngineBlock\":-1,\"modSideSkirt\":-1,\"modSpeakers\":-1,\"model\":-998177792,\"modAPlate\":-1,\"modExhaust\":3,\"modVanityPlate\":-1,\"modSpoilers\":3,\"plate\":\"BCN 277\",\"engineHealth\":1000.0,\"modTransmission\":2,\"fuelLevel\":6.36976814270019,\"windowTint\":1,\"color2\":134,\"modFender\":-1,\"modSeats\":-1,\"modStruts\":-1,\"modXenon\":1,\"modBackWheels\":-1,\"wheels\":0,\"plateIndex\":1,\"modHydrolic\":-1,\"modFrontWheels\":22,\"color1\":134,\"bodyHealth\":998.25,\"modFrontBumper\":1,\"neonColor\":[0,0,255],\"modDashboard\":-1,\"modDial\":-1,\"wheelColor\":111,\"modRoof\":-1,\"modSteeringWheel\":-1}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:11000013d79d68d', 'BTW 521', '{\"modEngine\":3,\"modFrontWheels\":7,\"modSuspension\":2,\"modXenon\":1,\"modSmokeEnabled\":1,\"model\":-1848994066,\"modTrunk\":-1,\"modSeats\":-1,\"windowTint\":-1,\"modHorns\":-1,\"fuelLevel\":64.97260284423828,\"wheels\":0,\"modFrontBumper\":2,\"color2\":136,\"modFrame\":-1,\"modVanityPlate\":-1,\"windows\":[1,1,1,false,false,1,1,false,false,false,false,false,false],\"plateIndex\":1,\"modArmor\":4,\"modSideSkirt\":3,\"modHydrolic\":-1,\"pearlescentColor\":112,\"modRightFender\":-1,\"modTank\":-1,\"modBrakes\":2,\"modAPlate\":-1,\"modAerials\":-1,\"modGrille\":-1,\"modDial\":-1,\"plate\":\"BTW 521\",\"modStruts\":-1,\"modPlateHolder\":-1,\"modHood\":-1,\"engineHealth\":1000.0,\"modTrimA\":-1,\"doors\":[false,false,false,false,false,false],\"extras\":[],\"modArchCover\":-1,\"modTrimB\":-1,\"modSpeakers\":-1,\"tyres\":[false,false,false,false,false,false,false],\"wheelColor\":0,\"modAirFilter\":-1,\"modTurbo\":1,\"modEngineBlock\":-1,\"modWindows\":-1,\"modLivery\":-1,\"modSteeringWheel\":-1,\"modSpoilers\":-1,\"modDoorSpeaker\":-1,\"modRoof\":-1,\"modOrnaments\":-1,\"tyreSmokeColor\":[255,255,255],\"bodyHealth\":995.45556640625,\"modDashboard\":-1,\"modRearBumper\":0,\"modBackWheels\":-1,\"modFender\":-1,\"color1\":136,\"modTransmission\":-1,\"dirtLevel\":0.03520703688263,\"modExhaust\":-1,\"modShifterLeavers\":-1,\"health\":995,\"neonColor\":[255,0,255],\"neonEnabled\":[false,false,false,false]}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:110000112ce923f', 'DAL829', '{\"plate\":\"DAL829\",\"model\":-1903012613}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:110000112ce923f', 'GWS688', '{\"model\":-1372848492,\"plate\":\"GWS688\"}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:11000013d79d68d', 'HYI 876', '{\"modRoof\":0,\"wheelColor\":136,\"modArchCover\":-1,\"modEngine\":3,\"modRightFender\":-1,\"modFender\":-1,\"dirtLevel\":0.03880087658762,\"modTrimA\":-1,\"modBackWheels\":-1,\"modSteeringWheel\":-1,\"modWindows\":-1,\"modStruts\":-1,\"modFrame\":-1,\"wheels\":0,\"color1\":136,\"modEngineBlock\":-1,\"modLivery\":-1,\"modHydrolic\":-1,\"modBrakes\":2,\"plate\":\"HYI 876\",\"pearlescentColor\":3,\"modTrunk\":-1,\"modFrontWheels\":22,\"modDashboard\":-1,\"modDial\":-1,\"color2\":134,\"modRearBumper\":1,\"modSuspension\":-1,\"modSideSkirt\":0,\"modSpoilers\":-1,\"modTrimB\":-1,\"modAirFilter\":-1,\"modSpeakers\":-1,\"neonEnabled\":[1,1,1,1],\"modHorns\":-1,\"modSmokeEnabled\":1,\"modOrnaments\":-1,\"health\":1000,\"modGrille\":-1,\"modVanityPlate\":-1,\"windowTint\":1,\"modFrontBumper\":0,\"modAerials\":-1,\"modTurbo\":1,\"modExhaust\":1,\"modTank\":-1,\"extras\":[],\"neonColor\":[255,161,211],\"modDoorSpeaker\":-1,\"plateIndex\":0,\"modXenon\":1,\"modSeats\":-1,\"tyreSmokeColor\":[255,255,255],\"modArmor\":-1,\"modShifterLeavers\":-1,\"model\":1663218586,\"modAPlate\":-1,\"modTransmission\":2,\"modPlateHolder\":-1,\"modHood\":0}', 'car', 'unicorn', 1, 'Würfelpark Garage', 'A'),
+('steam:11000013d79d68d', 'LGD 122', '{\"modRoof\":-1,\"wheelColor\":136,\"modArchCover\":-1,\"modEngine\":3,\"modRightFender\":-1,\"modFender\":-1,\"dirtLevel\":0.04961737245321,\"modTrimA\":-1,\"modBackWheels\":-1,\"modSteeringWheel\":-1,\"modWindows\":-1,\"modStruts\":-1,\"modFrame\":-1,\"wheels\":0,\"color1\":136,\"modEngineBlock\":-1,\"modLivery\":-1,\"modHydrolic\":-1,\"modBrakes\":2,\"plate\":\"LGD 122\",\"pearlescentColor\":136,\"modTrunk\":-1,\"modFrontWheels\":23,\"modDashboard\":-1,\"modDial\":-1,\"color2\":136,\"modRearBumper\":0,\"modSuspension\":3,\"modSideSkirt\":0,\"modSpoilers\":1,\"modTrimB\":-1,\"modAirFilter\":-1,\"modSpeakers\":-1,\"neonEnabled\":[1,1,1,1],\"modHorns\":-1,\"modSmokeEnabled\":1,\"modOrnaments\":-1,\"health\":1000,\"modGrille\":-1,\"modVanityPlate\":-1,\"windowTint\":1,\"modFrontBumper\":2,\"modAerials\":-1,\"modTurbo\":1,\"modExhaust\":1,\"modTank\":-1,\"extras\":[],\"neonColor\":[255,161,211],\"modDoorSpeaker\":-1,\"plateIndex\":0,\"modXenon\":1,\"modSeats\":-1,\"tyreSmokeColor\":[255,161,211],\"modArmor\":-1,\"modShifterLeavers\":-1,\"model\":1922255844,\"modAPlate\":-1,\"modTransmission\":2,\"modPlateHolder\":-1,\"modHood\":0}', 'car', 'unicorn', 1, 'Würfelpark Garage', 'A'),
+('steam:110000112ce923f', 'MZG750', '{\"model\":1663218586,\"plate\":\"MZG750\"}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:110000112ce923f', 'QAG096', '{\"model\":-114291515,\"plate\":\"QAG096\"}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:110000112ce923f', 'QOW839', '{\"model\":-1903012613,\"plate\":\"QOW839\"}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:110000112ce923f', 'QXT782', '{\"plate\":\"QXT782\",\"model\":80636076}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:11000013d79d68d', 'VTU 050', '{\"plate\":\"VTU 050\",\"model\":\"adder\"}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:110000112ce923f', 'WCW146', '{\"model\":86520421,\"plate\":\"WCW146\"}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:110000112ce923f', 'WOE972', '{\"model\":-1403128555,\"plate\":\"WOE972\"}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:110000112ce923f', 'YOO348', '{\"model\":-808831384,\"plate\":\"YOO348\"}', 'car', NULL, 0, 'Würfelpark Garage', 'A'),
+('steam:110000112ce923f', 'ZAN123', '{\"plate\":\"ZAN123\",\"model\":1349725314}', 'car', NULL, 0, 'Würfelpark Garage', 'A');
 
 -- --------------------------------------------------------
 
@@ -1138,503 +1264,9 @@ CREATE TABLE `owned_vehicles_headlights` (
 
 INSERT INTO `owned_vehicles_headlights` (`id`, `plate`, `color`) VALUES
 (1, 'BCN277', 12),
-(2, 'BTW521', 9);
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `phone_accounts`
---
-
-CREATE TABLE `phone_accounts` (
-  `app` varchar(50) NOT NULL,
-  `id` varchar(80) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `birthdate` varchar(50) NOT NULL,
-  `gender` varchar(50) NOT NULL,
-  `interested` text NOT NULL,
-  `avatar` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `phone_alertjobs`
---
-
-CREATE TABLE `phone_alertjobs` (
-  `id` int(11) NOT NULL,
-  `job` varchar(255) NOT NULL,
-  `alerts` text DEFAULT NULL,
-  `date` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `phone_bankhistory`
---
-
-CREATE TABLE `phone_bankhistory` (
-  `id` int(11) NOT NULL,
-  `identifier` varchar(2555) NOT NULL,
-  `amount` int(255) NOT NULL,
-  `reason` varchar(2555) NOT NULL,
-  `date` date NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Daten für Tabelle `phone_bankhistory`
---
-
-INSERT INTO `phone_bankhistory` (`id`, `identifier`, `amount`, `reason`, `date`) VALUES
-(1, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 0, 'Einkommen', '2021-12-04'),
-(2, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 0, 'Einkommen', '2021-12-04'),
-(3, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 10000, 'GLMP Bonus', '2021-12-04'),
-(4, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 0, 'Einkommen', '2021-12-05'),
-(5, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -100, 'Haussteuer', '2021-12-05'),
-(6, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -50, 'Rundfunkbeitrag', '2021-12-05'),
-(7, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 10000, 'GLMP Bonus', '2021-12-05'),
-(8, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 125, 'Sozialbonus', '2021-12-05'),
-(9, 'cac22ab2b6f2ec5c90b1b654ce7743962240d51e', 0, 'Einkommen', '2021-12-05'),
-(10, 'e2ac71eb327c0e959e4394d5b62435fc10c7c455', 0, 'Einkommen', '2021-12-05'),
-(11, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 0, 'Einkommen', '2021-12-05'),
-(12, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -50, 'Rundfunkbeitrag', '2021-12-05'),
-(13, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -100, 'Haussteuer', '2021-12-05'),
-(14, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 10000, 'GLMP Bonus', '2021-12-05'),
-(15, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 125, 'Sozialbonus', '2021-12-05'),
-(16, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 0, 'Einkommen', '2021-12-05'),
-(17, 'e2b30103490202c96a0b636787139a342725d8ed', 0, 'Einkommen', '2021-12-05'),
-(18, 'f3a1af8f1e83f6b35c4c49d36b8a2eedd6067d7f', 0, 'Einkommen', '2021-12-05'),
-(19, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 0, 'Einkommen', '2021-12-05'),
-(20, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -50, 'Rundfunkbeitrag', '2021-12-05'),
-(21, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -100, 'Haussteuer', '2021-12-05'),
-(22, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 10000, 'GLMP Bonus', '2021-12-05'),
-(23, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 150, 'Sozialbonus', '2021-12-05'),
-(24, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 0, 'Einkommen', '2021-12-05'),
-(25, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -50, 'Rundfunkbeitrag', '2021-12-05'),
-(26, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -100, 'Haussteuer', '2021-12-05'),
-(27, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 10000, 'GLMP Bonus', '2021-12-05'),
-(28, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 150, 'Sozialbonus', '2021-12-05'),
-(29, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 0, 'Einkommen', '2021-12-05'),
-(30, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 125, 'Sozialbonus', '2021-12-05'),
-(31, 'f3a1af8f1e83f6b35c4c49d36b8a2eedd6067d7f', 0, 'Einkommen', '2021-12-05'),
-(32, 'f3a1af8f1e83f6b35c4c49d36b8a2eedd6067d7f', 125, 'Sozialbonus', '2021-12-05'),
-(33, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 0, 'Einkommen', '2021-12-05'),
-(34, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -50, 'Rundfunkbeitrag', '2021-12-05'),
-(35, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -100, 'Haussteuer', '2021-12-05'),
-(36, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 10000, 'GLMP Bonus', '2021-12-05'),
-(37, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -225, 'Fahrzeugsteuer', '2021-12-05'),
-(38, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 150, 'Sozialbonus', '2021-12-05'),
-(39, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 0, 'Einkommen', '2021-12-05'),
-(40, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 5500, 'GLMP Bonus', '2021-12-05'),
-(41, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', 0, 'Einkommen', '2021-12-05'),
-(42, 'cac22ab2b6f2ec5c90b1b654ce7743962240d51e', 0, 'Einkommen', '2021-12-05'),
-(43, 'cac22ab2b6f2ec5c90b1b654ce7743962240d51e', 125, 'Sozialbonus', '2021-12-05'),
-(44, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 0, 'Einkommen', '2021-12-05'),
-(45, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -50, 'Rundfunkbeitrag', '2021-12-05'),
-(46, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 125, 'Sozialbonus', '2021-12-05'),
-(47, 'e2b30103490202c96a0b636787139a342725d8ed', 25000, 'ATM Einzahlung ', '2021-12-05'),
-(48, 'e2ac71eb327c0e959e4394d5b62435fc10c7c455', 0, 'Einkommen', '2021-12-05'),
-(49, 'e2ac71eb327c0e959e4394d5b62435fc10c7c455', 125, 'Sozialbonus', '2021-12-05'),
-(50, '8f1ab93eae4d2a56e5607418147d7d3a19935e00', 0, 'Einkommen', '2021-12-05'),
-(51, '53e30ec145ec2a24e05bf26dde77657e78ef8b02', 30000, 'ATM Einzahlung ', '2021-12-05'),
-(52, 'dc8ca240506b1489f4f6a62067d7479239810771', 40000, 'ATM Einzahlung ', '2021-12-05'),
-(53, '919a3bae28268cddf7401906f09142fadc93f513', 45000, 'ATM Einzahlung ', '2021-12-05'),
-(54, 'f92087dc18e6ae552051e8043dfbb3ba15affc12', 45000, 'ATM Einzahlung ', '2021-12-05'),
-(55, 'f92087dc18e6ae552051e8043dfbb3ba15affc12', -20000, 'ATM Auszahlung ', '2021-12-05'),
-(56, 'dc8ca240506b1489f4f6a62067d7479239810771', -40000, 'ATM Auszahlung ', '2021-12-05'),
-(57, '919a3bae28268cddf7401906f09142fadc93f513', -19999, 'ATM Auszahlung ', '2021-12-05'),
-(58, 'e4a7cb7ca8d60d49ff4e2b5345db019542efcf9f', 0, 'Einkommen', '2021-12-05'),
-(59, 'f92087dc18e6ae552051e8043dfbb3ba15affc12', -4000, 'ATM Auszahlung ', '2021-12-05'),
-(60, 'dc8ca240506b1489f4f6a62067d7479239810771', 40000, 'ATM Einzahlung ', '2021-12-05'),
-(61, '53e30ec145ec2a24e05bf26dde77657e78ef8b02', -6000, 'ATM Auszahlung ', '2021-12-05'),
-(62, '74b77f9906bfe3ececa3ac48bbe1d05d807eedee', 22450, 'ATM Einzahlung ', '2021-12-05'),
-(63, '74b77f9906bfe3ececa3ac48bbe1d05d807eedee', -31, 'ATM Auszahlung ', '2021-12-05'),
-(64, '663e9d44b7446c73d57f352109e6e45cb1f491cc', 40000, 'ATM Einzahlung ', '2021-12-05'),
-(65, '04b7955f05a3da08e3b356281286e5e02b6d377c', 50000, 'ATM Einzahlung ', '2021-12-05'),
-(66, '663e9d44b7446c73d57f352109e6e45cb1f491cc', -40000, 'ATM Auszahlung ', '2021-12-05'),
-(67, '04b7955f05a3da08e3b356281286e5e02b6d377c', -1000, 'ATM Auszahlung ', '2021-12-05'),
-(68, 'dc8ca240506b1489f4f6a62067d7479239810771', -26000, 'ATM Auszahlung ', '2021-12-05'),
-(69, 'f92087dc18e6ae552051e8043dfbb3ba15affc12', -21000, 'ATM Auszahlung ', '2021-12-05'),
-(70, 'f92087dc18e6ae552051e8043dfbb3ba15affc12', 10000, 'ATM Einzahlung ', '2021-12-05'),
-(71, 'f92087dc18e6ae552051e8043dfbb3ba15affc12', 4000, 'ATM Einzahlung ', '2021-12-05'),
-(72, '919a3bae28268cddf7401906f09142fadc93f513', 7000, 'ATM Einzahlung ', '2021-12-05'),
-(73, '0d25d32fe0db14c00ee17544fe29dd830d34c526', 50000, 'ATM Einzahlung ', '2021-12-05'),
-(74, '7928e0c832454a059eb52dee949444de8aaaa44f', 10190, 'ATM Einzahlung ', '2021-12-05'),
-(75, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', -25000, 'ATM Auszahlung ', '2021-12-05'),
-(76, '4fe94981d8e42ee934320a4b30b5d7d30d115fb6', 40000, 'ATM Einzahlung ', '2021-12-05'),
-(77, '63275a461233e4810f97947446408b8743b9fb64', 0, 'Einkommen', '2021-12-05'),
-(78, '7928e0c832454a059eb52dee949444de8aaaa44f', -10000, 'ATM Auszahlung ', '2021-12-05'),
-(79, '7928e0c832454a059eb52dee949444de8aaaa44f', 9000, 'ATM Einzahlung ', '2021-12-05'),
-(80, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 0, 'Einkommen', '2021-12-05'),
-(81, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -50, 'Rundfunkbeitrag', '2021-12-05'),
-(82, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -100, 'Haussteuer', '2021-12-05'),
-(83, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 10000, 'GLMP Bonus', '2021-12-05'),
-(84, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', -225, 'Fahrzeugsteuer', '2021-12-05'),
-(85, 'b17143d56ed4a18417b32008d7ab00e8d64a1e0c', 150, 'Sozialbonus', '2021-12-05'),
-(86, 'f3a1af8f1e83f6b35c4c49d36b8a2eedd6067d7f', 0, 'Einkommen', '2021-12-05'),
-(87, 'f3a1af8f1e83f6b35c4c49d36b8a2eedd6067d7f', -50, 'Rundfunkbeitrag', '2021-12-05'),
-(88, 'f3a1af8f1e83f6b35c4c49d36b8a2eedd6067d7f', 125, 'Sozialbonus', '2021-12-05'),
-(89, '7928e0c832454a059eb52dee949444de8aaaa44f', -500, 'ATM Auszahlung ', '2021-12-05'),
-(90, '74b77f9906bfe3ececa3ac48bbe1d05d807eedee', -40000, 'ATM Auszahlung ', '2021-12-05'),
-(91, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 24000, 'ATM Einzahlung ', '2021-12-05'),
-(92, 'b385d3841f7f652a63ebb8cb4be269799551a9a3', 20000, 'ATM Einzahlung ', '2021-12-05'),
-(93, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -20000, 'ATM Auszahlung ', '2021-12-05'),
-(94, '74b77f9906bfe3ececa3ac48bbe1d05d807eedee', 40000, 'ATM Einzahlung ', '2021-12-05'),
-(95, 'b385d3841f7f652a63ebb8cb4be269799551a9a3', 6500, 'ATM Einzahlung ', '2021-12-05'),
-(96, 'da34886767b6d0224b3c6886ea21d87f8388084c', 39500, 'ATM Einzahlung ', '2021-12-05'),
-(97, 'da34886767b6d0224b3c6886ea21d87f8388084c', -5000, 'ATM Auszahlung ', '2021-12-05'),
-(98, 'da34886767b6d0224b3c6886ea21d87f8388084c', -5000, 'ATM Auszahlung ', '2021-12-05'),
-(99, '3e75e2bfbe91c53efd75ef55dcf3852b66542e90', 40000, 'ATM Einzahlung ', '2021-12-05'),
-(100, '47e314068cbf274da7e1da5c95621e85c8edab68', 0, 'Einkommen', '2021-12-05'),
-(101, '0d25d32fe0db14c00ee17544fe29dd830d34c526', -5000, 'ATM Auszahlung ', '2021-12-05'),
-(102, '74b77f9906bfe3ececa3ac48bbe1d05d807eedee', -10000, 'ATM Auszahlung ', '2021-12-05'),
-(103, '95d79485549d813004c0d4f7b03e523935b13cdb', 13000, 'ATM Einzahlung ', '2021-12-05'),
-(104, '0d25d32fe0db14c00ee17544fe29dd830d34c526', -3000, 'ATM Auszahlung ', '2021-12-05'),
-(105, 'e2ac71eb327c0e959e4394d5b62435fc10c7c455', -5000, 'ATM Auszahlung ', '2021-12-05'),
-(106, 'da34886767b6d0224b3c6886ea21d87f8388084c', -7000, 'ATM Auszahlung ', '2021-12-05'),
-(107, 'e2b30103490202c96a0b636787139a342725d8ed', -25000, 'ATM Auszahlung ', '2021-12-05'),
-(108, 'da34886767b6d0224b3c6886ea21d87f8388084c', -8000, 'ATM Auszahlung ', '2021-12-05'),
-(109, '0d25d32fe0db14c00ee17544fe29dd830d34c526', -30000, 'ATM Auszahlung ', '2021-12-05'),
-(110, 'e2ac71eb327c0e959e4394d5b62435fc10c7c455', -15000, 'ATM Auszahlung ', '2021-12-05'),
-(111, 'e2ac71eb327c0e959e4394d5b62435fc10c7c455', -5000, 'ATM Auszahlung ', '2021-12-05'),
-(112, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 9000, 'Einkommen', '2021-12-05'),
-(113, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -50, 'Rundfunkbeitrag', '2021-12-05'),
-(114, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -100, 'Haussteuer', '2021-12-05'),
-(115, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 5500, 'GLMP Bonus', '2021-12-05'),
-(116, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 125, 'Sozialbonus', '2021-12-05'),
-(117, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', 6000, 'Einkommen', '2021-12-05'),
-(118, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', -50, 'Rundfunkbeitrag', '2021-12-05'),
-(119, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', 125, 'Sozialbonus', '2021-12-05'),
-(120, 'e4a7cb7ca8d60d49ff4e2b5345db019542efcf9f', 18000, 'ATM Einzahlung ', '2021-12-05'),
-(121, 'e4a7cb7ca8d60d49ff4e2b5345db019542efcf9f', -1000, 'ATM Auszahlung ', '2021-12-05'),
-(122, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -5000, 'ATM Auszahlung ', '2021-12-05'),
-(123, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -200, 'ATM Auszahlung ', '2021-12-05'),
-(124, '63275a461233e4810f97947446408b8743b9fb64', 0, 'Einkommen', '2021-12-05'),
-(125, '63275a461233e4810f97947446408b8743b9fb64', 125, 'Sozialbonus', '2021-12-05'),
-(126, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 0, 'Einkommen', '2021-12-06'),
-(127, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 125, 'Sozialbonus', '2021-12-06'),
-(128, '63275a461233e4810f97947446408b8743b9fb64', 175000, 'ATM Einzahlung ', '2021-12-06'),
-(129, '63275a461233e4810f97947446408b8743b9fb64', 100000, 'ATM Einzahlung ', '2021-12-06'),
-(130, '63275a461233e4810f97947446408b8743b9fb64', 120000, 'ATM Einzahlung ', '2021-12-06'),
-(131, '63275a461233e4810f97947446408b8743b9fb64', 90000, 'ATM Einzahlung ', '2021-12-06'),
-(132, '63275a461233e4810f97947446408b8743b9fb64', -470000, 'ATM Auszahlung ', '2021-12-06'),
-(133, '63275a461233e4810f97947446408b8743b9fb64', 508000, 'ATM Einzahlung ', '2021-12-06'),
-(134, '0343d91f8558cc7c7d276fa2eb32f789af34e67d', 0, 'Einkommen', '2021-12-06'),
-(135, '834c8085cc6f707d4a493b532c1c65a55db13e77', 57500, 'ATM Einzahlung ', '2021-12-06'),
-(136, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', 72000, 'ATM Einzahlung ', '2021-12-06'),
-(137, 'e2b30103490202c96a0b636787139a342725d8ed', 0, 'Einkommen', '2021-12-06'),
-(138, 'e2b30103490202c96a0b636787139a342725d8ed', 125, 'Sozialbonus', '2021-12-06'),
-(139, '834c8085cc6f707d4a493b532c1c65a55db13e77', -15000, 'ATM Auszahlung ', '2021-12-06'),
-(140, '834c8085cc6f707d4a493b532c1c65a55db13e77', -5000, 'ATM Auszahlung ', '2021-12-06'),
-(141, '63275a461233e4810f97947446408b8743b9fb64', 0, 'Einkommen', '2021-12-06'),
-(142, '63275a461233e4810f97947446408b8743b9fb64', -50, 'Rundfunkbeitrag', '2021-12-06'),
-(143, '63275a461233e4810f97947446408b8743b9fb64', 125, 'Sozialbonus', '2021-12-06'),
-(144, '63275a461233e4810f97947446408b8743b9fb64', 130000, 'ATM Einzahlung ', '2021-12-06'),
-(145, '63275a461233e4810f97947446408b8743b9fb64', -510000, 'ATM Auszahlung ', '2021-12-06'),
-(146, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', 90000, 'ATM Einzahlung ', '2021-12-06'),
-(147, '834c8085cc6f707d4a493b532c1c65a55db13e77', 125000, 'ATM Einzahlung ', '2021-12-06'),
-(148, '3a9e6e54f4f7feca53577e2ccc174eaffae12d37', 33650, 'ATM Einzahlung ', '2021-12-06'),
-(149, '3a9e6e54f4f7feca53577e2ccc174eaffae12d37', -500, 'ATM Auszahlung ', '2021-12-06'),
-(150, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', 74000, 'ATM Einzahlung ', '2021-12-06'),
-(151, '3a9e6e54f4f7feca53577e2ccc174eaffae12d37', -2000, 'ATM Auszahlung ', '2021-12-06'),
-(152, '3a9e6e54f4f7feca53577e2ccc174eaffae12d37', -200, 'ATM Auszahlung ', '2021-12-06'),
-(153, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', -164000, 'ATM Auszahlung ', '2021-12-06'),
-(154, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', 170000, 'ATM Einzahlung ', '2021-12-06'),
-(155, '1089270a293523e7bdfed27e21b4aa6b9111f39f', 36000, 'ATM Einzahlung ', '2021-12-06'),
-(156, '3a9e6e54f4f7feca53577e2ccc174eaffae12d37', -2000, 'ATM Auszahlung ', '2021-12-06'),
-(157, 'e2ac71eb327c0e959e4394d5b62435fc10c7c455', -125, 'ATM Auszahlung ', '2021-12-06'),
-(158, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -1000, 'Überweisung an Kelly_Adams', '2021-12-06'),
-(159, '1089270a293523e7bdfed27e21b4aa6b9111f39f', 1000, 'Überweisung von Clemens_Adams', '2021-12-06'),
-(160, 'e2b30103490202c96a0b636787139a342725d8ed', 1000, 'Überweisung von Clemens_Adams', '2021-12-06'),
-(161, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -1000, 'Überweisung an Haku_Jones', '2021-12-06'),
-(162, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', 0, 'Einkommen', '2021-12-06'),
-(163, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', -50, 'Rundfunkbeitrag', '2021-12-06'),
-(164, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', -60000, 'ATM Auszahlung ', '2021-12-06'),
-(165, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', 121000, 'ATM Einzahlung ', '2021-12-06'),
-(166, '834c8085cc6f707d4a493b532c1c65a55db13e77', 200000, 'ATM Einzahlung ', '2021-12-06'),
-(167, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', 86000, 'ATM Einzahlung ', '2021-12-06'),
-(168, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', -256000, 'ATM Auszahlung ', '2021-12-06'),
-(169, '47e314068cbf274da7e1da5c95621e85c8edab68', 15000, 'ATM Einzahlung ', '2021-12-06'),
-(170, 'e2ac71eb327c0e959e4394d5b62435fc10c7c455', 25000, 'ATM Einzahlung ', '2021-12-06'),
-(171, 'e2b30103490202c96a0b636787139a342725d8ed', 10000, 'ATM Einzahlung ', '2021-12-06'),
-(172, '04b7955f05a3da08e3b356281286e5e02b6d377c', 9000, 'ATM Einzahlung ', '2021-12-06'),
-(173, 'e2ac71eb327c0e959e4394d5b62435fc10c7c455', -4031, 'Überweisung an Clemens_Adams', '2021-12-06'),
-(174, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 4031, 'Überweisung von Jordan_Lokomotiv', '2021-12-06'),
-(175, '834c8085cc6f707d4a493b532c1c65a55db13e77', 115000, 'ATM Einzahlung ', '2021-12-06'),
-(176, '974f4d4f2f25cd9bbd7e15ece6c76d83b4de340c', 11000, 'Einkommen', '2021-12-06'),
-(177, '974f4d4f2f25cd9bbd7e15ece6c76d83b4de340c', -50, 'Rundfunkbeitrag', '2021-12-06'),
-(178, '974f4d4f2f25cd9bbd7e15ece6c76d83b4de340c', -100, 'Haussteuer', '2021-12-06'),
-(179, '974f4d4f2f25cd9bbd7e15ece6c76d83b4de340c', 7500, 'GLMP Bonus', '2021-12-06'),
-(180, '974f4d4f2f25cd9bbd7e15ece6c76d83b4de340c', -75, 'Fahrzeugsteuer', '2021-12-06'),
-(181, '974f4d4f2f25cd9bbd7e15ece6c76d83b4de340c', 30000, 'ATM Einzahlung ', '2021-12-06'),
-(182, '8f1ab93eae4d2a56e5607418147d7d3a19935e00', 10000, 'Einkommen', '2021-12-06'),
-(183, '8f1ab93eae4d2a56e5607418147d7d3a19935e00', -50, 'Rundfunkbeitrag', '2021-12-06'),
-(184, '8f1ab93eae4d2a56e5607418147d7d3a19935e00', 125, 'Sozialbonus', '2021-12-06'),
-(185, 'da34886767b6d0224b3c6886ea21d87f8388084c', 123000, 'ATM Einzahlung ', '2021-12-06'),
-(186, 'b62dd9649e23b16c2472a73104970ea444a26c45', 110000, 'ATM Einzahlung ', '2021-12-06'),
-(187, 'a51224ca159335bff64e29f4403f99c6523f35b1', 3000, 'ATM Einzahlung ', '2021-12-06'),
-(188, 'a51224ca159335bff64e29f4403f99c6523f35b1', 3000, 'ATM Einzahlung ', '2021-12-06'),
-(189, 'a51224ca159335bff64e29f4403f99c6523f35b1', -6000, 'Inhaftierung', '2021-12-06'),
-(190, 'da34886767b6d0224b3c6886ea21d87f8388084c', -500, 'ATM Auszahlung ', '2021-12-06'),
-(191, 'b62dd9649e23b16c2472a73104970ea444a26c45', 100000, 'ATM Einzahlung ', '2021-12-06'),
-(192, '3e75e2bfbe91c53efd75ef55dcf3852b66542e90', -5000, 'ATM Auszahlung ', '2021-12-06'),
-(193, '5088812cdc5b81a45b0f26224082a868a2e854fa', 40000, 'ATM Einzahlung ', '2021-12-06'),
-(194, '834c8085cc6f707d4a493b532c1c65a55db13e77', -350000, 'ATM Auszahlung ', '2021-12-06'),
-(195, '6c7dc0053cbb499e7753d9efbd760ee19406f78e', 35000, 'ATM Einzahlung ', '2021-12-06'),
-(196, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', 121000, 'ATM Einzahlung ', '2021-12-06'),
-(197, '834c8085cc6f707d4a493b532c1c65a55db13e77', -127000, 'ATM Auszahlung ', '2021-12-06'),
-(198, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 30000, 'ATM Einzahlung ', '2021-12-06'),
-(199, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', -240000, 'ATM Auszahlung ', '2021-12-06'),
-(200, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', -5000, 'ATM Auszahlung ', '2021-12-06'),
-(201, '834c8085cc6f707d4a493b532c1c65a55db13e77', 202500, 'ATM Einzahlung ', '2021-12-06'),
-(202, '51f552ca10d326345ce58cf9dd2e5b6d2283cc0d', 0, 'Einkommen', '2021-12-07'),
-(203, '63275a461233e4810f97947446408b8743b9fb64', -70000, 'ATM Auszahlung ', '2021-12-07'),
-(204, '63275a461233e4810f97947446408b8743b9fb64', -14000, 'ATM Auszahlung ', '2021-12-07'),
-(205, '63275a461233e4810f97947446408b8743b9fb64', 147000, 'ATM Einzahlung ', '2021-12-07'),
-(206, 'e2b30103490202c96a0b636787139a342725d8ed', 0, 'Einkommen', '2021-12-07'),
-(207, 'e2b30103490202c96a0b636787139a342725d8ed', -50, 'Rundfunkbeitrag', '2021-12-07'),
-(208, 'e2b30103490202c96a0b636787139a342725d8ed', 125, 'Sozialbonus', '2021-12-07'),
-(209, 'e2b30103490202c96a0b636787139a342725d8ed', 595, 'ATM Einzahlung ', '2021-12-07'),
-(210, 'e2b30103490202c96a0b636787139a342725d8ed', -5000, 'ATM Auszahlung ', '2021-12-07'),
-(211, 'd88f70f353e0097dc93d17af809b3793286904f2', 20000, 'ATM Einzahlung ', '2021-12-07'),
-(212, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 140000, 'ATM Einzahlung ', '2021-12-07'),
-(213, 'e2b30103490202c96a0b636787139a342725d8ed', -800, 'ATM Auszahlung ', '2021-12-07'),
-(214, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 0, 'Einkommen', '2021-12-07'),
-(215, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 0, 'Einkommen', '2021-12-07'),
-(216, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -50, 'Rundfunkbeitrag', '2021-12-07'),
-(217, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -100, 'Haussteuer', '2021-12-07'),
-(218, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -75, 'Fahrzeugsteuer', '2021-12-07'),
-(219, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 5500, 'GLMP Bonus', '2021-12-07'),
-(220, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 125, 'Sozialbonus', '2021-12-07'),
-(221, 'e2b30103490202c96a0b636787139a342725d8ed', 1000, 'Einkommen', '2021-12-07'),
-(222, 'e2b30103490202c96a0b636787139a342725d8ed', -50, 'Rundfunkbeitrag', '2021-12-07'),
-(223, 'e2b30103490202c96a0b636787139a342725d8ed', 125, 'Sozialbonus', '2021-12-07'),
-(224, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', 200000, 'ATM Einzahlung ', '2021-12-07'),
-(225, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -135000, 'ATM Auszahlung ', '2021-12-07'),
-(226, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 140000, 'ATM Einzahlung ', '2021-12-07'),
-(227, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -150000, 'ATM Auszahlung ', '2021-12-07'),
-(228, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 20000, 'ATM Einzahlung ', '2021-12-07'),
-(229, '8f1ab93eae4d2a56e5607418147d7d3a19935e00', -10075, 'ATM Auszahlung ', '2021-12-07'),
-(230, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -10000, 'Überweisung an Maxi_King-Smith', '2021-12-07'),
-(231, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', 10000, 'Überweisung von Clemens_Adams', '2021-12-07'),
-(232, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', -10000, 'ATM Auszahlung ', '2021-12-07'),
-(233, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -8000, 'ATM Auszahlung ', '2021-12-07'),
-(234, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -1000, 'Überweisung an Lynn_Taylor', '2021-12-07'),
-(235, '04b7955f05a3da08e3b356281286e5e02b6d377c', 1000, 'Überweisung von Clemens_Adams', '2021-12-07'),
-(236, '974f4d4f2f25cd9bbd7e15ece6c76d83b4de340c', -1000, 'ATM Auszahlung ', '2021-12-07'),
-(237, 'b62dd9649e23b16c2472a73104970ea444a26c45', 70000, 'ATM Einzahlung ', '2021-12-07'),
-(238, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -26000, 'Überweisung an Tim_Winkelmann', '2021-12-07'),
-(239, '974f4d4f2f25cd9bbd7e15ece6c76d83b4de340c', 26000, 'Überweisung von Clemens_Adams', '2021-12-07'),
-(240, 'b62dd9649e23b16c2472a73104970ea444a26c45', -265000, 'ATM Auszahlung ', '2021-12-07'),
-(241, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', 300000, 'ATM Einzahlung ', '2021-12-07'),
-(242, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', -50000, 'ATM Auszahlung ', '2021-12-07'),
-(243, '919a3bae28268cddf7401906f09142fadc93f513', -20000, 'ATM Auszahlung ', '2021-12-07'),
-(244, '919a3bae28268cddf7401906f09142fadc93f513', -1000, 'ATM Auszahlung ', '2021-12-07'),
-(245, 'dc8ca240506b1489f4f6a62067d7479239810771', 3000, 'ATM Einzahlung ', '2021-12-07'),
-(246, 'dc8ca240506b1489f4f6a62067d7479239810771', -15000, 'ATM Auszahlung ', '2021-12-07'),
-(247, 'dc8ca240506b1489f4f6a62067d7479239810771', 15000, 'ATM Einzahlung ', '2021-12-07'),
-(248, 'dc8ca240506b1489f4f6a62067d7479239810771', -15000, 'ATM Auszahlung ', '2021-12-07'),
-(249, '919a3bae28268cddf7401906f09142fadc93f513', -7500, 'ATM Auszahlung ', '2021-12-07'),
-(250, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', 6000, 'ATM Einzahlung ', '2021-12-07'),
-(251, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', -12000, 'ATM Auszahlung ', '2021-12-07'),
-(252, '919a3bae28268cddf7401906f09142fadc93f513', 500, 'ATM Einzahlung ', '2021-12-07'),
-(253, '71cc0ce33810ea789cc014145568f201dbf6815b', 40000, 'ATM Einzahlung ', '2021-12-07'),
-(254, '3f2cd6ed1378c7ce12f9bd35c21c33e5b0c526b5', -100000, 'ATM Auszahlung ', '2021-12-07'),
-(255, '974f4d4f2f25cd9bbd7e15ece6c76d83b4de340c', -1000, 'ATM Auszahlung ', '2021-12-07'),
-(256, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', 160000, 'ATM Einzahlung ', '2021-12-07'),
-(257, '71cc0ce33810ea789cc014145568f201dbf6815b', -40000, 'ATM Auszahlung ', '2021-12-07'),
-(258, '1089270a293523e7bdfed27e21b4aa6b9111f39f', -5000, 'ATM Auszahlung ', '2021-12-07'),
-(259, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', -150000, 'ATM Auszahlung ', '2021-12-07'),
-(260, '834c8085cc6f707d4a493b532c1c65a55db13e77', -103000, 'ATM Auszahlung ', '2021-12-07'),
-(261, '834c8085cc6f707d4a493b532c1c65a55db13e77', -100000, 'ATM Auszahlung ', '2021-12-07'),
-(262, '6c7dc0053cbb499e7753d9efbd760ee19406f78e', -35000, 'ATM Auszahlung ', '2021-12-07'),
-(263, '71cc0ce33810ea789cc014145568f201dbf6815b', 32000, 'ATM Einzahlung ', '2021-12-07'),
-(264, '04b7955f05a3da08e3b356281286e5e02b6d377c', 11000, 'Einkommen', '2021-12-07'),
-(265, '04b7955f05a3da08e3b356281286e5e02b6d377c', -50, 'Rundfunkbeitrag', '2021-12-07'),
-(266, '1089270a293523e7bdfed27e21b4aa6b9111f39f', -500, 'ATM Auszahlung ', '2021-12-07'),
-(267, 'b62dd9649e23b16c2472a73104970ea444a26c45', 220000, 'ATM Einzahlung ', '2021-12-07'),
-(268, 'b62dd9649e23b16c2472a73104970ea444a26c45', -100000, 'ATM Auszahlung ', '2021-12-07'),
-(269, '919a3bae28268cddf7401906f09142fadc93f513', -1200, 'ATM Auszahlung ', '2021-12-07'),
-(270, '919a3bae28268cddf7401906f09142fadc93f513', -2000, 'ATM Auszahlung ', '2021-12-07'),
-(271, '919a3bae28268cddf7401906f09142fadc93f513', 339, 'ATM Einzahlung ', '2021-12-07'),
-(272, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', -75, 'ATM Auszahlung ', '2021-12-07'),
-(273, 'b62dd9649e23b16c2472a73104970ea444a26c45', -20000, 'ATM Auszahlung ', '2021-12-07'),
-(274, 'b62dd9649e23b16c2472a73104970ea444a26c45', -10000, 'ATM Auszahlung ', '2021-12-07'),
-(275, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', 42000, 'ATM Einzahlung ', '2021-12-07'),
-(276, '3a9e6e54f4f7feca53577e2ccc174eaffae12d37', 4600, 'ATM Einzahlung ', '2021-12-07'),
-(277, '4e04bdeb9676079fd37b05ff49a133e69f238a00', 18647, 'ATM Einzahlung ', '2021-12-07'),
-(278, 'b62dd9649e23b16c2472a73104970ea444a26c45', -20000, 'ATM Auszahlung ', '2021-12-07'),
-(279, 'bcfc4106e7b400c58cd14dbfd228a2343ff4ca6a', 50000, 'ATM Einzahlung ', '2021-12-07'),
-(280, 'bcfc4106e7b400c58cd14dbfd228a2343ff4ca6a', 43000, 'ATM Einzahlung ', '2021-12-07'),
-(281, 'bcfc4106e7b400c58cd14dbfd228a2343ff4ca6a', -30000, 'ATM Auszahlung ', '2021-12-07'),
-(282, 'da34886767b6d0224b3c6886ea21d87f8388084c', 190000, 'ATM Einzahlung ', '2021-12-07'),
-(283, '3a9e6e54f4f7feca53577e2ccc174eaffae12d37', 35000, 'ATM Einzahlung ', '2021-12-07'),
-(284, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', 122000, 'ATM Einzahlung ', '2021-12-07'),
-(285, '63275a461233e4810f97947446408b8743b9fb64', 31, 'Überweisung von Clemens_Adams', '2021-12-07'),
-(286, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -31, 'Überweisung an Uvu_Usus-Shelby', '2021-12-07'),
-(287, '6c7dc0053cbb499e7753d9efbd760ee19406f78e', 5000, 'ATM Einzahlung ', '2021-12-07'),
-(288, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', -100000, 'ATM Auszahlung ', '2021-12-07'),
-(289, '63275a461233e4810f97947446408b8743b9fb64', -100000, 'Überweisung an Clemens_Adams', '2021-12-07'),
-(290, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 100000, 'Überweisung von Uvu_Usus-Shelby', '2021-12-07'),
-(291, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 90000, 'ATM Einzahlung ', '2021-12-07'),
-(292, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 0, 'Einkommen', '2021-12-07'),
-(293, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -50, 'Rundfunkbeitrag', '2021-12-07'),
-(294, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 150, 'Sozialbonus', '2021-12-07'),
-(295, '919a3bae28268cddf7401906f09142fadc93f513', 1000, 'ATM Einzahlung ', '2021-12-08'),
-(296, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 0, 'Einkommen', '2021-12-08'),
-(297, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 125, 'Sozialbonus', '2021-12-08'),
-(298, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 0, 'Einkommen', '2021-12-08'),
-(299, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', -50, 'Rundfunkbeitrag', '2021-12-08'),
-(300, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 125, 'Sozialbonus', '2021-12-08'),
-(301, '51f552ca10d326345ce58cf9dd2e5b6d2283cc0d', 25000, 'ATM Einzahlung ', '2021-12-08'),
-(302, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 200000, 'ATM Einzahlung ', '2021-12-08'),
-(303, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -20000, 'ATM Auszahlung ', '2021-12-08'),
-(304, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', 110000, 'ATM Einzahlung ', '2021-12-08'),
-(305, 'e2b30103490202c96a0b636787139a342725d8ed', -4000, 'ATM Auszahlung ', '2021-12-08'),
-(306, 'e2b30103490202c96a0b636787139a342725d8ed', 609000, 'ATM Einzahlung ', '2021-12-08'),
-(307, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 2000000, 'ATM Einzahlung ', '2021-12-08'),
-(308, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -300000, 'ATM Auszahlung ', '2021-12-08'),
-(309, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 112432, 'ATM Einzahlung ', '2021-12-08'),
-(310, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', -11200, 'ATM Auszahlung ', '2021-12-08'),
-(311, 'e2b30103490202c96a0b636787139a342725d8ed', -5000, 'ATM Auszahlung ', '2021-12-08'),
-(312, 'a51224ca159335bff64e29f4403f99c6523f35b1', 0, 'Einkommen', '2021-12-08'),
-(313, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -114890, 'Überweisung an Clemens_Adams', '2021-12-08'),
-(314, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 114890, 'Überweisung von Noah_Shelby', '2021-12-08'),
-(315, '51f552ca10d326345ce58cf9dd2e5b6d2283cc0d', -1000, 'ATM Auszahlung ', '2021-12-08'),
-(316, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 127390, 'Überweisung von Noah_Shelby', '2021-12-08'),
-(317, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -127390, 'Überweisung an Clemens_Adams', '2021-12-08'),
-(318, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 105200, 'ATM Einzahlung ', '2021-12-08'),
-(319, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', -5000, 'ATM Auszahlung ', '2021-12-08'),
-(320, '3a9e6e54f4f7feca53577e2ccc174eaffae12d37', 22500, 'ATM Einzahlung ', '2021-12-08'),
-(321, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -900000, 'ATM Auszahlung ', '2021-12-08'),
-(322, 'a51224ca159335bff64e29f4403f99c6523f35b1', 300000, 'ATM Einzahlung ', '2021-12-08'),
-(323, '71cc0ce33810ea789cc014145568f201dbf6815b', -5000, 'ATM Auszahlung ', '2021-12-08'),
-(324, '3f2cd6ed1378c7ce12f9bd35c21c33e5b0c526b5', 0, 'Einkommen', '2021-12-08'),
-(325, '3f2cd6ed1378c7ce12f9bd35c21c33e5b0c526b5', -50, 'Rundfunkbeitrag', '2021-12-08'),
-(326, 'd70e470d95eac4d0248694dcdf6247cfd05273c4', 290625, 'ATM Einzahlung ', '2021-12-08'),
-(327, 'd70e470d95eac4d0248694dcdf6247cfd05273c4', -40625, 'ATM Auszahlung ', '2021-12-08'),
-(328, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 100350, 'ATM Einzahlung ', '2021-12-08'),
-(329, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', -5090, 'ATM Auszahlung ', '2021-12-08'),
-(330, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 50000, 'ATM Einzahlung ', '2021-12-08'),
-(331, '47e314068cbf274da7e1da5c95621e85c8edab68', 100000, 'ATM Einzahlung ', '2021-12-08'),
-(332, '3b9259b0af89f3aa23d674025fd9020a7eba9b0f', 0, 'Einkommen', '2021-12-08'),
-(333, '6c7dc0053cbb499e7753d9efbd760ee19406f78e', 50000, 'ATM Einzahlung ', '2021-12-08'),
-(334, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -65390, 'Überweisung an Clemens_Adams', '2021-12-08'),
-(335, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 65390, 'Überweisung von Noah_Shelby', '2021-12-08'),
-(336, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -24000, 'Überweisung an Clemens_Adams', '2021-12-08'),
-(337, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 24000, 'Überweisung von Noah_Shelby', '2021-12-08'),
-(338, 'd70e470d95eac4d0248694dcdf6247cfd05273c4', -100000, 'ATM Auszahlung ', '2021-12-08'),
-(339, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -270000, 'ATM Auszahlung ', '2021-12-08'),
-(340, 'e2b30103490202c96a0b636787139a342725d8ed', 250000, 'ATM Einzahlung ', '2021-12-08'),
-(341, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 139090, 'ATM Einzahlung ', '2021-12-08'),
-(342, 'b385d3841f7f652a63ebb8cb4be269799551a9a3', 50000, 'ATM Einzahlung ', '2021-12-08'),
-(343, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', 120000, 'ATM Einzahlung ', '2021-12-08'),
-(344, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -102050, 'Überweisung an Clemens_Adams', '2021-12-08'),
-(345, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 102050, 'Überweisung von Noah_Shelby', '2021-12-08'),
-(346, '47e314068cbf274da7e1da5c95621e85c8edab68', -20000, 'ATM Auszahlung ', '2021-12-08'),
-(347, '6c7dc0053cbb499e7753d9efbd760ee19406f78e', 52300, 'ATM Einzahlung ', '2021-12-08'),
-(348, '6c7dc0053cbb499e7753d9efbd760ee19406f78e', -7000, 'ATM Auszahlung ', '2021-12-08'),
-(349, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', -40000, 'ATM Auszahlung ', '2021-12-08'),
-(350, '51f552ca10d326345ce58cf9dd2e5b6d2283cc0d', 50000, 'ATM Einzahlung ', '2021-12-08'),
-(351, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', -420000, 'ATM Auszahlung ', '2021-12-08'),
-(352, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 99800, 'Überweisung von Noah_Shelby', '2021-12-08'),
-(353, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -99800, 'Überweisung an Clemens_Adams', '2021-12-08'),
-(354, 'e2b30103490202c96a0b636787139a342725d8ed', -5000, 'ATM Auszahlung ', '2021-12-08'),
-(355, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -300000, 'ATM Auszahlung ', '2021-12-08'),
-(356, '51f552ca10d326345ce58cf9dd2e5b6d2283cc0d', -20000, 'ATM Auszahlung ', '2021-12-08'),
-(357, 'dc8ca240506b1489f4f6a62067d7479239810771', 20000, 'ATM Einzahlung ', '2021-12-08'),
-(358, 'dc8ca240506b1489f4f6a62067d7479239810771', -3000, 'ATM Auszahlung ', '2021-12-08'),
-(359, '04b7955f05a3da08e3b356281286e5e02b6d377c', 58000, 'ATM Einzahlung ', '2021-12-08'),
-(360, '51f552ca10d326345ce58cf9dd2e5b6d2283cc0d', -3000, 'ATM Auszahlung ', '2021-12-08'),
-(361, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -50650, 'Überweisung an Clemens_Adams', '2021-12-08'),
-(362, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 50650, 'Überweisung von Noah_Shelby', '2021-12-08'),
-(363, 'be04a144f82157f3e135bd3c65bb1b4d362be209', 50000, 'ATM Einzahlung ', '2021-12-08'),
-(364, 'e2b30103490202c96a0b636787139a342725d8ed', 103200, 'ATM Einzahlung ', '2021-12-08'),
-(365, 'e2b30103490202c96a0b636787139a342725d8ed', -500000, 'ATM Auszahlung ', '2021-12-08'),
-(366, '51f552ca10d326345ce58cf9dd2e5b6d2283cc0d', -5000, 'ATM Auszahlung ', '2021-12-08'),
-(367, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', 182000, 'ATM Einzahlung ', '2021-12-08'),
-(368, 'e2b30103490202c96a0b636787139a342725d8ed', 470000, 'ATM Einzahlung ', '2021-12-08'),
-(369, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', 50000, 'ATM Einzahlung ', '2021-12-08'),
-(370, 'da34886767b6d0224b3c6886ea21d87f8388084c', -5000, 'ATM Auszahlung ', '2021-12-08'),
-(371, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', -10000, 'ATM Auszahlung ', '2021-12-08'),
-(372, 'e2b30103490202c96a0b636787139a342725d8ed', -5000, 'ATM Auszahlung ', '2021-12-08'),
-(373, 'e2b30103490202c96a0b636787139a342725d8ed', -500000, 'ATM Auszahlung ', '2021-12-08'),
-(374, 'e2ac71eb327c0e959e4394d5b62435fc10c7c455', 100000, 'ATM Einzahlung ', '2021-12-08'),
-(375, 'dc8ca240506b1489f4f6a62067d7479239810771', -11000, 'ATM Auszahlung ', '2021-12-08'),
-(376, 'cbdf3b7e160437a866ddd46eb6230c79ca9450ac', 0, 'Einkommen', '2021-12-08'),
-(377, '24457ef4f8fb8419812a4361568d33df840b15a0', 11000, 'Einkommen', '2021-12-08'),
-(378, '24457ef4f8fb8419812a4361568d33df840b15a0', -50, 'Rundfunkbeitrag', '2021-12-08'),
-(379, 'da34886767b6d0224b3c6886ea21d87f8388084c', 50000, 'ATM Einzahlung ', '2021-12-08'),
-(380, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 300000, 'ATM Einzahlung ', '2021-12-08'),
-(381, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', -12000, 'ATM Auszahlung ', '2021-12-08'),
-(382, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -740000, 'Überweisung an Clemens_Adams', '2021-12-08'),
-(383, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 740000, 'Überweisung von Noah_Shelby', '2021-12-08'),
-(384, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', 160000, 'ATM Einzahlung ', '2021-12-08'),
-(385, 'dc8ca240506b1489f4f6a62067d7479239810771', -1000, 'ATM Auszahlung ', '2021-12-08'),
-(386, 'a51224ca159335bff64e29f4403f99c6523f35b1', 360000, 'ATM Einzahlung ', '2021-12-08'),
-(387, 'f607be8e77f3f47c845e1e0a5389a0a5775e0fb2', -10000, 'ATM Auszahlung ', '2021-12-08'),
-(388, '834c8085cc6f707d4a493b532c1c65a55db13e77', 0, 'Einkommen', '2021-12-08'),
-(389, 'e2b30103490202c96a0b636787139a342725d8ed', 1000, 'Einkommen', '2021-12-09'),
-(390, 'e2b30103490202c96a0b636787139a342725d8ed', -50, 'Rundfunkbeitrag', '2021-12-09'),
-(391, 'e2b30103490202c96a0b636787139a342725d8ed', 150, 'Sozialbonus', '2021-12-09'),
-(392, 'e2b30103490202c96a0b636787139a342725d8ed', 33999, 'ATM Einzahlung ', '2021-12-09'),
-(393, 'e2b30103490202c96a0b636787139a342725d8ed', 1000, 'Einkommen', '2021-12-09'),
-(394, 'e2b30103490202c96a0b636787139a342725d8ed', -50, 'Rundfunkbeitrag', '2021-12-09'),
-(395, 'e2b30103490202c96a0b636787139a342725d8ed', 150, 'Sozialbonus', '2021-12-09'),
-(396, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -500000, 'ATM Auszahlung ', '2021-12-09'),
-(397, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 180000, 'ATM Einzahlung ', '2021-12-09'),
-(398, '834c8085cc6f707d4a493b532c1c65a55db13e77', 0, 'Einkommen', '2021-12-09'),
-(399, '834c8085cc6f707d4a493b532c1c65a55db13e77', 125, 'Sozialbonus', '2021-12-09'),
-(400, 'a51224ca159335bff64e29f4403f99c6523f35b1', -660000, 'ATM Auszahlung ', '2021-12-09'),
-(401, 'dc8ca240506b1489f4f6a62067d7479239810771', 40000, 'ATM Einzahlung ', '2021-12-09'),
-(402, 'da34886767b6d0224b3c6886ea21d87f8388084c', -4000, 'ATM Auszahlung ', '2021-12-09'),
-(403, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -510000, 'ATM Auszahlung ', '2021-12-09'),
-(404, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 600000, 'ATM Einzahlung ', '2021-12-09'),
-(405, 'dc8ca240506b1489f4f6a62067d7479239810771', 82000, 'ATM Einzahlung ', '2021-12-09'),
-(406, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -31, 'Überweisung an Maxi_King-Smith', '2021-12-09'),
-(407, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', 31, 'Überweisung von Noah_Shelby', '2021-12-09'),
-(408, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 6000000, 'ATM Einzahlung ', '2021-12-09'),
-(409, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -200000, 'Überweisung an Maxi_King-Smith', '2021-12-09'),
-(410, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', 200000, 'Überweisung von Noah_Shelby', '2021-12-09'),
-(411, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -200000, 'Überweisung an Clemens_Adams', '2021-12-09'),
-(412, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 200000, 'Überweisung von Noah_Shelby', '2021-12-09'),
-(413, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 810000, 'Überweisung von Noah_Shelby', '2021-12-09'),
-(414, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -810000, 'Überweisung an Clemens_Adams', '2021-12-09'),
-(415, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -60000, 'Überweisung an Clemens_Adams', '2021-12-09'),
-(416, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 60000, 'Überweisung von Noah_Shelby', '2021-12-09'),
-(417, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -810000, 'Überweisung an Clemens_Adams', '2021-12-09'),
-(418, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 810000, 'Überweisung von Noah_Shelby', '2021-12-09'),
-(419, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -120000, 'Überweisung an Noah_Shelby', '2021-12-09'),
-(420, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 120000, 'Überweisung von Clemens_Adams', '2021-12-09'),
-(421, '974f4d4f2f25cd9bbd7e15ece6c76d83b4de340c', -7500, 'Überweisung an Clemens_Adams', '2021-12-09'),
-(422, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 7500, 'Überweisung von Tim_Winkelmann', '2021-12-09'),
-(423, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 810000, 'Überweisung von Noah_Shelby', '2021-12-09'),
-(424, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -810000, 'Überweisung an Clemens_Adams', '2021-12-09'),
-(425, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -750000, 'Überweisung an Clemens_Adams', '2021-12-09'),
-(426, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 750000, 'Überweisung von Noah_Shelby', '2021-12-09'),
-(427, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -3000000, 'ATM Auszahlung ', '2021-12-09'),
-(428, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 810000, 'Überweisung von Noah_Shelby', '2021-12-09'),
-(429, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -810000, 'Überweisung an Clemens_Adams', '2021-12-09'),
-(430, '04b7955f05a3da08e3b356281286e5e02b6d377c', -3000, 'ATM Auszahlung ', '2021-12-09'),
-(431, 'da34886767b6d0224b3c6886ea21d87f8388084c', 200000, 'ATM Einzahlung ', '2021-12-09'),
-(432, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', -710000, 'Überweisung an Clemens_Adams', '2021-12-09'),
-(433, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 710000, 'Überweisung von Noah_Shelby', '2021-12-09'),
-(434, '183181e8ce500156e7c7293d2fbd4083b6d09a74', -900000, 'ATM Auszahlung ', '2021-12-09'),
-(435, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', -50000, 'ATM Auszahlung ', '2021-12-09'),
-(436, '4f31c20f2760bbed938a0f34d5f7b9e39549464b', 100000, 'ATM Einzahlung ', '2021-12-09'),
-(437, 'dc8ca240506b1489f4f6a62067d7479239810771', 125000, 'ATM Einzahlung ', '2021-12-09'),
-(438, 'dc8ca240506b1489f4f6a62067d7479239810771', -254000, 'ATM Auszahlung ', '2021-12-09'),
-(439, 'dc8ca240506b1489f4f6a62067d7479239810771', 16000, 'ATM Einzahlung ', '2021-12-09'),
-(440, 'e2b30103490202c96a0b636787139a342725d8ed', 1000, 'Einkommen', '2021-12-10'),
-(441, 'e2b30103490202c96a0b636787139a342725d8ed', -50, 'Rundfunkbeitrag', '2021-12-10'),
-(442, 'e2b30103490202c96a0b636787139a342725d8ed', 150, 'Sozialbonus', '2021-12-10'),
-(443, '2c2741fe6cc115f90074b6857275382772f2b7cf', 48000, 'ATM Einzahlung ', '2021-12-10'),
-(444, '25c33576e0a8a8de27752c445344dba859e38347', 0, 'Einkommen', '2021-12-10'),
-(445, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 287400, 'ATM Einzahlung ', '2021-12-10'),
-(446, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 4324971, 'ATM Einzahlung ', '2021-12-11');
+(2, 'BTW521', 9),
+(3, 'LGD122', 9),
+(4, 'HYI876', 9);
 
 -- --------------------------------------------------------
 
@@ -1653,9 +1285,7 @@ CREATE TABLE `phone_business` (
 --
 
 INSERT INTO `phone_business` (`job`, `motd`, `motdchanged`) VALUES
-('LSPD', 'Die Frak-Infos sind ab Rang 10 Einstellbar.', 'steam:1100001320b2962'),
-('null', '', 'steam:1100001093de21c'),
-('FIB', 'Der neue Rang 12 ist jetzt erreichbar und hofft auf eine Gute Arbeit vom FIB und von der Police', 'steam:11000013f7250e9');
+('LSPD', 'Test', 'steam:11000013d79d68d');
 
 -- --------------------------------------------------------
 
@@ -1665,69 +1295,18 @@ INSERT INTO `phone_business` (`job`, `motd`, `motdchanged`) VALUES
 
 CREATE TABLE `phone_calls` (
   `id` int(11) NOT NULL,
-  `receiver` varchar(50) NOT NULL,
+  `receiver` varchar(10) NOT NULL,
   `num` varchar(10) NOT NULL,
   `time` varchar(50) NOT NULL,
   `accepts` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Tabellenstruktur für Tabelle `phone_chatrooms`
+-- Daten für Tabelle `phone_calls`
 --
 
-CREATE TABLE `phone_chatrooms` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `room_code` varchar(10) NOT NULL,
-  `room_name` varchar(15) NOT NULL,
-  `room_owner_id` varchar(50) DEFAULT NULL,
-  `room_owner_name` varchar(60) DEFAULT NULL,
-  `room_members` text DEFAULT NULL,
-  `room_pin` varchar(50) DEFAULT NULL,
-  `unpaid_balance` decimal(10,2) DEFAULT 0.00,
-  `is_masked` tinyint(1) DEFAULT 0,
-  `is_pinned` tinyint(1) DEFAULT 0,
-  `created` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Daten für Tabelle `phone_chatrooms`
---
-
-INSERT INTO `phone_chatrooms` (`id`, `room_code`, `room_name`, `room_owner_id`, `room_owner_name`, `room_members`, `room_pin`, `unpaid_balance`, `is_masked`, `is_pinned`, `created`) VALUES
-(1, 'social', 'Social', 'official', 'Government', NULL, NULL, 0.00, 0, 1, '2023-05-05 16:09:36'),
-(2, 'lounge', 'The Lounge', 'official', 'Government', NULL, NULL, 0.00, 0, 1, '2023-05-05 16:09:36'),
-(3, 'events', 'Events', 'official', 'Government', NULL, NULL, 0.00, 0, 1, '2023-05-05 16:09:36');
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `phone_chatroom_messages`
---
-
-CREATE TABLE `phone_chatroom_messages` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `room_id` int(10) UNSIGNED DEFAULT NULL,
-  `member_id` varchar(50) DEFAULT NULL,
-  `member_name` varchar(50) DEFAULT NULL,
-  `message` text DEFAULT NULL,
-  `is_pinned` tinyint(1) DEFAULT 0,
-  `created` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `phone_chats`
---
-
-CREATE TABLE `phone_chats` (
-  `app` varchar(50) NOT NULL,
-  `author` varchar(50) NOT NULL,
-  `number` varchar(50) NOT NULL,
-  `created` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `phone_calls` (`id`, `receiver`, `num`, `time`, `accepts`) VALUES
+(56, '126-6694', '126', '05/12/23 11:37', 0);
 
 -- --------------------------------------------------------
 
@@ -1736,7 +1315,6 @@ CREATE TABLE `phone_chats` (
 --
 
 CREATE TABLE `phone_contacts` (
-  `id` int(11) NOT NULL,
   `identifier` varchar(40) NOT NULL,
   `name` longtext NOT NULL,
   `number` longtext NOT NULL
@@ -1746,88 +1324,8 @@ CREATE TABLE `phone_contacts` (
 -- Daten für Tabelle `phone_contacts`
 --
 
-INSERT INTO `phone_contacts` (`id`, `identifier`, `name`, `number`) VALUES
-(1, '47e314068cbf274da7e1da5c95621e85c8edab68', 'Lynn Taylor', '65063'),
-(2, '3c3545c9e433ec7f044fe2105380f7dc1ee3faec', 'Jeron Bugatti Peky blinders', '76008'),
-(3, '3c3545c9e433ec7f044fe2105380f7dc1ee3faec', 'Senosh Guzman', '53005'),
-(4, '6ef9280c67f8b47a1aaa58324718e4fa0fe17732', 'Senosh guzmann', '53005'),
-(5, '6ef9280c67f8b47a1aaa58324718e4fa0fe17732', 'seimen guzmann', '85239'),
-(6, 'ecb239b0296068436b255b3d43b78debee55c138', 'Simon Guzman', '85239'),
-(7, 'ecb239b0296068436b255b3d43b78debee55c138', 'Tuna Jeone', '76008'),
-(8, '3e75e2bfbe91c53efd75ef55dcf3852b66542e90', 'Marlene', '65063'),
-(9, '663e9d44b7446c73d57f352109e6e45cb1f491cc', 'Piere Dil', '97467'),
-(12, '663e9d44b7446c73d57f352109e6e45cb1f491cc', 'Mehmet Mutlu', '72973'),
-(13, 'd242fa79722e0e0ccf24aff7ca3b563a99f7e2e0', 'Elias Escobar', '57861'),
-(14, '2610de4f7477b7d2765f706193b3bf70b34a4acf', 'Elias', '57861'),
-(16, '4fe94981d8e42ee934320a4b30b5d7d30d115fb6', 'Ricardo Moskaev', '22079'),
-(17, '8691e757cae5188d79eddfb51f51d792d5290caa', 'Ivan_Moskaev', '38270'),
-(18, '8691e757cae5188d79eddfb51f51d792d5290caa', 'Yuri_Moskaev', '77307'),
-(19, '834c8085cc6f707d4a493b532c1c65a55db13e77', 'pierre vogel', '97467'),
-(20, '2610de4f7477b7d2765f706193b3bf70b34a4acf', 'vagos maus', '76681'),
-(21, '47e314068cbf274da7e1da5c95621e85c8edab68', 'Benji Champion', '84297'),
-(22, '451fa0af819db5cefa13fb15f97d4f996d21fbd1', 'Ben', '14575'),
-(23, '3b9259b0af89f3aa23d674025fd9020a7eba9b0f', 'Guzmann Vagos 3er', '17470'),
-(24, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', 'Charlie Shelby', '51566'),
-(25, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', 'Miguel_Guzman', '92611'),
-(26, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 'Uvu_Usus-Shelby', '11340'),
-(27, '3b9259b0af89f3aa23d674025fd9020a7eba9b0f', 'Noah Shelby', '79609'),
-(28, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 'Charlie_Shelby', '51566'),
-(29, '583fc5da2a9857c758ce24211265b7cf333c8c6a', 'Peaky - Abi', '11340'),
-(30, '63275a461233e4810f97947446408b8743b9fb64', 'Taco', '43947'),
-(31, '3b9259b0af89f3aa23d674025fd9020a7eba9b0f', 'Nicklas', '11340'),
-(32, '3a9e6e54f4f7feca53577e2ccc174eaffae12d37', 'Manuel', '27882'),
-(33, 'da34886767b6d0224b3c6886ea21d87f8388084c', 'Miguel', '92611'),
-(34, '1089270a293523e7bdfed27e21b4aa6b9111f39f', 'Papa', '19624'),
-(35, '183181e8ce500156e7c7293d2fbd4083b6d09a74', 'Kelly Adams', '19088'),
-(36, 'e2b30103490202c96a0b636787139a342725d8ed', 'Lynn Taylor', '65063'),
-(37, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 'Enzo_Shelby', '78521'),
-(38, 'cac22ab2b6f2ec5c90b1b654ce7743962240d51e', 'Tim Winkelmann', '98868'),
-(39, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 'Miguel ', '92611'),
-(40, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 'Fabian', '59567'),
-(41, '3b9259b0af89f3aa23d674025fd9020a7eba9b0f', 'Haku �LCN�', '61350'),
-(42, 'e2b30103490202c96a0b636787139a342725d8ed', 'Charlie Shelby', '51566'),
-(43, '3b9259b0af89f3aa23d674025fd9020a7eba9b0f', 'LCN Don', '74248'),
-(44, '3b9259b0af89f3aa23d674025fd9020a7eba9b0f', 'MG13 Leaderschaft', '40267'),
-(45, '451fa0af819db5cefa13fb15f97d4f996d21fbd1', 'AK', '65063'),
-(46, '04b7955f05a3da08e3b356281286e5e02b6d377c', 'Benji', '84297'),
-(47, '47e314068cbf274da7e1da5c95621e85c8edab68', 'Adrian PD Kollege', '91274'),
-(48, '25818150f982eaab8a46ff4c540c237002b3280a', 'Ben Keller', '14575'),
-(49, 'b62dd9649e23b16c2472a73104970ea444a26c45', 'Eddi Suka', '17470'),
-(50, 'bd7ed10a889a05f4c2182edb5d4695772df8580e', 'Fabian_Guzman', '59567'),
-(51, 'b62dd9649e23b16c2472a73104970ea444a26c45', 'Andre', '76681'),
-(52, '1c42b8562fc8d70d6ae0377dabd6b0c1361eea01', 'tim', '15240'),
-(53, '1089270a293523e7bdfed27e21b4aa6b9111f39f', 'Papa', '19624'),
-(54, '3b9259b0af89f3aa23d674025fd9020a7eba9b0f', 'MG13 Patron', '76681'),
-(55, '3b9259b0af89f3aa23d674025fd9020a7eba9b0f', 'Cali Kartell Ansprechpartner', '49221'),
-(56, '919a3bae28268cddf7401906f09142fadc93f513', 'Parton�EL Taco�', '75975'),
-(57, '51f552ca10d326345ce58cf9dd2e5b6d2283cc0d', 'Peaky - ?', '51566'),
-(58, '51f552ca10d326345ce58cf9dd2e5b6d2283cc0d', 'Cali - Tim ', '49221'),
-(59, '39e0c95e299acda09854eeac4d862ffe942a2b1a', 'Padron Taco', '75975'),
-(60, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 'Dominik_Yukihira', '72806'),
-(61, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 'Mehmet_Mutlu', '72973'),
-(62, 'da34886767b6d0224b3c6886ea21d87f8388084c', 'Mehmet                              PB', '72973'),
-(63, 'd242fa79722e0e0ccf24aff7ca3b563a99f7e2e0', 'Dominik shelby', '72806'),
-(64, '51f552ca10d326345ce58cf9dd2e5b6d2283cc0d', 'LCN - Jeremy �12�', '74248'),
-(65, '51f552ca10d326345ce58cf9dd2e5b6d2283cc0d', 'Peaky - Charlie', '232645'),
-(66, '1c42b8562fc8d70d6ae0377dabd6b0c1361eea01', 'noa schelbi', '4522'),
-(67, 'd242fa79722e0e0ccf24aff7ca3b563a99f7e2e0', 'Noah Shelby', '79609'),
-(68, '834c8085cc6f707d4a493b532c1c65a55db13e77', 'Denis Parasit', '40267'),
-(69, '5e9f13e0b2af1d9a74aeba903fb3f81b0d0e7be0', 'Cali patron', '75975'),
-(70, '51f552ca10d326345ce58cf9dd2e5b6d2283cc0d', 'MG13 - Andre �12�', '76681'),
-(71, '1089270a293523e7bdfed27e21b4aa6b9111f39f', 'Ben', '14575'),
-(72, '1089270a293523e7bdfed27e21b4aa6b9111f39f', 'Ben', '14575'),
-(73, 'da34886767b6d0224b3c6886ea21d87f8388084c', 'Noah PB', '79609'),
-(74, '75ff412c96e704507b8ca13f85c48da2e8f20e4e', 'Dominik_Yukihira', '72806'),
-(75, 'da34886767b6d0224b3c6886ea21d87f8388084c', 'Noah', '79609'),
-(76, 'd242fa79722e0e0ccf24aff7ca3b563a99f7e2e0', 'UVU', '11340'),
-(77, 'd242fa79722e0e0ccf24aff7ca3b563a99f7e2e0', 'Charlie', '51566'),
-(78, 'da34886767b6d0224b3c6886ea21d87f8388084c', 'Smith LSPD', '70768'),
-(79, 'cbdf3b7e160437a866ddd46eb6230c79ca9450ac', 'smith', '70768'),
-(80, 'da34886767b6d0224b3c6886ea21d87f8388084c', 'Fettsack', '49715'),
-(81, 'cbdf3b7e160437a866ddd46eb6230c79ca9450ac', 'ukihira domin', '72806'),
-(82, '834c8085cc6f707d4a493b532c1c65a55db13e77', 'Clemens gvrp', '19624'),
-(83, 'dc8ca240506b1489f4f6a62067d7479239810771', 'Patron', '75975'),
-(84, '7ab35fe1bf50e2ce9df2364fbb47e99cafc7809d', 'Kamilla', '187');
+INSERT INTO `phone_contacts` (`identifier`, `name`, `number`) VALUES
+('steam:11000013d79d68d', 'test', '126-6694');
 
 -- --------------------------------------------------------
 
@@ -1838,23 +1336,16 @@ INSERT INTO `phone_contacts` (`id`, `identifier`, `name`, `number`) VALUES
 CREATE TABLE `phone_information` (
   `id` int(11) NOT NULL,
   `identifier` varchar(50) NOT NULL,
-  `wallpaper` varchar(255) NOT NULL
+  `wallpaper` varchar(255) NOT NULL DEFAULT 'https://cdn.discordapp.com/attachments/717040110641741894/802176415269257236/bright.png',
+  `darkmode` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Tabellenstruktur für Tabelle `phone_invoices`
+-- Daten für Tabelle `phone_information`
 --
 
-CREATE TABLE `phone_invoices` (
-  `id` int(10) NOT NULL,
-  `citizenid` varchar(50) DEFAULT NULL,
-  `amount` int(11) NOT NULL DEFAULT 0,
-  `society` tinytext DEFAULT NULL,
-  `sender` varchar(50) DEFAULT NULL,
-  `sendercitizenid` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+INSERT INTO `phone_information` (`id`, `identifier`, `wallpaper`, `darkmode`) VALUES
+(19, 'steam:11000013d79d68d', 'https://cdn.discordapp.com/attachments/717040110641741894/788435064475353098/wallpaper.png', 1);
 
 -- --------------------------------------------------------
 
@@ -1867,50 +1358,98 @@ CREATE TABLE `phone_messages` (
   `sender` varchar(10) NOT NULL,
   `receiver` varchar(10) NOT NULL,
   `message` varchar(255) NOT NULL DEFAULT '0',
-  `date` varchar(50) NOT NULL DEFAULT 'current_timestamp()',
-  `isgps` varchar(500) NOT NULL DEFAULT '0',
-  `isRead` int(11) NOT NULL DEFAULT 0,
-  `owner` int(11) NOT NULL DEFAULT 0,
-  `isService` varchar(50) NOT NULL DEFAULT '0',
-  `isAnonym` varchar(50) NOT NULL DEFAULT '0'
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `isRead` int(11) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Daten für Tabelle `phone_messages`
+--
+
+INSERT INTO `phone_messages` (`id`, `sender`, `receiver`, `message`, `date`, `isRead`) VALUES
+(7509, '126', '126-6694', 'test', '2005-07-23 17:28:00', 0),
+(7510, '126', '126-6694', 'test', '2005-07-23 17:28:00', 0),
+(7511, '126', '126', 'test', '2005-07-23 17:28:00', 0),
+(7515, '126', 'yourambula', 'Unconscious person', '2005-08-23 07:17:00', 0),
+(7514, '126', 'yourambula', 'Unconscious person', '2005-07-23 17:44:00', 0),
+(7516, '126', '126-6694', 'Hallo', '2005-12-23 10:37:00', 0);
+
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `phone_notifies`
+-- Tabellenstruktur für Tabelle `phone_twitter_accounts`
 --
 
-CREATE TABLE `phone_notifies` (
+CREATE TABLE `phone_twitter_accounts` (
   `id` int(11) NOT NULL,
-  `phone` varchar(50) NOT NULL,
-  `msg_content` text NOT NULL,
-  `msg_head` varchar(50) NOT NULL DEFAULT '',
-  `app_name` text NOT NULL,
-  `msg_time` varchar(50) NOT NULL
+  `identifier` varchar(50) NOT NULL DEFAULT '0',
+  `username` varchar(50) NOT NULL DEFAULT '0',
+  `userid` varchar(50) NOT NULL DEFAULT '0',
+  `avatar` varchar(2555) NOT NULL DEFAULT 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `phone_twitter_accounts`
+--
+
+INSERT INTO `phone_twitter_accounts` (`id`, `identifier`, `username`, `userid`, `avatar`) VALUES
+(15, 'steam:11000013d79d68d', 'Blacksnakes', '@blacksnakes', 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png');
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `phone_taxis`
+-- Tabellenstruktur für Tabelle `phone_twitter_likes`
 --
 
-CREATE TABLE `phone_taxis` (
-  `id` int(11) NOT NULL,
-  `identifier` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `number` varchar(255) NOT NULL,
-  `price` int(99) NOT NULL,
-  `requests` varchar(999) DEFAULT '[]'
+CREATE TABLE `phone_twitter_likes` (
+  `identifier` varchar(50) DEFAULT NULL,
+  `liked` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Daten für Tabelle `phone_taxis`
+-- Daten für Tabelle `phone_twitter_likes`
 --
 
-INSERT INTO `phone_taxis` (`id`, `identifier`, `name`, `number`, `price`, `requests`) VALUES
-(0, '4e04bdeb9676079fd37b05ff49a133e69f238a00', 'Mike_Wagner', '/', 1, '[{\"name\":\"Mike_Wagner\",\"id\":2,\"playerid\":4,\"message\":\"255\"},{\"name\":\"Mike_Wagner\",\"id\":3,\"playerid\":4,\"message\":\"255\"},{\"name\":\"Mike_Wagner\",\"id\":4,\"playerid\":4,\"message\":\"255\"},{\"name\":\"Max_Schmitt\",\"id\":2,\"playerid\":34,\"message\":\"w\"},{\"name\":\"Max_Schmitt\",\"id\":3,\"playerid\":34,\"message\":\"w\"},{\"name\":\"Max_Schmitt\",\"id\":4,\"playerid\":34,\"message\":\"würfel park\"},{\"name\":\"Max_Schmitt\",\"id\":5,\"playerid\":34,\"message\":\"würfel park\"},{\"name\":\"Max_Schmitt\",\"id\":6,\"playerid\":34,\"message\":\"würfel park 04562515484849489\"},{\"name\":\"Max_Schmitt\",\"id\":7,\"playerid\":34,\"message\":\"würfel park 04562515484849489\"}]');
+INSERT INTO `phone_twitter_likes` (`identifier`, `liked`) VALUES
+('steam:11000013d79d68d', 27);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `phone_twitter_messages`
+--
+
+CREATE TABLE `phone_twitter_messages` (
+  `id` int(11) NOT NULL,
+  `identifier` varchar(50) NOT NULL DEFAULT '',
+  `username` varchar(50) NOT NULL DEFAULT '0',
+  `userid` varchar(50) NOT NULL DEFAULT '0',
+  `avatar` varchar(2555) NOT NULL DEFAULT '0',
+  `date` varchar(50) NOT NULL DEFAULT '0',
+  `message` varchar(50) NOT NULL DEFAULT '0',
+  `imageurl` varchar(266) NOT NULL DEFAULT '0',
+  `likes` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `phone_twitter_messages`
+--
+
+INSERT INTO `phone_twitter_messages` (`id`, `identifier`, `username`, `userid`, `avatar`, `date`, `message`, `imageurl`, `likes`) VALUES
+(27, 'steam:11000013d79d68d', 'Blacksnakes', '@blacksnakes', 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png', '05/07/23 19:24', 'test', '0', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `phone_yp`
+--
+
+CREATE TABLE `phone_yp` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `advert` varchar(500) DEFAULT NULL,
+  `phoneNumber` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2078,6 +1617,30 @@ INSERT INTO `properties` (`id`, `name`, `label`, `entering`, `exit`, `inside`, `
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `rc_vehicleshop`
+--
+
+CREATE TABLE `rc_vehicleshop` (
+  `id` int(11) NOT NULL,
+  `car` varchar(250) NOT NULL,
+  `genre` varchar(250) NOT NULL,
+  `label` varchar(250) NOT NULL,
+  `price` int(100) NOT NULL,
+  `img` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Daten für Tabelle `rc_vehicleshop`
+--
+
+INSERT INTO `rc_vehicleshop` (`id`, `car`, `genre`, `label`, `price`, `img`) VALUES
+(1, 'adder', 'car', 'Adder', 500000, 'https://i.imgur.com/azOor2s.png'),
+(2, 'mule', 'truck', 'Mule', 55000, 'https://wiki.rage.mp/images/e/e7/Mule.png'),
+(3, 'bati', 'bike', 'Bati', 10000, 'https://i.imgur.com/hXJJL7c.png');
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `rented_vehicles`
 --
 
@@ -2118,6 +1681,25 @@ INSERT INTO `shops` (`id`, `store`, `item`, `price`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `skill`
+--
+
+CREATE TABLE `skill` (
+  `identifier` varchar(255) NOT NULL,
+  `gym` varchar(255) NOT NULL,
+  `gymstatus` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Daten für Tabelle `skill`
+--
+
+INSERT INTO `skill` (`identifier`, `gym`, `gymstatus`) VALUES
+('steam:11000013d79d68d', '-9', '1');
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `society_moneywash`
 --
 
@@ -2149,7 +1731,8 @@ CREATE TABLE `stl_bank_accounts` (
 
 INSERT INTO `stl_bank_accounts` (`id`, `owner`, `type`, `balance`, `members`, `password`) VALUES
 (1, 'steam:1100001166f2d38', 1, 0, '[{\"identifier\":\"steam:11000013d79d68d\",\"name\":\"Julia\"}]', NULL),
-(2, 'steam:1100001166f2d38', 0, 490180874, NULL, 'Blacksnakes');
+(2, 'steam:1100001166f2d38', 0, 480180874, NULL, 'Blacksnakes'),
+(3, 'steam:11000013d79d68d', 0, 0, NULL, 'julia1234');
 
 -- --------------------------------------------------------
 
@@ -2172,7 +1755,23 @@ CREATE TABLE `stl_bank_transfers` (
 --
 
 INSERT INTO `stl_bank_transfers` (`id`, `owner`, `action`, `amount`, `date`, `service_id`, `account_id`) VALUES
-(1, 'steam:1100001166f2d38', 1, 490170874, '2023-05-04 23:30:02', 1, 2);
+(1, 'steam:1100001166f2d38', 1, 490170874, '2023-05-04 23:30:02', 1, 2),
+(2, 'steam:1100001166f2d38', 0, 10000000, '2023-05-05 16:18:08', 1, 2),
+(3, 'steam:11000013d79d68d', 0, 10000, '2023-05-08 06:21:33', 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `tim_gangwar`
+--
+
+CREATE TABLE `tim_gangwar` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `robbing` varchar(255) NOT NULL,
+  `attacker` varchar(255) NOT NULL,
+  `zone_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -2239,6 +1838,18 @@ INSERT INTO `trunk_inventory` (`id`, `plate`, `data`, `owned`) VALUES
 (1, '20FJG974', '{\"coffre\":[]}', 0),
 (2, 'BCN 277 ', '{\"coffre\":[]}', 0),
 (3, '41SJM025', '{}', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `tweets`
+--
+
+CREATE TABLE `tweets` (
+  `handle` longtext NOT NULL,
+  `message` varchar(500) NOT NULL,
+  `time` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2310,7 +1921,6 @@ CREATE TABLE `users` (
   `license` varchar(50) DEFAULT NULL,
   `money` int(11) DEFAULT NULL,
   `name` varchar(50) DEFAULT '',
-  `skin` longtext DEFAULT NULL,
   `job` varchar(50) DEFAULT 'unemployed',
   `job_grade` int(11) DEFAULT 0,
   `loadout` longtext DEFAULT NULL,
@@ -2319,10 +1929,6 @@ CREATE TABLE `users` (
   `permission_level` int(11) DEFAULT NULL,
   `group` varchar(50) DEFAULT NULL,
   `is_dead` tinyint(1) DEFAULT 0,
-  `firstname` varchar(50) DEFAULT '',
-  `lastname` varchar(50) DEFAULT '',
-  `dateofbirth` varchar(25) DEFAULT '',
-  `sex` varchar(10) DEFAULT '',
   `height` varchar(5) DEFAULT '',
   `phone_number` int(64) DEFAULT NULL,
   `last_property` varchar(255) DEFAULT NULL,
@@ -2335,16 +1941,23 @@ CREATE TABLE `users` (
   `charinfo` text DEFAULT NULL,
   `metadata` mediumtext DEFAULT NULL,
   `cryptocurrency` longtext DEFAULT NULL,
-  `cryptocurrencytransfers` text DEFAULT NULL
+  `cryptocurrencytransfers` text DEFAULT NULL,
+  `skin` longtext DEFAULT NULL,
+  `firstname` varchar(50) DEFAULT '',
+  `lastname` varchar(50) DEFAULT '',
+  `dateofbirth` varchar(25) DEFAULT '',
+  `sex` varchar(10) DEFAULT '',
+  `tattoos` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Daten für Tabelle `users`
 --
 
-INSERT INTO `users` (`identifier`, `license`, `money`, `name`, `skin`, `job`, `job_grade`, `loadout`, `position`, `bank`, `permission_level`, `group`, `is_dead`, `firstname`, `lastname`, `dateofbirth`, `sex`, `height`, `phone_number`, `last_property`, `status`, `jail`, `hdjail_data`, `apps`, `widget`, `bt`, `charinfo`, `metadata`, `cryptocurrency`, `cryptocurrencytransfers`) VALUES
-('steam:11000013d79d68d', 'license:7ce132c1bc9d7a5d7da81052bca6f797816f5189', 491745850, 'Julia', '{\"decals_1\":0,\"makeup_4\":16,\"mask_1\":0,\"pants_2\":7,\"blemishes_1\":0,\"glasses_1\":5,\"makeup_1\":1,\"chest_1\":0,\"complexion_2\":0,\"ears_1\":15,\"pants_1\":16,\"age_1\":0,\"hair_color_1\":29,\"glasses_2\":0,\"blush_3\":0,\"torso_1\":13,\"bproof_1\":0,\"age_2\":0,\"lipstick_4\":0,\"sun_2\":0,\"sex\":1,\"helmet_2\":0,\"eyebrows_2\":10,\"ears_2\":0,\"bracelets_1\":-1,\"chest_2\":0,\"mask_2\":0,\"beard_4\":0,\"makeup_2\":10,\"chest_3\":0,\"shoes_1\":15,\"skin\":29,\"eyebrows_4\":0,\"chain_2\":0,\"beard_3\":0,\"arms\":4,\"blemishes_2\":0,\"beard_1\":0,\"lipstick_2\":10,\"tshirt_2\":0,\"face\":31,\"bproof_2\":0,\"tshirt_1\":3,\"makeup_3\":20,\"blush_1\":3,\"torso_2\":0,\"hair_2\":0,\"bodyb_1\":0,\"moles_1\":0,\"complexion_1\":0,\"bodyb_2\":0,\"lipstick_3\":22,\"hair_color_2\":29,\"sun_1\":0,\"bracelets_2\":0,\"bags_2\":0,\"shoes_2\":12,\"moles_2\":0,\"blush_2\":4,\"chain_1\":6,\"eyebrows_3\":0,\"watches_2\":0,\"decals_2\":0,\"eye_color\":3,\"beard_2\":0,\"helmet_1\":-1,\"watches_1\":-1,\"lipstick_1\":3,\"arms_2\":0,\"bags_1\":0,\"eyebrows_1\":2,\"hair_1\":36}', 'unemployed', 0, '[{\"ammo\":0,\"components\":[],\"name\":\"WEAPON_GOLFCLUB\",\"label\":\"Golfschläger\"},{\"ammo\":0,\"components\":[],\"name\":\"WEAPON_SWITCHBLADE\",\"label\":\"Klappmesser\"}]', '{\"x\":231.2,\"z\":30.5,\"y\":-806.0}', 502005800, 0, 'superadmin', 0, 'Mina', 'Savalas', '1995.12.22', 'f', '175', 71971, NULL, '[{\"percent\":0.0,\"name\":\"drunk\",\"val\":0},{\"percent\":68.24,\"name\":\"hunger\",\"val\":682400},{\"percent\":76.18,\"name\":\"thirst\",\"val\":761800}]', 0, '{\"cell\":0,\"chest\":[],\"jailtime\":0,\"items\":[],\"clothes\":[],\"job\":0,\"breaks\":0,\"soli\":0,\"jobo\":\"nil\",\"grade\":0}', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('steam:1100001166f2d38', 'license:5aea227697fb8091b9efaf418ee3bee6fcdd0014', 0, 'Blacksnakes', '{\"moles_1\":0,\"helmet_1\":110,\"decals_1\":0,\"chain_1\":0,\"watches_2\":0,\"moles_2\":0,\"chest_2\":0,\"shoes_1\":8,\"makeup_4\":0,\"ears_2\":0,\"glasses_1\":18,\"eyebrows_3\":0,\"makeup_2\":0,\"glasses_2\":0,\"lipstick_4\":0,\"blush_1\":0,\"eyebrows_1\":0,\"chest_1\":0,\"eye_color\":0,\"complexion_1\":0,\"age_1\":0,\"sun_2\":0,\"age_2\":0,\"lipstick_3\":0,\"makeup_3\":0,\"sun_1\":0,\"bodyb_2\":0,\"bproof_2\":0,\"hair_color_1\":29,\"blemishes_2\":0,\"helmet_2\":2,\"face\":44,\"eyebrows_2\":0,\"blush_2\":0,\"eyebrows_4\":0,\"blush_3\":0,\"pants_2\":4,\"lipstick_1\":0,\"makeup_1\":0,\"pants_1\":24,\"hair_color_2\":0,\"torso_2\":4,\"lipstick_2\":0,\"bags_2\":0,\"bproof_1\":0,\"ears_1\":-1,\"beard_2\":0,\"shoes_2\":0,\"hair_1\":21,\"skin\":4,\"bags_1\":0,\"chest_3\":0,\"bodyb_1\":0,\"sex\":0,\"arms_2\":0,\"hair_2\":4,\"mask_1\":95,\"watches_1\":-1,\"beard_4\":0,\"torso_1\":70,\"decals_2\":0,\"tshirt_2\":1,\"beard_1\":0,\"beard_3\":0,\"chain_2\":0,\"tshirt_1\":65,\"mask_2\":4,\"bracelets_1\":-1,\"arms\":1,\"complexion_2\":0,\"blemishes_1\":0,\"bracelets_2\":0}', 'police', 0, '[{\"ammo\":0,\"label\":\"Golfschläger\",\"components\":[],\"name\":\"WEAPON_GOLFCLUB\"},{\"ammo\":76,\"label\":\"Pistole\",\"components\":[\"clip_default\"],\"name\":\"WEAPON_PISTOL\"},{\"ammo\":0,\"label\":\"Minigun\",\"components\":[],\"name\":\"WEAPON_MINIGUN\"},{\"ammo\":14,\"label\":\"Haftbombe\",\"components\":[],\"name\":\"WEAPON_STICKYBOMB\"},{\"ammo\":15,\"label\":\"Feuerwerk\",\"components\":[],\"name\":\"WEAPON_FIREWORK\"},{\"ammo\":10,\"label\":\"Schneeball\",\"components\":[],\"name\":\"WEAPON_SNOWBALL\"},{\"ammo\":14,\"label\":\"Railgun\",\"components\":[],\"name\":\"WEAPON_RAILGUN\"},{\"ammo\":0,\"label\":\"Klappmesser\",\"components\":[],\"name\":\"WEAPON_SWITCHBLADE\"},{\"ammo\":76,\"label\":\"Double-Action Revolver\",\"components\":[],\"name\":\"WEAPON_DOUBLEACTION\"}]', '{\"y\":-820.2,\"x\":190.6,\"z\":31.2}', 500850520, 0, 'superadmin', 0, 'Manuel', 'Savalas', '12.08.2001', 'm', '187', 20159, NULL, '[{\"percent\":0.0,\"name\":\"drunk\",\"val\":0},{\"percent\":69.82000000000001,\"name\":\"hunger\",\"val\":698200},{\"percent\":77.365,\"name\":\"thirst\",\"val\":773650}]', 0, '{\"cell\":0,\"chest\":[],\"jailtime\":0,\"items\":[],\"clothes\":[],\"job\":0,\"breaks\":0,\"soli\":0,\"jobo\":\"nil\",\"grade\":0}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` (`identifier`, `license`, `money`, `name`, `job`, `job_grade`, `loadout`, `position`, `bank`, `permission_level`, `group`, `is_dead`, `height`, `phone_number`, `last_property`, `status`, `jail`, `hdjail_data`, `apps`, `widget`, `bt`, `charinfo`, `metadata`, `cryptocurrency`, `cryptocurrencytransfers`, `skin`, `firstname`, `lastname`, `dateofbirth`, `sex`, `tattoos`) VALUES
+('steam:1100001166f2d38', 'license:5aea227697fb8091b9efaf418ee3bee6fcdd0014', 5000, 'Blacksnakes', 'unemployed', 0, '[]', '{\"x\":-1043.0,\"z\":21.4,\"y\":-2746.6}', 50000, 0, 'superadmin', 0, '187', 2147483647, NULL, NULL, 0, '{\"cell\":0,\"chest\":[],\"jailtime\":0,\"items\":[],\"clothes\":[],\"job\":0,\"breaks\":0,\"soli\":0,\"jobo\":\"nil\",\"grade\":0}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{\"helmet_1\":-1,\"torso_2\":1,\"face_md_weight\":50,\"makeup_3\":0,\"eyebrows_4\":0,\"jaw_1\":0,\"chin_2\":0,\"cheeks_1\":0,\"dad\":2,\"pants_1\":28,\"eye_color\":26,\"glasses_2\":4,\"chin_3\":0,\"chain_1\":0,\"ears_2\":-1,\"bproof_1\":0,\"hair_color_2\":0,\"age_2\":0,\"makeup_1\":0,\"bproof_2\":0,\"watches_2\":-1,\"makeup_2\":0,\"bodyb_1\":0,\"blush_2\":0,\"nose_4\":0,\"neck_thickness\":0,\"lipstick_4\":0,\"chin_1\":0,\"hair_2\":0,\"sex\":0,\"cheeks_2\":0,\"eyebrows_2\":10,\"eyebrows_5\":0,\"sun_2\":0,\"nose_2\":0,\"beard_3\":61,\"bags_2\":0,\"chest_3\":0,\"lipstick_1\":0,\"blemishes_2\":0,\"lip_thickness\":0,\"blemishes_1\":0,\"hair_color_1\":0,\"complexion_1\":0,\"face\":44,\"shoes_2\":9,\"eyebrows_1\":2,\"moles_2\":0,\"tshirt_2\":0,\"skin\":4,\"arms_2\":0,\"hair_1\":21,\"nose_1\":0,\"beard_1\":11,\"blush_3\":\"2\",\"bracelets_1\":-1,\"mask_2\":0,\"chest_1\":0,\"eyebrows_6\":0,\"lipstick_3\":32,\"age_1\":0,\"sun_1\":0,\"helmet_2\":-1,\"jaw_2\":0,\"bracelets_2\":0,\"lipstick_2\":0,\"bags_1\":0,\"bodyb_2\":0,\"complexion_2\":0,\"nose_3\":0,\"skin_md_weight\":50,\"decals_2\":0,\"mask_1\":0,\"glasses_1\":8,\"nose_6\":0,\"pants_2\":0,\"chest_2\":0,\"decals_1\":0,\"cheeks_3\":0,\"eyebrows_3\":0,\"arms\":1,\"chin_4\":0,\"torso_1\":308,\"beard_4\":0,\"ears_1\":-1,\"beard_2\":10,\"blush_1\":0,\"watches_1\":-1,\"nose_5\":0,\"shoes_1\":57,\"makeup_4\":0,\"chain_2\":0,\"tshirt_1\":15,\"moles_1\":0,\"eye_squint\":0}', 'Manuel', 'Savalas', '12.08.2001', 'm', NULL),
+('steam:110000112ce923f', 'license:b49791832440a6ac502561c2f46642073cb1074f', 997500, '⭕⃤ Asaya', 'unemployed', 0, '[{\"components\":[\"clip_default\"],\"ammo\":1,\"label\":\"Kampfpistole\",\"name\":\"WEAPON_COMBATPISTOL\"}]', '{\"y\":-1276.2,\"x\":72.5,\"z\":28.5}', 3011800, 0, 'superadmin', 0, '187', NULL, NULL, NULL, 0, '{\"cell\":0,\"chest\":[],\"jailtime\":0,\"items\":[],\"clothes\":[],\"job\":0,\"breaks\":0,\"soli\":0,\"jobo\":\"nil\",\"grade\":0}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{\"nose_3\":0,\"shoes_2\":0,\"chain_1\":79,\"chin_1\":3,\"ears_2\":-1,\"beard_4\":0,\"beard_2\":10,\"blemishes_1\":11,\"eyebrows_6\":1,\"hair_color_2\":28,\"bproof_2\":0,\"sun_1\":61,\"neck_thickness\":-10,\"blush_1\":61,\"ears_1\":-1,\"jaw_1\":-1,\"glasses_1\":5,\"nose_1\":0,\"chin_2\":0,\"arms\":5,\"skin\":4,\"lipstick_3\":32,\"bags_1\":0,\"eyebrows_5\":-6,\"eyebrows_1\":4,\"skin_md_weight\":68,\"eyebrows_2\":10,\"face_md_weight\":8,\"shoes_1\":5,\"torso_2\":2,\"eye_squint\":-2,\"dad\":8,\"tshirt_1\":15,\"cheeks_3\":0,\"makeup_3\":0,\"face\":0,\"pants_2\":0,\"eyebrows_3\":0,\"bags_2\":0,\"helmet_1\":-1,\"watches_2\":-1,\"blemishes_2\":10,\"beard_1\":11,\"decals_1\":0,\"makeup_4\":0,\"chain_2\":0,\"bproof_1\":0,\"sun_2\":0,\"lipstick_2\":0,\"cheeks_2\":0,\"mask_1\":0,\"eye_color\":18,\"hair_1\":57,\"mask_2\":0,\"blush_3\":0,\"chest_2\":0,\"lipstick_4\":0,\"bracelets_1\":-1,\"pants_1\":26,\"eyebrows_4\":0,\"bracelets_2\":0,\"jaw_2\":-5,\"nose_6\":0,\"makeup_2\":0,\"nose_2\":0,\"chin_4\":-1,\"moles_2\":0,\"hair_2\":0,\"chin_3\":0,\"decals_2\":0,\"age_2\":10,\"arms_2\":0,\"cheeks_1\":0,\"bodyb_1\":0,\"moles_1\":0,\"makeup_1\":0,\"nose_5\":0,\"nose_4\":0,\"bodyb_2\":0,\"torso_1\":5,\"hair_color_1\":0,\"tshirt_2\":0,\"helmet_2\":-1,\"watches_1\":-1,\"blush_2\":0,\"beard_3\":61,\"complexion_1\":0,\"complexion_2\":10,\"glasses_2\":4,\"lipstick_1\":0,\"sex\":0,\"chest_3\":0,\"lip_thickness\":7,\"chest_1\":0}', 'Nikolaj', 'Romanov', '30.07.1996', 'm', NULL),
+('steam:11000013d79d68d', 'license:7ce132c1bc9d7a5d7da81052bca6f797816f5189', 97586727, 'Julia', 'unemployed', 0, '[]', '{\"z\":26.4,\"y\":-1102.9,\"x\":-34.5}', 51800, 0, 'superadmin', 0, '187', NULL, NULL, NULL, 0, '{\"cell\":0,\"chest\":[],\"jailtime\":0,\"items\":[],\"clothes\":[],\"job\":0,\"breaks\":0,\"soli\":0,\"jobo\":\"nil\",\"grade\":0}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{\"helmet_1\":-1,\"torso_2\":1,\"face_md_weight\":50,\"makeup_3\":0,\"eyebrows_4\":0,\"jaw_1\":0,\"chin_2\":0,\"cheeks_1\":0,\"dad\":2,\"pants_1\":28,\"eye_color\":26,\"glasses_2\":4,\"chin_3\":0,\"chain_1\":0,\"ears_2\":-1,\"bproof_1\":0,\"hair_color_2\":0,\"age_2\":0,\"makeup_1\":0,\"bproof_2\":0,\"watches_2\":-1,\"makeup_2\":0,\"bodyb_1\":0,\"blush_2\":0,\"nose_4\":0,\"neck_thickness\":0,\"lipstick_4\":0,\"chin_1\":0,\"hair_2\":0,\"sex\":0,\"cheeks_2\":0,\"eyebrows_2\":10,\"eyebrows_5\":0,\"sun_2\":0,\"nose_2\":0,\"beard_3\":61,\"bags_2\":0,\"chest_3\":0,\"lipstick_1\":0,\"blemishes_2\":0,\"lip_thickness\":0,\"blemishes_1\":0,\"hair_color_1\":0,\"complexion_1\":0,\"face\":44,\"shoes_2\":9,\"eyebrows_1\":2,\"moles_2\":0,\"tshirt_2\":0,\"skin\":4,\"arms_2\":0,\"hair_1\":21,\"nose_1\":0,\"beard_1\":11,\"blush_3\":\"2\",\"bracelets_1\":-1,\"mask_2\":0,\"chest_1\":0,\"eyebrows_6\":0,\"lipstick_3\":32,\"age_1\":0,\"sun_1\":0,\"helmet_2\":-1,\"jaw_2\":0,\"bracelets_2\":0,\"lipstick_2\":0,\"bags_1\":0,\"bodyb_2\":0,\"complexion_2\":0,\"nose_3\":0,\"skin_md_weight\":50,\"decals_2\":0,\"mask_1\":0,\"glasses_1\":8,\"nose_6\":0,\"pants_2\":0,\"chest_2\":0,\"decals_1\":0,\"cheeks_3\":0,\"eyebrows_3\":0,\"arms\":1,\"chin_4\":0,\"torso_1\":308,\"beard_4\":0,\"ears_1\":-1,\"beard_2\":10,\"blush_1\":0,\"watches_1\":-1,\"nose_5\":0,\"shoes_1\":57,\"makeup_4\":0,\"chain_2\":0,\"tshirt_1\":15,\"moles_1\":0,\"eye_squint\":0}', 'Mina', 'Savalas', '01.01.1990', 'f', '[{\"collection\":\"mpbusiness_overlays\",\"nameHash\":\"MP_Buis_M_Neck_001\",\"Count\":1},{\"collection\":\"mpbusiness_overlays\",\"nameHash\":\"MP_Buis_M_Neck_002\",\"Count\":1},{\"collection\":\"mpbusiness_overlays\",\"nameHash\":\"MP_Buis_M_Neck_003\",\"Count\":1},{\"collection\":\"mpbusiness_overlays\",\"nameHash\":\"MP_Buis_M_Neck_000\",\"Count\":1},{\"collection\":\"mpbiker_overlays\",\"nameHash\":\"MP_MP_Biker_Tat_009_M\",\"Count\":1},{\"collection\":\"mpbeach_overlays\",\"nameHash\":\"MP_Bea_M_Head_001\",\"Count\":1},{\"collection\":\"mpbeach_overlays\",\"nameHash\":\"MP_Bea_M_Head_002\",\"Count\":1},{\"collection\":\"mpbiker_overlays\",\"nameHash\":\"MP_MP_Biker_Tat_057_M\",\"Count\":1},{\"collection\":\"mplowrider2_overlays\",\"nameHash\":\"MP_LR_Tat_018_M\",\"Count\":1},{\"collection\":\"mpbiker_overlays\",\"nameHash\":\"MP_MP_Biker_Tat_004_M\",\"Count\":1},{\"collection\":\"mpchristmas2017_overlays\",\"nameHash\":\"MP_Christmas2017_Tattoo_006_M\",\"Count\":1},{\"collection\":\"multiplayer_overlays\",\"nameHash\":\"FM_Tat_M_004\",\"Count\":1},{\"collection\":\"mpgunrunning_overlays\",\"nameHash\":\"MP_Gunrunning_Tattoo_020_M\",\"Count\":1},{\"collection\":\"mplowrider2_overlays\",\"nameHash\":\"MP_LR_Tat_000_M\",\"Count\":1}]');
 
 -- --------------------------------------------------------
 
@@ -2365,7 +1978,8 @@ CREATE TABLE `user_accounts` (
 
 INSERT INTO `user_accounts` (`id`, `identifier`, `name`, `money`) VALUES
 (1, 'steam:11000013d79d68d', 'black_money', 0),
-(2, 'steam:1100001166f2d38', 'black_money', 0);
+(2, 'steam:1100001166f2d38', 'black_money', 0),
+(3, 'steam:110000112ce923f', 'black_money', 0);
 
 -- --------------------------------------------------------
 
@@ -2407,14 +2021,14 @@ INSERT INTO `user_inventory` (`id`, `identifier`, `item`, `count`) VALUES
 (7, 'steam:11000013d79d68d', 'wool', 0),
 (8, 'steam:11000013d79d68d', 'diamond', 0),
 (9, 'steam:11000013d79d68d', 'alive_chicken', 0),
-(10, 'steam:11000013d79d68d', 'medikit', 0),
+(10, 'steam:11000013d79d68d', 'medikit', 5),
 (11, 'steam:11000013d79d68d', 'washed_stone', 0),
 (12, 'steam:11000013d79d68d', 'blowpipe', 0),
 (13, 'steam:11000013d79d68d', 'clothe', 0),
 (14, 'steam:11000013d79d68d', 'stone', 0),
 (15, 'steam:11000013d79d68d', 'carokit', 0),
 (16, 'steam:11000013d79d68d', 'gazbottle', 0),
-(17, 'steam:11000013d79d68d', 'bandage', 0),
+(17, 'steam:11000013d79d68d', 'bandage', 20),
 (18, 'steam:11000013d79d68d', 'bread', 0),
 (19, 'steam:11000013d79d68d', 'fabric', 0),
 (20, 'steam:11000013d79d68d', 'essence', 0),
@@ -2427,7 +2041,7 @@ INSERT INTO `user_inventory` (`id`, `identifier`, `item`, `count`) VALUES
 (27, 'steam:11000013d79d68d', 'carotool', 0),
 (28, 'steam:11000013d79d68d', 'petrol_raffin', 0),
 (29, 'steam:11000013d79d68d', 'fixkit', 0),
-(30, 'steam:11000013d79d68d', 'cannabis', 5),
+(30, 'steam:11000013d79d68d', 'cannabis', 0),
 (31, 'steam:11000013d79d68d', 'zarowki', 0),
 (32, 'steam:11000013d79d68d', 'packaged_plank', 0),
 (33, 'steam:1100001166f2d38', 'iron', 0),
@@ -2512,20 +2126,312 @@ INSERT INTO `user_inventory` (`id`, `identifier`, `item`, `count`) VALUES
 (112, 'steam:1100001166f2d38', 'HD_Shank', 0),
 (113, 'steam:1100001166f2d38', 'handy', 1),
 (114, 'steam:11000013d79d68d', 'handy', 0),
-(115, 'steam:1100001166f2d38', 'phone', 1),
+(115, 'steam:1100001166f2d38', 'phone', 0),
 (116, 'steam:11000013d79d68d', 'phone', 0),
 (117, 'steam:1100001166f2d38', 'kevlar', 0),
 (118, 'steam:1100001166f2d38', 'aramidfasern', 2),
 (119, 'steam:1100001166f2d38', 'bulletproof50', 0),
 (120, 'steam:1100001166f2d38', 'bulletproof', 0),
 (121, 'steam:1100001166f2d38', 'gebündelte_aramidfasern', 5),
-(122, 'steam:11000013d79d68d', 'kevlar', 4),
+(122, 'steam:11000013d79d68d', 'kevlar', 0),
 (123, 'steam:11000013d79d68d', 'gebündelte_aramidfasern', 97),
 (124, 'steam:11000013d79d68d', 'bulletproof', 0),
 (125, 'steam:11000013d79d68d', 'bulletproof50', 0),
-(126, 'steam:11000013d79d68d', 'aramidfasern', 1),
+(126, 'steam:11000013d79d68d', 'aramidfasern', 0),
 (127, 'steam:1100001166f2d38', 'gebuendeltearamidfasern', 0),
-(128, 'steam:11000013d79d68d', 'gebuendeltearamidfasern', 0);
+(128, 'steam:11000013d79d68d', 'gebuendeltearamidfasern', 0),
+(129, 'steam:1100001166f2d38', 'classic_phone', 0),
+(130, 'steam:1100001166f2d38', 'wet_black_phone', 0),
+(131, 'steam:1100001166f2d38', 'green_phone', 0),
+(132, 'steam:1100001166f2d38', 'wet_gold_phone', 0),
+(133, 'steam:1100001166f2d38', 'purple_phone', 0),
+(134, 'steam:1100001166f2d38', 'wet_blue_phone', 0),
+(135, 'steam:1100001166f2d38', 'gold_phone', 0),
+(136, 'steam:1100001166f2d38', 'white_phone', 0),
+(137, 'steam:1100001166f2d38', 'phone_module', 0),
+(138, 'steam:1100001166f2d38', 'greenlight_phone', 0),
+(139, 'steam:1100001166f2d38', 'wet_red_phone', 0),
+(140, 'steam:1100001166f2d38', 'phone_hack', 0),
+(141, 'steam:1100001166f2d38', 'wet_pink_phone', 0),
+(142, 'steam:1100001166f2d38', 'wet_green_phone', 0),
+(143, 'steam:1100001166f2d38', 'wet_greenlight_phone', 0),
+(144, 'steam:1100001166f2d38', 'wet_white_phone', 0),
+(145, 'steam:1100001166f2d38', 'red_phone', 0),
+(146, 'steam:1100001166f2d38', 'pink_phone', 0),
+(147, 'steam:1100001166f2d38', 'wet_purple_phone', 0),
+(148, 'steam:1100001166f2d38', 'blue_phone', 0),
+(149, 'steam:1100001166f2d38', 'black_phone', 0),
+(150, 'steam:1100001166f2d38', 'wet_classic_phone', 0),
+(151, 'steam:11000013d79d68d', 'wet_white_phone', 0),
+(152, 'steam:11000013d79d68d', 'greenlight_phone', 0),
+(153, 'steam:11000013d79d68d', 'classic_phone', 0),
+(154, 'steam:11000013d79d68d', 'wet_gold_phone', 0),
+(155, 'steam:11000013d79d68d', 'phone_hack', 0),
+(156, 'steam:11000013d79d68d', 'black_phone', 0),
+(157, 'steam:11000013d79d68d', 'green_phone', 0),
+(158, 'steam:11000013d79d68d', 'gold_phone', 0),
+(159, 'steam:11000013d79d68d', 'wet_classic_phone', 0),
+(160, 'steam:11000013d79d68d', 'white_phone', 0),
+(161, 'steam:11000013d79d68d', 'wet_red_phone', 0),
+(162, 'steam:11000013d79d68d', 'wet_pink_phone', 0),
+(163, 'steam:11000013d79d68d', 'wet_black_phone', 0),
+(164, 'steam:11000013d79d68d', 'wet_blue_phone', 0),
+(165, 'steam:11000013d79d68d', 'wet_purple_phone', 0),
+(166, 'steam:11000013d79d68d', 'wet_green_phone', 0),
+(167, 'steam:11000013d79d68d', 'wet_greenlight_phone', 0),
+(168, 'steam:11000013d79d68d', 'red_phone', 0),
+(169, 'steam:11000013d79d68d', 'purple_phone', 0),
+(170, 'steam:11000013d79d68d', 'pink_phone', 0),
+(171, 'steam:11000013d79d68d', 'phone_module', 0),
+(172, 'steam:11000013d79d68d', 'blue_phone', 0),
+(173, 'steam:1100001166f2d38', 'methbrick', 0),
+(174, 'steam:1100001166f2d38', 'coke1g', 0),
+(175, 'steam:1100001166f2d38', 'drugbags', 0),
+(176, 'steam:1100001166f2d38', 'cokebrick', 0),
+(177, 'steam:1100001166f2d38', 'coke10g', 0),
+(178, 'steam:1100001166f2d38', 'hackerDevice', 1),
+(179, 'steam:1100001166f2d38', 'WeihnachtsCase', 0),
+(180, 'steam:1100001166f2d38', 'weedbrick', 0),
+(181, 'steam:1100001166f2d38', 'meth10g', 0),
+(182, 'steam:1100001166f2d38', 'weed20g', 0),
+(183, 'steam:1100001166f2d38', 'rolpaper', 0),
+(184, 'steam:1100001166f2d38', 'drugItem', 0),
+(185, 'steam:1100001166f2d38', 'hqscale', 0),
+(186, 'steam:1100001166f2d38', 'meth1g', 0),
+(187, 'steam:1100001166f2d38', 'joint2g', 0),
+(188, 'steam:1100001166f2d38', 'weed4g', 0),
+(189, 'steam:11000013d79d68d', 'methbrick', 0),
+(190, 'steam:11000013d79d68d', 'coke1g', 0),
+(191, 'steam:11000013d79d68d', 'drugbags', 0),
+(192, 'steam:11000013d79d68d', 'coke10g', 0),
+(193, 'steam:11000013d79d68d', 'cokebrick', 0),
+(194, 'steam:11000013d79d68d', 'hackerDevice', 0),
+(195, 'steam:11000013d79d68d', 'WeihnachtsCase', 1),
+(196, 'steam:11000013d79d68d', 'weedbrick', 0),
+(197, 'steam:11000013d79d68d', 'meth10g', 0),
+(198, 'steam:11000013d79d68d', 'weed20g', 0),
+(199, 'steam:11000013d79d68d', 'rolpaper', 0),
+(200, 'steam:11000013d79d68d', 'drugItem', 0),
+(201, 'steam:11000013d79d68d', 'hqscale', 0),
+(202, 'steam:11000013d79d68d', 'meth1g', 0),
+(203, 'steam:11000013d79d68d', 'joint2g', 0),
+(204, 'steam:11000013d79d68d', 'weed4g', 0),
+(205, 'steam:11000013d79d68d', 'case', 0),
+(206, 'steam:1100001166f2d38', 'case', 2),
+(207, 'steam:11000013d79d68d', 'sportlunch', 0),
+(208, 'steam:11000013d79d68d', 'protein_shake', 0),
+(209, 'steam:11000013d79d68d', 'gym_membership', 0),
+(210, 'steam:11000013d79d68d', 'powerade', 0),
+(211, 'steam:11000013d79d68d', 'firework', 0),
+(212, 'steam:11000013d79d68d', 'weakit', 0),
+(213, 'steam:11000013d79d68d', 'drill', 0),
+(214, 'steam:11000013d79d68d', 'vehgps', 0),
+(215, 'steam:11000013d79d68d', 'repairkit', 0),
+(216, 'steam:11000013d79d68d', 'lockpick', 0),
+(217, 'steam:11000013d79d68d', 'handcuffs', 0),
+(218, 'steam:11000013d79d68d', 'vape', 0),
+(219, 'steam:11000013d79d68d', 'firstaidkit', 0),
+(220, 'steam:11000013d79d68d', 'boxbig', 0),
+(221, 'steam:11000013d79d68d', 'defib', 0),
+(222, 'steam:11000013d79d68d', 'oxygenmask', 0),
+(223, 'steam:11000013d79d68d', 'handcuffkey', 0),
+(224, 'steam:11000013d79d68d', 'darknet', 0),
+(225, 'steam:11000013d79d68d', 'cleankit', 0),
+(226, 'steam:11000013d79d68d', 'tirekit', 0),
+(227, 'steam:11000013d79d68d', 'binoculars', 0),
+(228, 'steam:11000013d79d68d', 'fbulletproof', 0),
+(229, 'steam:110000112ce923f', 'meth1g', 0),
+(230, 'steam:110000112ce923f', 'case', 0),
+(231, 'steam:110000112ce923f', 'meth10g', 0),
+(232, 'steam:110000112ce923f', 'HD_fPacket', 0),
+(233, 'steam:110000112ce923f', 'fbulletproof', 0),
+(234, 'steam:110000112ce923f', 'alive_chicken', 0),
+(235, 'steam:110000112ce923f', 'HD_spoon', 0),
+(236, 'steam:110000112ce923f', 'protein_shake', 0),
+(237, 'steam:110000112ce923f', 'HD_wCloth', 0),
+(238, 'steam:110000112ce923f', 'weakit', 0),
+(239, 'steam:110000112ce923f', 'kevlar', 0),
+(240, 'steam:110000112ce923f', 'water', 0),
+(241, 'steam:110000112ce923f', 'HD_file', 0),
+(242, 'steam:110000112ce923f', 'HD_miniH', 0),
+(243, 'steam:110000112ce923f', 'repairkit', 0),
+(244, 'steam:110000112ce923f', 'drugItem', 0),
+(245, 'steam:110000112ce923f', 'vehgps', 0),
+(246, 'steam:110000112ce923f', 'bulletproof50', 0),
+(247, 'steam:110000112ce923f', 'weed4g', 0),
+(248, 'steam:110000112ce923f', 'vape', 0),
+(249, 'steam:110000112ce923f', 'fixtool', 0),
+(250, 'steam:110000112ce923f', 'handcuffs', 0),
+(251, 'steam:110000112ce923f', 'HD_plug', 0),
+(252, 'steam:110000112ce923f', 'packaged_chicken', 0),
+(253, 'steam:110000112ce923f', 'cokebrick', 0),
+(254, 'steam:110000112ce923f', 'hackerDevice', 0),
+(255, 'steam:110000112ce923f', 'zarowki', 0),
+(256, 'steam:110000112ce923f', 'drugbags', 0),
+(257, 'steam:110000112ce923f', 'firework', 0),
+(258, 'steam:110000112ce923f', 'coke10g', 0),
+(259, 'steam:110000112ce923f', 'carokit', 0),
+(260, 'steam:110000112ce923f', 'wool', 0),
+(261, 'steam:110000112ce923f', 'HD_iHeat', 0),
+(262, 'steam:110000112ce923f', 'rolpaper', 0),
+(263, 'steam:110000112ce923f', 'weedbrick', 0),
+(264, 'steam:110000112ce923f', 'HD_Shank', 0),
+(265, 'steam:110000112ce923f', 'bandage', 0),
+(266, 'steam:110000112ce923f', 'weed20g', 0),
+(267, 'steam:110000112ce923f', 'bread', 0),
+(268, 'steam:110000112ce923f', 'essence', 0),
+(269, 'steam:110000112ce923f', 'joint2g', 0),
+(270, 'steam:110000112ce923f', 'gebuendeltearamidfasern', 0),
+(271, 'steam:110000112ce923f', 'tirekit', 0),
+(272, 'steam:110000112ce923f', 'stone', 0),
+(273, 'steam:110000112ce923f', 'gazbottle', 0),
+(274, 'steam:110000112ce923f', 'fixkit', 0),
+(275, 'steam:110000112ce923f', 'sportlunch', 0),
+(276, 'steam:110000112ce923f', 'slaughtered_chicken', 0),
+(277, 'steam:110000112ce923f', 'wood', 0),
+(278, 'steam:110000112ce923f', 'marijuana', 0),
+(279, 'steam:110000112ce923f', 'aramidfasern', 0),
+(280, 'steam:110000112ce923f', 'phone', 0),
+(281, 'steam:110000112ce923f', 'fabric', 0),
+(282, 'steam:110000112ce923f', 'cleankit', 0),
+(283, 'steam:110000112ce923f', 'firstaidkit', 0),
+(284, 'steam:110000112ce923f', 'HD_jspoon', 0),
+(285, 'steam:110000112ce923f', 'packaged_plank', 0),
+(286, 'steam:110000112ce923f', 'oxygenmask', 0),
+(287, 'steam:110000112ce923f', 'copper', 0),
+(288, 'steam:110000112ce923f', 'HD_dLiquid', 0),
+(289, 'steam:110000112ce923f', 'coke1g', 0),
+(290, 'steam:110000112ce923f', 'gym_membership', 0),
+(291, 'steam:110000112ce923f', 'fish', 0),
+(292, 'steam:110000112ce923f', 'HD_bCloth', 0),
+(293, 'steam:110000112ce923f', 'methbrick', 0),
+(294, 'steam:110000112ce923f', 'medikit', 0),
+(295, 'steam:110000112ce923f', 'powerade', 0),
+(296, 'steam:110000112ce923f', 'lockpick', 0),
+(297, 'steam:110000112ce923f', 'iron', 0),
+(298, 'steam:110000112ce923f', 'HD_bottle', 0),
+(299, 'steam:110000112ce923f', 'blowpipe', 0),
+(300, 'steam:110000112ce923f', 'HD_ladle', 0),
+(301, 'steam:110000112ce923f', 'HD_sMetal', 0),
+(302, 'steam:110000112ce923f', 'washed_stone', 0),
+(303, 'steam:110000112ce923f', 'defib', 0),
+(304, 'steam:110000112ce923f', 'cutted_wood', 0),
+(305, 'steam:110000112ce923f', 'HD_sChange', 0),
+(306, 'steam:110000112ce923f', 'HD_rock', 0),
+(307, 'steam:110000112ce923f', 'HD_pPunch', 0),
+(308, 'steam:110000112ce923f', 'darknet', 0),
+(309, 'steam:110000112ce923f', 'bulletproof', 0),
+(310, 'steam:110000112ce923f', 'petrol_raffin', 0),
+(311, 'steam:110000112ce923f', 'carotool', 0),
+(312, 'steam:110000112ce923f', 'cannabis', 0),
+(313, 'steam:110000112ce923f', 'petrol', 0),
+(314, 'steam:110000112ce923f', 'clothe', 0),
+(315, 'steam:110000112ce923f', 'HD_bLadle', 0),
+(316, 'steam:110000112ce923f', 'drill', 0),
+(317, 'steam:110000112ce923f', 'binoculars', 0),
+(318, 'steam:110000112ce923f', 'hqscale', 0),
+(319, 'steam:110000112ce923f', 'HD_cloth', 0),
+(320, 'steam:110000112ce923f', 'boxbig', 0),
+(321, 'steam:110000112ce923f', 'HD_cleaner', 0),
+(322, 'steam:110000112ce923f', 'HD_metal', 0),
+(323, 'steam:110000112ce923f', 'diamond', 15),
+(324, 'steam:110000112ce923f', 'HD_grease', 0),
+(325, 'steam:110000112ce923f', 'HD_acid', 0),
+(326, 'steam:110000112ce923f', 'gold', 0),
+(327, 'steam:110000112ce923f', 'HD_booze', 0),
+(328, 'steam:110000112ce923f', 'handcuffkey', 0),
+(329, 'steam:110000112ce923f', 'weapon_precisionrifle', 0),
+(330, 'steam:110000112ce923f', 'suppressor', 0),
+(331, 'steam:110000112ce923f', 'grip', 0),
+(332, 'steam:110000112ce923f', 'weapon_tacticalrifle', 0),
+(333, 'steam:110000112ce923f', 'yusuf', 0),
+(334, 'steam:110000112ce923f', 'weapon_combatmg_mk2', 0),
+(335, 'steam:110000112ce923f', 'flashlight', 0),
+(336, 'steam:110000112ce923f', 'coke', 0),
+(337, 'steam:110000112ce923f', 'weapon_marksmanrifle_mk2', 0),
+(338, 'steam:11000013d79d68d', 'weapon_precisionrifle', 0),
+(339, 'steam:11000013d79d68d', 'suppressor', 0),
+(340, 'steam:11000013d79d68d', 'grip', 0),
+(341, 'steam:11000013d79d68d', 'weapon_tacticalrifle', 0),
+(342, 'steam:11000013d79d68d', 'yusuf', 0),
+(343, 'steam:11000013d79d68d', 'weapon_combatmg_mk2', 0),
+(344, 'steam:11000013d79d68d', 'flashlight', 0),
+(345, 'steam:11000013d79d68d', 'coke', 0),
+(346, 'steam:11000013d79d68d', 'weapon_marksmanrifle_mk2', 0),
+(347, 'steam:110000112ce923f', 'scratchcard', 0),
+(348, 'steam:11000013d79d68d', 'scratchcard', 4),
+(349, 'steam:11000013d79d68d', 'casinochips', 0),
+(350, 'steam:11000013d79d68d', 'jagercerbere', 0),
+(351, 'steam:11000013d79d68d', 'golem', 0),
+(352, 'steam:11000013d79d68d', 'mojito', 0),
+(353, 'steam:11000013d79d68d', 'menthe', 0),
+(354, 'steam:11000013d79d68d', 'metreshooter', 0),
+(355, 'steam:11000013d79d68d', 'bolchips', 0),
+(356, 'steam:11000013d79d68d', 'jusfruit', 0),
+(357, 'steam:11000013d79d68d', 'ice', 0),
+(358, 'steam:11000013d79d68d', 'saucisson', 0),
+(359, 'steam:11000013d79d68d', 'vodka', 0),
+(360, 'steam:11000013d79d68d', 'rhumcoca', 0),
+(361, 'steam:11000013d79d68d', 'bolnoixcajou', 0),
+(362, 'steam:11000013d79d68d', 'rhumfruit', 0),
+(363, 'steam:11000013d79d68d', 'martini', 0),
+(364, 'steam:11000013d79d68d', 'goldnecklace', 0),
+(365, 'steam:11000013d79d68d', 'goldwatch', 0),
+(366, 'steam:11000013d79d68d', 'mixapero', 0),
+(367, 'steam:11000013d79d68d', 'whiskycoca', 0),
+(368, 'steam:11000013d79d68d', 'energy', 0),
+(369, 'steam:11000013d79d68d', 'jagerbomb', 0),
+(370, 'steam:11000013d79d68d', 'vodkafruit', 0),
+(371, 'steam:11000013d79d68d', 'vodkaenergy', 0),
+(372, 'steam:11000013d79d68d', 'tequila', 0),
+(373, 'steam:11000013d79d68d', 'soda', 0),
+(374, 'steam:11000013d79d68d', 'coffee', 0),
+(375, 'steam:11000013d79d68d', 'jager', 0),
+(376, 'steam:11000013d79d68d', 'rhum', 0),
+(377, 'steam:11000013d79d68d', 'whisky', 0),
+(378, 'steam:11000013d79d68d', 'icetea', 0),
+(379, 'steam:11000013d79d68d', 'bolcacahuetes', 0),
+(380, 'steam:11000013d79d68d', 'drpepper', 0),
+(381, 'steam:11000013d79d68d', 'grapperaisin', 0),
+(382, 'steam:11000013d79d68d', 'limonade', 0),
+(383, 'steam:11000013d79d68d', 'bolpistache', 0),
+(384, 'steam:11000013d79d68d', 'teqpaf', 0),
+(385, 'steam:110000112ce923f', 'bolnoixcajou', 0),
+(386, 'steam:110000112ce923f', 'goldwatch', 0),
+(387, 'steam:110000112ce923f', 'jusfruit', 0),
+(388, 'steam:110000112ce923f', 'rhumfruit', 0),
+(389, 'steam:110000112ce923f', 'bolchips', 0),
+(390, 'steam:110000112ce923f', 'ice', 0),
+(391, 'steam:110000112ce923f', 'mixapero', 0),
+(392, 'steam:110000112ce923f', 'energy', 0),
+(393, 'steam:110000112ce923f', 'casinochips', 0),
+(394, 'steam:110000112ce923f', 'metreshooter', 0),
+(395, 'steam:110000112ce923f', 'icetea', 0),
+(396, 'steam:110000112ce923f', 'vodkafruit', 0),
+(397, 'steam:110000112ce923f', 'martini', 0),
+(398, 'steam:110000112ce923f', 'grapperaisin', 0),
+(399, 'steam:110000112ce923f', 'coffee', 0),
+(400, 'steam:110000112ce923f', 'tequila', 0),
+(401, 'steam:110000112ce923f', 'saucisson', 0),
+(402, 'steam:110000112ce923f', 'bolcacahuetes', 0),
+(403, 'steam:110000112ce923f', 'jagercerbere', 0),
+(404, 'steam:110000112ce923f', 'rhumcoca', 0),
+(405, 'steam:110000112ce923f', 'mojito', 0),
+(406, 'steam:110000112ce923f', 'vodkaenergy', 0),
+(407, 'steam:110000112ce923f', 'bolpistache', 0),
+(408, 'steam:110000112ce923f', 'golem', 0),
+(409, 'steam:110000112ce923f', 'jager', 0),
+(410, 'steam:110000112ce923f', 'vodka', 0),
+(411, 'steam:110000112ce923f', 'whiskycoca', 0),
+(412, 'steam:110000112ce923f', 'goldnecklace', 0),
+(413, 'steam:110000112ce923f', 'limonade', 0),
+(414, 'steam:110000112ce923f', 'soda', 0),
+(415, 'steam:110000112ce923f', 'teqpaf', 0),
+(416, 'steam:110000112ce923f', 'whisky', 0),
+(417, 'steam:110000112ce923f', 'jagerbomb', 0),
+(418, 'steam:110000112ce923f', 'rhum', 0),
+(419, 'steam:110000112ce923f', 'menthe', 0),
+(420, 'steam:110000112ce923f', 'drpepper', 0);
 
 -- --------------------------------------------------------
 
@@ -2538,6 +2444,13 @@ CREATE TABLE `user_licenses` (
   `type` varchar(60) NOT NULL,
   `owner` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Daten für Tabelle `user_licenses`
+--
+
+INSERT INTO `user_licenses` (`id`, `type`, `owner`) VALUES
+(1, 'dmv', 'steam:1100001166f2d38');
 
 -- --------------------------------------------------------
 
@@ -3063,6 +2976,30 @@ ALTER TABLE `addon_inventory_items`
   ADD KEY `index_addon_inventory_inventory_name` (`inventory_name`);
 
 --
+-- Indizes für die Tabelle `ak4y_blackmarket`
+--
+ALTER TABLE `ak4y_blackmarket`
+  ADD PRIMARY KEY (`#`);
+
+--
+-- Indizes für die Tabelle `ak4y_caseopening`
+--
+ALTER TABLE `ak4y_caseopening`
+  ADD PRIMARY KEY (`#`);
+
+--
+-- Indizes für die Tabelle `ak4y_playtimeshop`
+--
+ALTER TABLE `ak4y_playtimeshop`
+  ADD PRIMARY KEY (`#`);
+
+--
+-- Indizes für die Tabelle `ak4y_playtimeshop_codes`
+--
+ALTER TABLE `ak4y_playtimeshop_codes`
+  ADD PRIMARY KEY (`#`);
+
+--
 -- Indizes für die Tabelle `billing`
 --
 ALTER TABLE `billing`
@@ -3107,6 +3044,24 @@ ALTER TABLE `datastore_data`
 --
 ALTER TABLE `fine_types`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `gas_station_balance`
+--
+ALTER TABLE `gas_station_balance`
+  ADD PRIMARY KEY (`id`) USING BTREE;
+
+--
+-- Indizes für die Tabelle `gas_station_business`
+--
+ALTER TABLE `gas_station_business`
+  ADD PRIMARY KEY (`gas_station_id`) USING BTREE;
+
+--
+-- Indizes für die Tabelle `gas_station_jobs`
+--
+ALTER TABLE `gas_station_jobs`
+  ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
 -- Indizes für die Tabelle `instagram_posts`
@@ -3181,38 +3136,11 @@ ALTER TABLE `licenses`
   ADD PRIMARY KEY (`type`);
 
 --
--- Indizes für die Tabelle `npwd_calls`
---
-ALTER TABLE `npwd_calls`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `identifier` (`identifier`);
-
---
 -- Indizes für die Tabelle `npwd_darkchat_channels`
 --
 ALTER TABLE `npwd_darkchat_channels`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD UNIQUE KEY `darkchat_channels_channel_identifier_uindex` (`channel_identifier`) USING BTREE;
-
---
--- Indizes für die Tabelle `npwd_darkchat_channel_members`
---
-ALTER TABLE `npwd_darkchat_channel_members`
-  ADD KEY `npwd_darkchat_channel_members_npwd_darkchat_channels_id_fk` (`channel_id`) USING BTREE;
-
---
--- Indizes für die Tabelle `npwd_darkchat_messages`
---
-ALTER TABLE `npwd_darkchat_messages`
-  ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD KEY `darkchat_messages_darkchat_channels_id_fk` (`channel_id`) USING BTREE;
-
---
--- Indizes für die Tabelle `npwd_marketplace_listings`
---
-ALTER TABLE `npwd_marketplace_listings`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `identifier` (`identifier`);
 
 --
 -- Indizes für die Tabelle `npwd_match_profiles`
@@ -3222,62 +3150,10 @@ ALTER TABLE `npwd_match_profiles`
   ADD UNIQUE KEY `identifier_UNIQUE` (`identifier`);
 
 --
--- Indizes für die Tabelle `npwd_match_views`
---
-ALTER TABLE `npwd_match_views`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `match_profile_idx` (`profile`),
-  ADD KEY `identifier` (`identifier`);
-
---
--- Indizes für die Tabelle `npwd_messages`
---
-ALTER TABLE `npwd_messages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_identifier` (`user_identifier`);
-
---
 -- Indizes für die Tabelle `npwd_messages_conversations`
 --
 ALTER TABLE `npwd_messages_conversations`
   ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indizes für die Tabelle `npwd_messages_participants`
---
-ALTER TABLE `npwd_messages_participants`
-  ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD KEY `message_participants_npwd_messages_conversations_id_fk` (`conversation_id`) USING BTREE;
-
---
--- Indizes für die Tabelle `npwd_notes`
---
-ALTER TABLE `npwd_notes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `identifier` (`identifier`);
-
---
--- Indizes für die Tabelle `npwd_phone_contacts`
---
-ALTER TABLE `npwd_phone_contacts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `identifier` (`identifier`);
-
---
--- Indizes für die Tabelle `npwd_phone_gallery`
---
-ALTER TABLE `npwd_phone_gallery`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `identifier` (`identifier`);
-
---
--- Indizes für die Tabelle `npwd_twitter_likes`
---
-ALTER TABLE `npwd_twitter_likes`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_combination` (`profile_id`,`tweet_id`),
-  ADD KEY `profile_idx` (`profile_id`),
-  ADD KEY `tweet_idx` (`tweet_id`);
 
 --
 -- Indizes für die Tabelle `npwd_twitter_profiles`
@@ -3286,22 +3162,6 @@ ALTER TABLE `npwd_twitter_profiles`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `profile_name_UNIQUE` (`profile_name`),
   ADD KEY `identifier` (`identifier`);
-
---
--- Indizes für die Tabelle `npwd_twitter_reports`
---
-ALTER TABLE `npwd_twitter_reports`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_combination` (`profile_id`,`tweet_id`),
-  ADD KEY `profile_idx` (`profile_id`),
-  ADD KEY `tweet_idx` (`tweet_id`);
-
---
--- Indizes für die Tabelle `npwd_twitter_tweets`
---
-ALTER TABLE `npwd_twitter_tweets`
-  ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD KEY `npwd_twitter_tweets_npwd_twitter_profiles_id_fk` (`profile_id`) USING BTREE;
 
 --
 -- Indizes für die Tabelle `owned_properties`
@@ -3322,41 +3182,9 @@ ALTER TABLE `owned_vehicles_headlights`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indizes für die Tabelle `phone_alertjobs`
---
-ALTER TABLE `phone_alertjobs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `job` (`job`);
-
---
--- Indizes für die Tabelle `phone_bankhistory`
---
-ALTER TABLE `phone_bankhistory`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indizes für die Tabelle `phone_calls`
 --
 ALTER TABLE `phone_calls`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indizes für die Tabelle `phone_chatrooms`
---
-ALTER TABLE `phone_chatrooms`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `room_code` (`room_code`);
-
---
--- Indizes für die Tabelle `phone_chatroom_messages`
---
-ALTER TABLE `phone_chatroom_messages`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indizes für die Tabelle `phone_contacts`
---
-ALTER TABLE `phone_contacts`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -3367,27 +3195,27 @@ ALTER TABLE `phone_information`
   ADD UNIQUE KEY `identifier` (`identifier`);
 
 --
--- Indizes für die Tabelle `phone_invoices`
---
-ALTER TABLE `phone_invoices`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indizes für die Tabelle `phone_messages`
 --
 ALTER TABLE `phone_messages`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indizes für die Tabelle `phone_notifies`
+-- Indizes für die Tabelle `phone_twitter_accounts`
 --
-ALTER TABLE `phone_notifies`
+ALTER TABLE `phone_twitter_accounts`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indizes für die Tabelle `phone_taxis`
+-- Indizes für die Tabelle `phone_twitter_messages`
 --
-ALTER TABLE `phone_taxis`
+ALTER TABLE `phone_twitter_messages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `phone_yp`
+--
+ALTER TABLE `phone_yp`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -3423,6 +3251,12 @@ ALTER TABLE `properties`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indizes für die Tabelle `rc_vehicleshop`
+--
+ALTER TABLE `rc_vehicleshop`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indizes für die Tabelle `rented_vehicles`
 --
 ALTER TABLE `rented_vehicles`
@@ -3433,6 +3267,12 @@ ALTER TABLE `rented_vehicles`
 --
 ALTER TABLE `shops`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `skill`
+--
+ALTER TABLE `skill`
+  ADD PRIMARY KEY (`identifier`);
 
 --
 -- Indizes für die Tabelle `society_moneywash`
@@ -3451,6 +3291,13 @@ ALTER TABLE `stl_bank_accounts`
 --
 ALTER TABLE `stl_bank_transfers`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `tim_gangwar`
+--
+ALTER TABLE `tim_gangwar`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indizes für die Tabelle `tinder_accounts`
@@ -3599,7 +3446,7 @@ ALTER TABLE `yellowpages_posts`
 -- AUTO_INCREMENT für Tabelle `addon_account_data`
 --
 ALTER TABLE `addon_account_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT für Tabelle `addon_inventory_items`
@@ -3608,10 +3455,34 @@ ALTER TABLE `addon_inventory_items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT für Tabelle `ak4y_blackmarket`
+--
+ALTER TABLE `ak4y_blackmarket`
+  MODIFY `#` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT für Tabelle `ak4y_caseopening`
+--
+ALTER TABLE `ak4y_caseopening`
+  MODIFY `#` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT für Tabelle `ak4y_playtimeshop`
+--
+ALTER TABLE `ak4y_playtimeshop`
+  MODIFY `#` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT für Tabelle `ak4y_playtimeshop_codes`
+--
+ALTER TABLE `ak4y_playtimeshop_codes`
+  MODIFY `#` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT für Tabelle `billing`
 --
 ALTER TABLE `billing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT für Tabelle `cardealer_vehicles`
@@ -3623,7 +3494,7 @@ ALTER TABLE `cardealer_vehicles`
 -- AUTO_INCREMENT für Tabelle `characters`
 --
 ALTER TABLE `characters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT für Tabelle `darkchat_messages`
@@ -3635,13 +3506,25 @@ ALTER TABLE `darkchat_messages`
 -- AUTO_INCREMENT für Tabelle `datastore_data`
 --
 ALTER TABLE `datastore_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT für Tabelle `fine_types`
 --
 ALTER TABLE `fine_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
+--
+-- AUTO_INCREMENT für Tabelle `gas_station_balance`
+--
+ALTER TABLE `gas_station_balance`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+
+--
+-- AUTO_INCREMENT für Tabelle `gas_station_jobs`
+--
+ALTER TABLE `gas_station_jobs`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT für Tabelle `instagram_posts`
@@ -3659,13 +3542,13 @@ ALTER TABLE `jobs_armories`
 -- AUTO_INCREMENT für Tabelle `jobs_data`
 --
 ALTER TABLE `jobs_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT für Tabelle `jobs_garages`
 --
 ALTER TABLE `jobs_garages`
-  MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT für Tabelle `jobs_shops`
@@ -3683,13 +3566,7 @@ ALTER TABLE `jobs_wardrobes`
 -- AUTO_INCREMENT für Tabelle `job_grades`
 --
 ALTER TABLE `job_grades`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
-
---
--- AUTO_INCREMENT für Tabelle `npwd_calls`
---
-ALTER TABLE `npwd_calls`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT für Tabelle `npwd_darkchat_channels`
@@ -3698,33 +3575,9 @@ ALTER TABLE `npwd_darkchat_channels`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT für Tabelle `npwd_darkchat_messages`
---
-ALTER TABLE `npwd_darkchat_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
--- AUTO_INCREMENT für Tabelle `npwd_marketplace_listings`
---
-ALTER TABLE `npwd_marketplace_listings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT für Tabelle `npwd_match_profiles`
 --
 ALTER TABLE `npwd_match_profiles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `npwd_match_views`
---
-ALTER TABLE `npwd_match_views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `npwd_messages`
---
-ALTER TABLE `npwd_messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -3734,51 +3587,9 @@ ALTER TABLE `npwd_messages_conversations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT für Tabelle `npwd_messages_participants`
---
-ALTER TABLE `npwd_messages_participants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `npwd_notes`
---
-ALTER TABLE `npwd_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `npwd_phone_contacts`
---
-ALTER TABLE `npwd_phone_contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `npwd_phone_gallery`
---
-ALTER TABLE `npwd_phone_gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `npwd_twitter_likes`
---
-ALTER TABLE `npwd_twitter_likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT für Tabelle `npwd_twitter_profiles`
 --
 ALTER TABLE `npwd_twitter_profiles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `npwd_twitter_reports`
---
-ALTER TABLE `npwd_twitter_reports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `npwd_twitter_tweets`
---
-ALTER TABLE `npwd_twitter_tweets`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -3791,67 +3602,43 @@ ALTER TABLE `owned_properties`
 -- AUTO_INCREMENT für Tabelle `owned_vehicles_headlights`
 --
 ALTER TABLE `owned_vehicles_headlights`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT für Tabelle `phone_alertjobs`
---
-ALTER TABLE `phone_alertjobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `phone_bankhistory`
---
-ALTER TABLE `phone_bankhistory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=447;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT für Tabelle `phone_calls`
 --
 ALTER TABLE `phone_calls`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `phone_chatrooms`
---
-ALTER TABLE `phone_chatrooms`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT für Tabelle `phone_chatroom_messages`
---
-ALTER TABLE `phone_chatroom_messages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `phone_contacts`
---
-ALTER TABLE `phone_contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT für Tabelle `phone_information`
 --
 ALTER TABLE `phone_information`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `phone_invoices`
---
-ALTER TABLE `phone_invoices`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT für Tabelle `phone_messages`
 --
 ALTER TABLE `phone_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7517;
 
 --
--- AUTO_INCREMENT für Tabelle `phone_notifies`
+-- AUTO_INCREMENT für Tabelle `phone_twitter_accounts`
 --
-ALTER TABLE `phone_notifies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+ALTER TABLE `phone_twitter_accounts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT für Tabelle `phone_twitter_messages`
+--
+ALTER TABLE `phone_twitter_messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT für Tabelle `phone_yp`
+--
+ALTER TABLE `phone_yp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT für Tabelle `player_contacts`
@@ -3884,6 +3671,12 @@ ALTER TABLE `properties`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
+-- AUTO_INCREMENT für Tabelle `rc_vehicleshop`
+--
+ALTER TABLE `rc_vehicleshop`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
 -- AUTO_INCREMENT für Tabelle `shops`
 --
 ALTER TABLE `shops`
@@ -3899,13 +3692,19 @@ ALTER TABLE `society_moneywash`
 -- AUTO_INCREMENT für Tabelle `stl_bank_accounts`
 --
 ALTER TABLE `stl_bank_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT für Tabelle `stl_bank_transfers`
 --
 ALTER TABLE `stl_bank_transfers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT für Tabelle `tim_gangwar`
+--
+ALTER TABLE `tim_gangwar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `tinder_accounts`
@@ -3953,7 +3752,7 @@ ALTER TABLE `twitter_tweets`
 -- AUTO_INCREMENT für Tabelle `user_accounts`
 --
 ALTER TABLE `user_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT für Tabelle `user_contacts`
@@ -3965,13 +3764,13 @@ ALTER TABLE `user_contacts`
 -- AUTO_INCREMENT für Tabelle `user_inventory`
 --
 ALTER TABLE `user_inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=421;
 
 --
 -- AUTO_INCREMENT für Tabelle `user_licenses`
 --
 ALTER TABLE `user_licenses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT für Tabelle `user_parkings`
@@ -4008,54 +3807,6 @@ ALTER TABLE `whatsapp_groups_messages`
 --
 ALTER TABLE `yellowpages_posts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- Constraints der exportierten Tabellen
---
-
---
--- Constraints der Tabelle `npwd_darkchat_channel_members`
---
-ALTER TABLE `npwd_darkchat_channel_members`
-  ADD CONSTRAINT `npwd_darkchat_channel_members_npwd_darkchat_channels_id_fk` FOREIGN KEY (`channel_id`) REFERENCES `npwd_darkchat_channels` (`id`);
-
---
--- Constraints der Tabelle `npwd_darkchat_messages`
---
-ALTER TABLE `npwd_darkchat_messages`
-  ADD CONSTRAINT `darkchat_messages_darkchat_channels_id_fk` FOREIGN KEY (`channel_id`) REFERENCES `npwd_darkchat_channels` (`id`);
-
---
--- Constraints der Tabelle `npwd_match_views`
---
-ALTER TABLE `npwd_match_views`
-  ADD CONSTRAINT `match_profile` FOREIGN KEY (`profile`) REFERENCES `npwd_match_profiles` (`id`);
-
---
--- Constraints der Tabelle `npwd_messages_participants`
---
-ALTER TABLE `npwd_messages_participants`
-  ADD CONSTRAINT `message_participants_npwd_messages_conversations_id_fk` FOREIGN KEY (`conversation_id`) REFERENCES `npwd_messages_conversations` (`id`);
-
---
--- Constraints der Tabelle `npwd_twitter_likes`
---
-ALTER TABLE `npwd_twitter_likes`
-  ADD CONSTRAINT `profile` FOREIGN KEY (`profile_id`) REFERENCES `npwd_twitter_profiles` (`id`),
-  ADD CONSTRAINT `tweet` FOREIGN KEY (`tweet_id`) REFERENCES `npwd_twitter_tweets` (`id`) ON DELETE CASCADE;
-
---
--- Constraints der Tabelle `npwd_twitter_reports`
---
-ALTER TABLE `npwd_twitter_reports`
-  ADD CONSTRAINT `report_profile` FOREIGN KEY (`profile_id`) REFERENCES `npwd_twitter_profiles` (`id`),
-  ADD CONSTRAINT `report_tweet` FOREIGN KEY (`tweet_id`) REFERENCES `npwd_twitter_tweets` (`id`) ON DELETE CASCADE;
-
---
--- Constraints der Tabelle `npwd_twitter_tweets`
---
-ALTER TABLE `npwd_twitter_tweets`
-  ADD CONSTRAINT `npwd_twitter_tweets_npwd_twitter_profiles_id_fk` FOREIGN KEY (`profile_id`) REFERENCES `npwd_twitter_profiles` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
