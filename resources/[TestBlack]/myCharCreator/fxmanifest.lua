@@ -10,4 +10,5 @@ server_scripts {
     "@NativeUILua_Reloaded/src/NativeUIReloaded.lua",
     'config.lua',
     'client.lua',
+    '@NativeUI/NativeUI.lua',
   }
