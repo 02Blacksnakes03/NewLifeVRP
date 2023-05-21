@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 19. Mai 2023 um 16:21
+-- Erstellungszeit: 21. Mai 2023 um 20:05
 -- Server-Version: 10.4.28-MariaDB
 -- PHP-Version: 8.2.4
 
@@ -186,7 +186,7 @@ CREATE TABLE `ak4y_blackmarket` (
 --
 
 INSERT INTO `ak4y_blackmarket` (`#`, `citizenid`, `currentXP`, `tasks`, `taskResetTime`) VALUES
-(5, 'steam:110000112ce923f', 0, '[{\"hasCount\":0,\"requiredCount\":2,\"taken\":false,\"taskId\":1,\"rewardEXP\":1500},{\"hasCount\":0,\"requiredCount\":50,\"taken\":false,\"taskId\":2,\"rewardEXP\":200},{\"hasCount\":0,\"requiredCount\":8,\"taken\":false,\"taskId\":3,\"rewardEXP\":300},{\"hasCount\":0,\"requiredCount\":20,\"taken\":false,\"taskId\":4,\"rewardEXP\":400},{\"hasCount\":0,\"requiredCount\":10,\"taken\":false,\"taskId\":5,\"rewardEXP\":500},{\"hasCount\":0,\"requiredCount\":5,\"taken\":false,\"taskId\":6,\"rewardEXP\":600},{\"hasCount\":0,\"requiredCount\":20,\"taken\":false,\"taskId\":7,\"rewardEXP\":700},{\"hasCount\":0,\"requiredCount\":10,\"taken\":false,\"taskId\":8,\"rewardEXP\":800}]', '2023-05-20 00:00:00');
+(5, 'steam:110000112ce923f', 0, '[{\"requiredCount\":2,\"taskId\":1,\"hasCount\":0,\"taken\":false,\"rewardEXP\":1500},{\"requiredCount\":50,\"taskId\":2,\"hasCount\":0,\"taken\":false,\"rewardEXP\":200},{\"requiredCount\":8,\"taskId\":3,\"hasCount\":0,\"taken\":false,\"rewardEXP\":300},{\"requiredCount\":20,\"taskId\":4,\"hasCount\":0,\"taken\":false,\"rewardEXP\":400},{\"requiredCount\":10,\"taskId\":5,\"hasCount\":0,\"taken\":false,\"rewardEXP\":500},{\"requiredCount\":5,\"taskId\":6,\"hasCount\":0,\"taken\":false,\"rewardEXP\":600},{\"requiredCount\":20,\"taskId\":7,\"hasCount\":0,\"taken\":false,\"rewardEXP\":700},{\"requiredCount\":10,\"taskId\":8,\"hasCount\":0,\"taken\":false,\"rewardEXP\":800}]', '2023-05-21 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -273,6 +273,46 @@ INSERT INTO `billing` (`id`, `identifier`, `sender`, `target_type`, `target`, `l
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `cardealer`
+--
+
+CREATE TABLE `cardealer` (
+  `id` tinyint(4) NOT NULL DEFAULT 0,
+  `label` varchar(50) DEFAULT NULL,
+  `model` char(50) DEFAULT NULL,
+  `manufacturer` varchar(50) DEFAULT NULL,
+  `price` int(11) NOT NULL DEFAULT 0,
+  `storage` smallint(6) DEFAULT 0,
+  `ps` smallint(6) DEFAULT 0,
+  `maxSpeed` smallint(6) DEFAULT 0,
+  `speedUp` float DEFAULT 0,
+  `modification` smallint(6) DEFAULT 0,
+  `tankcapacity` smallint(6) DEFAULT 0,
+  `lastorder` bigint(20) DEFAULT NULL,
+  `producetotal` smallint(6) DEFAULT 0,
+  `produced` smallint(6) DEFAULT 0,
+  `time` smallint(6) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `cardealer`
+--
+
+INSERT INTO `cardealer` (`id`, `label`, `model`, `manufacturer`, `price`, `storage`, `ps`, `maxSpeed`, `speedUp`, `modification`, `tankcapacity`, `lastorder`, `producetotal`, `produced`, `time`) VALUES
+(14, 'Reaper', 'reaper', 'Pegassi', 465700, 2, 360, 320, 2.9, 6, 60, 1619006830, 2, 1, 140),
+(15, 'Penetrator', 'penetrator', 'Ocelot', 478200, 1, 360, 300, 2.8, 6, 60, 1615219805, 0, 0, 140),
+(16, 'Entity XF', 'entityxf', 'Overflod', 432400, 2, 350, 122, 2.5, 6, 60, 1569005217, 0, 0, 140),
+(17, 'Entity XXR', 'entity2', 'Overflod', 432400, 1, 410, 310, 2.6, 9, 65, 1615219808, 0, 0, 140),
+(18, 'ETR1', 'sheava', 'Emperor', 400000, 1, 356, 298, 2.8, 12, 60, 1615219810, 0, 0, 140),
+(19, 'FMJ', 'fmj', 'Vapid', 378000, 1, 343, 278, 2.4, 12, 60, 1604260527, 0, 0, 140),
+(20, 'GP1', 'gp1', 'Progen', 423700, 1, 387, 256, 2.2, 12, 60, 1604260527, 0, 0, 140),
+(21, 'Infernus', 'infernus', 'Pegassi', 353700, 1, 398, 287, 2.9, 12, 60, 1615219814, 0, 0, 140),
+(22, 'Itali GTB Custom', 'italigtb2', 'Progen', 453600, 1, 412, 301, 2.7, 10, 60, 1604260527, 0, 0, 140),
+(23, 'Nero', 'nero', 'Truffade', 400000, 1, 434, 300, 2.6, 10, 60, 1604260527, 0, 0, 140);
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `cardealer_vehicles`
 --
 
@@ -320,7 +360,11 @@ INSERT INTO `characters` (`id`, `identifier`, `firstname`, `lastname`, `dateofbi
 (15, 'steam:11000013d79d68d', 'Test', 'Test', '12.08.2001', 'm', '187'),
 (16, 'steam:11000013d79d68d', 'Manuel', 'Test', '12.08.2001', 'm', '187'),
 (17, 'steam:110000112ce923f', 'Nikolaj', 'Romanov', '30.07.1996', 'm', '187'),
-(18, 'steam:11000013d79d68d', 'Mina', 'Savalas', '01.01.1990', 'f', '187');
+(18, 'steam:11000013d79d68d', 'Mina', 'Savalas', '01.01.1990', 'f', '187'),
+(19, 'steam:11000013d79d68d', 'Mina', 'Savalas', '12.08.2001', 'm', '187'),
+(20, 'steam:11000013d79d68d', 'Test', 'Test', '01.01.1990', 'm', '187'),
+(21, 'steam:11000013d79d68d', 'test', 'test', '1990.01.01', 'm', '187'),
+(22, 'steam:11000013d79d68d', 'Mina', 'Savalas', '12.08.2001', 'f', '187');
 
 -- --------------------------------------------------------
 
@@ -1129,6 +1173,24 @@ INSERT INTO `licenses` (`type`, `label`) VALUES
 ('drive_truck', 'Truck license'),
 ('weapon', 'License to carry a weapon'),
 ('weed_processing', 'Weed Processing License');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `mapbuilder`
+--
+
+CREATE TABLE `mapbuilder` (
+  `id` int(11) NOT NULL,
+  `objectHash` varchar(255) DEFAULT NULL,
+  `locX` float DEFAULT NULL,
+  `locY` float DEFAULT NULL,
+  `locZ` float DEFAULT NULL,
+  `heading` float DEFAULT NULL,
+  `freeze` tinytext DEFAULT NULL,
+  `createdBy` varchar(255) DEFAULT NULL,
+  `comment` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1957,7 +2019,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`identifier`, `license`, `money`, `name`, `job`, `job_grade`, `loadout`, `position`, `bank`, `permission_level`, `group`, `is_dead`, `height`, `phone_number`, `last_property`, `status`, `jail`, `hdjail_data`, `apps`, `widget`, `bt`, `charinfo`, `metadata`, `cryptocurrency`, `cryptocurrencytransfers`, `skin`, `firstname`, `lastname`, `dateofbirth`, `sex`, `tattoos`) VALUES
 ('steam:1100001166f2d38', 'license:5aea227697fb8091b9efaf418ee3bee6fcdd0014', 5000, 'Blacksnakes', 'unemployed', 0, '[]', '{\"x\":-1043.0,\"z\":21.4,\"y\":-2746.6}', 50000, 0, 'superadmin', 0, '187', 2147483647, NULL, NULL, 0, '{\"cell\":0,\"chest\":[],\"jailtime\":0,\"items\":[],\"clothes\":[],\"job\":0,\"breaks\":0,\"soli\":0,\"jobo\":\"nil\",\"grade\":0}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{\"helmet_1\":-1,\"torso_2\":1,\"face_md_weight\":50,\"makeup_3\":0,\"eyebrows_4\":0,\"jaw_1\":0,\"chin_2\":0,\"cheeks_1\":0,\"dad\":2,\"pants_1\":28,\"eye_color\":26,\"glasses_2\":4,\"chin_3\":0,\"chain_1\":0,\"ears_2\":-1,\"bproof_1\":0,\"hair_color_2\":0,\"age_2\":0,\"makeup_1\":0,\"bproof_2\":0,\"watches_2\":-1,\"makeup_2\":0,\"bodyb_1\":0,\"blush_2\":0,\"nose_4\":0,\"neck_thickness\":0,\"lipstick_4\":0,\"chin_1\":0,\"hair_2\":0,\"sex\":0,\"cheeks_2\":0,\"eyebrows_2\":10,\"eyebrows_5\":0,\"sun_2\":0,\"nose_2\":0,\"beard_3\":61,\"bags_2\":0,\"chest_3\":0,\"lipstick_1\":0,\"blemishes_2\":0,\"lip_thickness\":0,\"blemishes_1\":0,\"hair_color_1\":0,\"complexion_1\":0,\"face\":44,\"shoes_2\":9,\"eyebrows_1\":2,\"moles_2\":0,\"tshirt_2\":0,\"skin\":4,\"arms_2\":0,\"hair_1\":21,\"nose_1\":0,\"beard_1\":11,\"blush_3\":\"2\",\"bracelets_1\":-1,\"mask_2\":0,\"chest_1\":0,\"eyebrows_6\":0,\"lipstick_3\":32,\"age_1\":0,\"sun_1\":0,\"helmet_2\":-1,\"jaw_2\":0,\"bracelets_2\":0,\"lipstick_2\":0,\"bags_1\":0,\"bodyb_2\":0,\"complexion_2\":0,\"nose_3\":0,\"skin_md_weight\":50,\"decals_2\":0,\"mask_1\":0,\"glasses_1\":8,\"nose_6\":0,\"pants_2\":0,\"chest_2\":0,\"decals_1\":0,\"cheeks_3\":0,\"eyebrows_3\":0,\"arms\":1,\"chin_4\":0,\"torso_1\":308,\"beard_4\":0,\"ears_1\":-1,\"beard_2\":10,\"blush_1\":0,\"watches_1\":-1,\"nose_5\":0,\"shoes_1\":57,\"makeup_4\":0,\"chain_2\":0,\"tshirt_1\":15,\"moles_1\":0,\"eye_squint\":0}', 'Manuel', 'Savalas', '12.08.2001', 'm', NULL),
 ('steam:110000112ce923f', 'license:b49791832440a6ac502561c2f46642073cb1074f', 997500, '⭕⃤ Asaya', 'unemployed', 0, '[{\"components\":[\"clip_default\"],\"ammo\":1,\"label\":\"Kampfpistole\",\"name\":\"WEAPON_COMBATPISTOL\"}]', '{\"y\":-1276.2,\"x\":72.5,\"z\":28.5}', 3011800, 0, 'superadmin', 0, '187', NULL, NULL, NULL, 0, '{\"cell\":0,\"chest\":[],\"jailtime\":0,\"items\":[],\"clothes\":[],\"job\":0,\"breaks\":0,\"soli\":0,\"jobo\":\"nil\",\"grade\":0}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{\"nose_3\":0,\"shoes_2\":0,\"chain_1\":79,\"chin_1\":3,\"ears_2\":-1,\"beard_4\":0,\"beard_2\":10,\"blemishes_1\":11,\"eyebrows_6\":1,\"hair_color_2\":28,\"bproof_2\":0,\"sun_1\":61,\"neck_thickness\":-10,\"blush_1\":61,\"ears_1\":-1,\"jaw_1\":-1,\"glasses_1\":5,\"nose_1\":0,\"chin_2\":0,\"arms\":5,\"skin\":4,\"lipstick_3\":32,\"bags_1\":0,\"eyebrows_5\":-6,\"eyebrows_1\":4,\"skin_md_weight\":68,\"eyebrows_2\":10,\"face_md_weight\":8,\"shoes_1\":5,\"torso_2\":2,\"eye_squint\":-2,\"dad\":8,\"tshirt_1\":15,\"cheeks_3\":0,\"makeup_3\":0,\"face\":0,\"pants_2\":0,\"eyebrows_3\":0,\"bags_2\":0,\"helmet_1\":-1,\"watches_2\":-1,\"blemishes_2\":10,\"beard_1\":11,\"decals_1\":0,\"makeup_4\":0,\"chain_2\":0,\"bproof_1\":0,\"sun_2\":0,\"lipstick_2\":0,\"cheeks_2\":0,\"mask_1\":0,\"eye_color\":18,\"hair_1\":57,\"mask_2\":0,\"blush_3\":0,\"chest_2\":0,\"lipstick_4\":0,\"bracelets_1\":-1,\"pants_1\":26,\"eyebrows_4\":0,\"bracelets_2\":0,\"jaw_2\":-5,\"nose_6\":0,\"makeup_2\":0,\"nose_2\":0,\"chin_4\":-1,\"moles_2\":0,\"hair_2\":0,\"chin_3\":0,\"decals_2\":0,\"age_2\":10,\"arms_2\":0,\"cheeks_1\":0,\"bodyb_1\":0,\"moles_1\":0,\"makeup_1\":0,\"nose_5\":0,\"nose_4\":0,\"bodyb_2\":0,\"torso_1\":5,\"hair_color_1\":0,\"tshirt_2\":0,\"helmet_2\":-1,\"watches_1\":-1,\"blush_2\":0,\"beard_3\":61,\"complexion_1\":0,\"complexion_2\":10,\"glasses_2\":4,\"lipstick_1\":0,\"sex\":0,\"chest_3\":0,\"lip_thickness\":7,\"chest_1\":0}', 'Nikolaj', 'Romanov', '30.07.1996', 'm', NULL),
-('steam:11000013d79d68d', 'license:7ce132c1bc9d7a5d7da81052bca6f797816f5189', 97586727, 'Julia', 'unemployed', 0, '[]', '{\"z\":26.4,\"y\":-1102.9,\"x\":-34.5}', 51800, 0, 'superadmin', 0, '187', NULL, NULL, NULL, 0, '{\"cell\":0,\"chest\":[],\"jailtime\":0,\"items\":[],\"clothes\":[],\"job\":0,\"breaks\":0,\"soli\":0,\"jobo\":\"nil\",\"grade\":0}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{\"helmet_1\":-1,\"torso_2\":1,\"face_md_weight\":50,\"makeup_3\":0,\"eyebrows_4\":0,\"jaw_1\":0,\"chin_2\":0,\"cheeks_1\":0,\"dad\":2,\"pants_1\":28,\"eye_color\":26,\"glasses_2\":4,\"chin_3\":0,\"chain_1\":0,\"ears_2\":-1,\"bproof_1\":0,\"hair_color_2\":0,\"age_2\":0,\"makeup_1\":0,\"bproof_2\":0,\"watches_2\":-1,\"makeup_2\":0,\"bodyb_1\":0,\"blush_2\":0,\"nose_4\":0,\"neck_thickness\":0,\"lipstick_4\":0,\"chin_1\":0,\"hair_2\":0,\"sex\":0,\"cheeks_2\":0,\"eyebrows_2\":10,\"eyebrows_5\":0,\"sun_2\":0,\"nose_2\":0,\"beard_3\":61,\"bags_2\":0,\"chest_3\":0,\"lipstick_1\":0,\"blemishes_2\":0,\"lip_thickness\":0,\"blemishes_1\":0,\"hair_color_1\":0,\"complexion_1\":0,\"face\":44,\"shoes_2\":9,\"eyebrows_1\":2,\"moles_2\":0,\"tshirt_2\":0,\"skin\":4,\"arms_2\":0,\"hair_1\":21,\"nose_1\":0,\"beard_1\":11,\"blush_3\":\"2\",\"bracelets_1\":-1,\"mask_2\":0,\"chest_1\":0,\"eyebrows_6\":0,\"lipstick_3\":32,\"age_1\":0,\"sun_1\":0,\"helmet_2\":-1,\"jaw_2\":0,\"bracelets_2\":0,\"lipstick_2\":0,\"bags_1\":0,\"bodyb_2\":0,\"complexion_2\":0,\"nose_3\":0,\"skin_md_weight\":50,\"decals_2\":0,\"mask_1\":0,\"glasses_1\":8,\"nose_6\":0,\"pants_2\":0,\"chest_2\":0,\"decals_1\":0,\"cheeks_3\":0,\"eyebrows_3\":0,\"arms\":1,\"chin_4\":0,\"torso_1\":308,\"beard_4\":0,\"ears_1\":-1,\"beard_2\":10,\"blush_1\":0,\"watches_1\":-1,\"nose_5\":0,\"shoes_1\":57,\"makeup_4\":0,\"chain_2\":0,\"tshirt_1\":15,\"moles_1\":0,\"eye_squint\":0}', 'Mina', 'Savalas', '01.01.1990', 'f', '[{\"collection\":\"mpbusiness_overlays\",\"nameHash\":\"MP_Buis_M_Neck_001\",\"Count\":1},{\"collection\":\"mpbusiness_overlays\",\"nameHash\":\"MP_Buis_M_Neck_002\",\"Count\":1},{\"collection\":\"mpbusiness_overlays\",\"nameHash\":\"MP_Buis_M_Neck_003\",\"Count\":1},{\"collection\":\"mpbusiness_overlays\",\"nameHash\":\"MP_Buis_M_Neck_000\",\"Count\":1},{\"collection\":\"mpbiker_overlays\",\"nameHash\":\"MP_MP_Biker_Tat_009_M\",\"Count\":1},{\"collection\":\"mpbeach_overlays\",\"nameHash\":\"MP_Bea_M_Head_001\",\"Count\":1},{\"collection\":\"mpbeach_overlays\",\"nameHash\":\"MP_Bea_M_Head_002\",\"Count\":1},{\"collection\":\"mpbiker_overlays\",\"nameHash\":\"MP_MP_Biker_Tat_057_M\",\"Count\":1},{\"collection\":\"mplowrider2_overlays\",\"nameHash\":\"MP_LR_Tat_018_M\",\"Count\":1},{\"collection\":\"mpbiker_overlays\",\"nameHash\":\"MP_MP_Biker_Tat_004_M\",\"Count\":1},{\"collection\":\"mpchristmas2017_overlays\",\"nameHash\":\"MP_Christmas2017_Tattoo_006_M\",\"Count\":1},{\"collection\":\"multiplayer_overlays\",\"nameHash\":\"FM_Tat_M_004\",\"Count\":1},{\"collection\":\"mpgunrunning_overlays\",\"nameHash\":\"MP_Gunrunning_Tattoo_020_M\",\"Count\":1},{\"collection\":\"mplowrider2_overlays\",\"nameHash\":\"MP_LR_Tat_000_M\",\"Count\":1}]');
+('steam:11000013d79d68d', 'license:7ce132c1bc9d7a5d7da81052bca6f797816f5189', 5000, 'Julia', 'unemployed', 0, '[]', '{\"z\":26.4,\"y\":-1103.1,\"x\":-35.4}', 50400, 0, 'superadmin', 0, '187', NULL, NULL, NULL, 0, '{\"cell\":0,\"chest\":[],\"jailtime\":0,\"items\":[],\"clothes\":[],\"job\":0,\"breaks\":0,\"soli\":0,\"jobo\":\"nil\",\"grade\":0}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{\"watches_1\":-1,\"complexion_1\":0,\"makeup_2\":0,\"blemishes_1\":0,\"shoes_2\":0,\"hair_color_2\":0,\"ears_2\":0,\"lipstick_3\":0,\"blush_1\":0,\"chest_3\":0,\"helmet_2\":0,\"face_similarity\":0,\"bodyb_1\":0,\"hair_color_1\":0,\"bodyb_2\":0,\"bproof_2\":0,\"age_1\":0,\"beard_4\":0,\"hair_2\":0,\"eyebrows_2\":0,\"sex\":0,\"chest_2\":0,\"sun_1\":0,\"arms\":0,\"decals_2\":0,\"pants_1\":0,\"chain_1\":0,\"lipstick_4\":0,\"eyebrows_3\":0,\"skin\":0,\"bags_2\":0,\"eye_color\":0,\"torso_1\":0,\"bracelets_2\":0,\"beard_1\":0,\"pants_2\":0,\"ears_1\":-1,\"tshirt_2\":0,\"helmet_1\":-1,\"arms_2\":0,\"face_complexion\":0,\"chest_1\":0,\"complexion_2\":0,\"sun_2\":0,\"lipstick_1\":0,\"shoes_1\":0,\"decals_1\":0,\"blush_3\":0,\"moles_1\":0,\"bracelets_1\":-1,\"glasses_2\":0,\"beard_2\":0,\"glasses_1\":0,\"tshirt_1\":0,\"chain_2\":0,\"eyebrows_4\":0,\"blush_2\":0,\"age_2\":0,\"mask_2\":0,\"hair_1\":0,\"makeup_1\":0,\"lipstick_2\":0,\"face_dad\":0,\"bproof_1\":0,\"mask_1\":0,\"face\":0,\"makeup_3\":0,\"bags_1\":0,\"makeup_4\":0,\"moles_2\":0,\"watches_2\":0,\"blemishes_2\":0,\"torso_2\":0,\"face_mom\":0,\"beard_3\":0,\"eyebrows_1\":0}', 'Mina', 'Savalas', '12.08.2001', 'f', NULL);
 
 -- --------------------------------------------------------
 
@@ -1980,6 +2042,19 @@ INSERT INTO `user_accounts` (`id`, `identifier`, `name`, `money`) VALUES
 (1, 'steam:11000013d79d68d', 'black_money', 0),
 (2, 'steam:1100001166f2d38', 'black_money', 0),
 (3, 'steam:110000112ce923f', 'black_money', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `user_clothes`
+--
+
+CREATE TABLE `user_clothes` (
+  `id` int(11) NOT NULL,
+  `identifier` varchar(60) DEFAULT NULL,
+  `name` varchar(60) DEFAULT NULL,
+  `clothesData` longtext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- --------------------------------------------------------
 
@@ -3006,6 +3081,12 @@ ALTER TABLE `billing`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indizes für die Tabelle `cardealer`
+--
+ALTER TABLE `cardealer`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indizes für die Tabelle `cardealer_vehicles`
 --
 ALTER TABLE `cardealer_vehicles`
@@ -3134,6 +3215,12 @@ ALTER TABLE `job_grades`
 --
 ALTER TABLE `licenses`
   ADD PRIMARY KEY (`type`);
+
+--
+-- Indizes für die Tabelle `mapbuilder`
+--
+ALTER TABLE `mapbuilder`
+  ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
 -- Indizes für die Tabelle `npwd_darkchat_channels`
@@ -3357,6 +3444,12 @@ ALTER TABLE `user_accounts`
   ADD KEY `identifier` (`identifier`);
 
 --
+-- Indizes für die Tabelle `user_clothes`
+--
+ALTER TABLE `user_clothes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indizes für die Tabelle `user_contacts`
 --
 ALTER TABLE `user_contacts`
@@ -3494,7 +3587,7 @@ ALTER TABLE `cardealer_vehicles`
 -- AUTO_INCREMENT für Tabelle `characters`
 --
 ALTER TABLE `characters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT für Tabelle `darkchat_messages`
@@ -3567,6 +3660,12 @@ ALTER TABLE `jobs_wardrobes`
 --
 ALTER TABLE `job_grades`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
+-- AUTO_INCREMENT für Tabelle `mapbuilder`
+--
+ALTER TABLE `mapbuilder`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT für Tabelle `npwd_darkchat_channels`
@@ -3753,6 +3852,12 @@ ALTER TABLE `twitter_tweets`
 --
 ALTER TABLE `user_accounts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT für Tabelle `user_clothes`
+--
+ALTER TABLE `user_clothes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT für Tabelle `user_contacts`
