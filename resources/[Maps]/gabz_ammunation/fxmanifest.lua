@@ -1,22 +1,19 @@
-fx_version 'cerulean'
+fx_version 'adamant'
 game 'gta5'
-author 'Gabz'
-description 'Ammu-Nation'
-version '1.0.0'
-lua54 'yes'
+
 this_is_a_map 'yes'
 
-dependencies { 
-    '/server:4960',     -- ⚠️PLEASE READ⚠️; Requires at least SERVER build 4960.
-    '/gameBuild:2545',  -- ⚠️PLEASE READ⚠️; Requires at least GAME build 2545.
-    'cfx-gabz-mapdata', -- ⚠️PLEASE READ⚠️; Requires [cfx-gabz-mapdata] to work properly.
-}
+data_file "INTERIOR_PROXY_ORDER_FILE" "interiorproxies.meta"
 
-server_scripts {
-    'version_check.lua',
-}
+files '*/*/interiorproxies.meta'
 
-escrow_ignore {
-    'stream/**/*.ytd',
+
+file 'stream/pillbox_hospital/gabz_timecycle_mods_1.xml'
+
+data_file 'TIMECYCLEMOD_FILE' 'stream/pillbox_hospital/gabz_timecycle_mods_1.xml'
+
+data_file 'DLC_ITYP_REQUEST' 'mosleynutt//int_corp23.ytyp'
+
+client_script {
+  "main.lua"
 }
-dependency '/assetpacks'
