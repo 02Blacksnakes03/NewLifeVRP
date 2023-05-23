@@ -183,7 +183,7 @@ AddEventHandler('esx:activateMoney', function(e)
 	SendNUIMessage({action = "setMoney", money = e})
 end)
 
-Citizen.CreateThread(function()
+--[[Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(500)
 		local data = exports.saltychat:GetRadioChannel(true)
@@ -197,4 +197,4 @@ else
 end
 
 	  end
-  end)
+  end)]]--
