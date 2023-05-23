@@ -3,7 +3,7 @@
 --================================================================================================
 ESX				= nil
 inMenu			= true
-local showblips	= true
+local showblips	= false
 local atbank	= false
 local bankMenu	= true
 local banks = {
