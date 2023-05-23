@@ -8,7 +8,7 @@ AK4Y = {}
 
 AK4Y.Framework = "esx" -- esx / newEsx | newEsx = export system | esx = triggerevent system
 AK4Y.Mysql = " mysql-async" -- Check fxmanifest.lua when you change it! | ghmattimysql / oxmysql / mysql-async
-AK4Y.OpenCommand = "playtimeShop"
+AK4Y.OpenCommand = "playtime"
 AK4Y.WeaponsAreItem = false
 AK4Y.RewardCoin = 25
 AK4Y.NeededPlayTime = 120 -- Minutes
