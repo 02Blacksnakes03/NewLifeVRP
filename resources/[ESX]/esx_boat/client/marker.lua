@@ -163,7 +163,7 @@ Citizen.CreateThread(function()
 			coords = Config.Zones.Garages[i].GaragePos,
 			text   = _U('blip_garage'),
 			sprite = 356,
-			color  = 3,
+			color  = 0,
 			scale  = 1.0
 		})
 	end
