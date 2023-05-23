@@ -92,7 +92,11 @@ Config.AuthorizedVehicles = {
 
 	chef = {},
 
-	boss = {}
+	boss = {
+		{ model = 'schafter6', label = 'Leaderschafter'},
+		{ model = 'baller6', label = 'Leaderballer'},
+		{ model = 's500w222', label = 'Mercedes S500'},
+	}
 }
 
 Config.AuthorizedHelicopters = {
