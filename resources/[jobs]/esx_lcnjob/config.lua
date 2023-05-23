@@ -75,7 +75,8 @@ Config.AuthorizedWeapons = {
 
 Config.AuthorizedVehicles = {
 	Shared = {
-		{ model = 'schafter3', label = 'Schafter', price = 1 },
+		{ model = 'schafter4', label = 'Schafter', price = 1 },
+		{ model = 'sultan3', label = 'Sultan', price = 1 },
 
 	},
 
