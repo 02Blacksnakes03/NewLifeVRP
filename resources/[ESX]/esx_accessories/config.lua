@@ -8,7 +8,7 @@ Config.EnableControls = false
 
 Config.DrawDistance = 100.0
 Config.Size   = {x = 1.5, y = 1.5, z = 1.0}
-Config.Color  = {r = 102, g = 102, b = 204}
+Config.Color  = {r = 0, g = 0, b = 0}
 Config.Type   = 1
 
 -- Fill this if you want to see the blips,
@@ -23,7 +23,7 @@ Config.ShopsBlips = {
 		Pos = { 
 			{ x = -1338.129, y = -1278.200, z = 3.872 },
 		},
-		Blip = { sprite = 362, color = 2 }
+		Blip = { sprite = 362, color = 0 }
 	},
 	Helmet = {
 		Pos = nil,

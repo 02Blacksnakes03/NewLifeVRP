@@ -168,7 +168,7 @@ Citizen.CreateThread(function()
 	local blip = AddBlipForCoord(Config.Zones.BankActions.Coords)
 
 	SetBlipSprite(blip, 108)
-	SetBlipColour(blip, 30)
+	SetBlipColour(blip, 0)
 	SetBlipAsShortRange(blip, true)
 
 	BeginTextCommandSetBlipName('STRING')
