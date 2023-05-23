@@ -1,24 +1,21 @@
-fx_version 'cerulean'
+fx_version 'adamant'
 game 'gta5'
-author 'Gabz'
-description 'Scenarios'
-version '1.0.1'
-lua54 'yes'
+
 this_is_a_map 'yes'
 
-dependencies { 
-    '/server:4960',     -- ⚠️PLEASE READ⚠️; Requires at least SERVER build 4960.
-    '/gameBuild:2545',  -- ⚠️PLEASE READ⚠️; Requires at least GAME build 2545.
+data_file "INTERIOR_PROXY_ORDER_FILE" "interiorproxies.meta"
+
+files '*/*/interiorproxies.meta'
+
+
+file 'stream/pillbox_hospital/gabz_timecycle_mods_1.xml'
+
+data_file 'TIMECYCLEMOD_FILE' 'stream/pillbox_hospital/gabz_timecycle_mods_1.xml'
+
+data_file 'DLC_ITYP_REQUEST' 'mosleynutt//int_corp23.ytyp'
+
+data_file "SCENARIO_POINTS_OVERRIDE_PSO_FILE" "sp_manifest.ymt"
+
+client_script {
+  "main.lua"
 }
-
-files {
-    'sp_manifest.ymt',
-}
-
-data_file 'SCENARIO_POINTS_OVERRIDE_PSO_FILE' 'sp_manifest.ymt'
-
-server_scripts {
-    'version_check.lua',
-}
-
-dependency '/assetpacks'
